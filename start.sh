@@ -20,5 +20,5 @@ if [ ! -f public/build/manifest.json ]; then
     npm ci && npm run build || true
   fi
 fi
-echo "Starting PHP server on PORT=${PORT} with router server.php"
-php -S 0.0.0.0:${PORT} -t public server.php
+echo "Starting PHP server on PORT=${PORT} with router public/server.php"
+php -S 0.0.0.0:${PORT} -t public public/server.php
