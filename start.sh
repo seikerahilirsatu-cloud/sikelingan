@@ -7,6 +7,9 @@ if [ -n "$APP_KEY" ]; then sed -i "s/^APP_KEY=.*/APP_KEY=${APP_KEY}/" .env || tr
 # Ensure .env has a non-empty APP_KEY; generate if empty
 CURRENT_KEY=$(grep -E '^APP_KEY=' .env | cut -d= -f2- || true)
 if [ -z "$CURRENT_KEY" ]; then php artisan key:generate --force || true; fi
+# Ensure storage directories for sessions/cache/views exist and are writable
+mkdir -p storage/framework/sessions storage/framework/cache storage/framework/views || true
+chmod -R 775 storage bootstrap/cache || true
 if [ ! -L public/storage ]; then php artisan storage:link || true; fi
 php artisan config:clear || true
 php artisan view:clear || true
