@@ -13,5 +13,5 @@ php artisan migrate --force || true
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
-echo "Starting PHP server on PORT=${PORT}"
-php -S 0.0.0.0:${PORT} -t public public/index.php
+echo "Starting PHP server on PORT=${PORT} with router server.php"
+php -S 0.0.0.0:${PORT} -t public server.php
