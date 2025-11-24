@@ -9,6 +9,7 @@ CURRENT_KEY=$(grep -E '^APP_KEY=' .env | cut -d= -f2- || true)
 if [ -z "$CURRENT_KEY" ]; then php artisan key:generate --force || true; fi
 if [ ! -L public/storage ]; then php artisan storage:link || true; fi
 php artisan config:clear || true
+php artisan view:clear || true
 php artisan migrate --force || true
 php artisan config:cache || true
 php artisan route:cache || true
