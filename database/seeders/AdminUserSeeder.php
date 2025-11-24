@@ -10,20 +10,23 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        // upsert admin user to be idempotent
-        $adminEmail = 'admin@example.com';
-        $exists = DB::table('users')->where('email', $adminEmail)->first();
+        $email = env('ADMIN_EMAIL', 'admin@sikelingan.local');
+        $password = env('ADMIN_PASSWORD', 'Admin123!');
+        $lingkungan = env('ADMIN_LINGKUNGAN');
+
+        $exists = DB::table('users')->where('email', $email)->first();
         $data = [
-            'name' => 'Admin User',
-            'email' => $adminEmail,
+            'name' => 'Administrator',
+            'email' => $email,
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
+            'password' => Hash::make($password),
             'role' => 'admin',
+            'lingkungan' => $lingkungan,
             'updated_at' => now(),
         ];
 
         if ($exists) {
-            DB::table('users')->where('email', $adminEmail)->update($data);
+            DB::table('users')->where('email', $email)->update($data);
         } else {
             $data['created_at'] = now();
             DB::table('users')->insert($data);
