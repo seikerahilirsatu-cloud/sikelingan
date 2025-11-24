@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use App\Models\PindahKeluar;
 use App\Observers\PindahKeluarObserver;
 use App\Models\DataKeluarga;
@@ -23,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        try {
+            if (config('app.env') === 'production') {
+                URL::forceScheme('https');
+            }
+        } catch (\Throwable $e) {
+        }
         // Register device-detection middleware alias and push to web group
         try {
             $router = $this->app->make(\Illuminate\Routing\Router::class);
