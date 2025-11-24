@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ config('app.name','Kelurahan') }}</title>
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    @endif
+</head>
+<body class="bg-gray-50 text-gray-800">
+    
+    <div class="min-h-screen max-w-lg mx-auto">
+        <header class="bg-gray-100 text-gray-800 p-4 shadow sticky top-0 z-10 backdrop-blur-sm">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <a href="{{ route('dashboard', absolute: false) }}">
+                  <x-application-logo class="h-8" />
+                </a>
+              </div>
+              <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-gray-700" aria-label="Dashboard">
+                <svg class="h-6 w-6 text-gray-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" />
+                </svg>
+                <span class="sr-only">Dashboard</span>
+              </a>
+            </div>
+        </header>
+
+        <main class="p-4 {{ auth()->check() ? 'pb-24' : '' }}" @if(auth()->check()) style="padding-bottom: calc(env(safe-area-inset-bottom) + 6rem);" @endif>
+            @if(session('success'))
+                <div class="mb-3 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
+            @endif
+            @yield('content')
+        </main>
+
+        @auth
+        <nav class="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200 shadow z-20 backdrop-blur-sm" role="navigation" aria-label="Bottom Navigation">
+          <div class="max-w-screen-lg mx-auto overflow-x-auto">
+            <div class="flex gap-2 min-w-max px-2 py-1">
+              <a href="{{ route('data_keluarga.index', absolute: false) }}" aria-label="Keluarga"
+                 @php $is = request()->routeIs('data_keluarga.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11a4 4 0 10-8 0 4 4 0 008 0zm-9 8a7 7 0 0114 0H7z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Keluarga</span>
+              </a>
+
+              <a href="{{ route('biodata_warga.index', absolute: false) }}" aria-label="Warga"
+                 @php $is = request()->routeIs('biodata_warga.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-4 0-6 2-6 4v2h12v-2c0-2-2-4-6-4z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Warga</span>
+              </a>
+
+              <a href="{{ route('pindah_keluar.index', absolute: false) }}" aria-label="Keluar"
+                 @php $is = request()->routeIs('pindah_keluar.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h7m0 0l-3-3m3 3l-3 3M3 13h13a4 4 0 014 4v2H3v-6z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Keluar</span>
+              </a>
+
+              <a href="{{ route('pindah_masuk.index', absolute: false) }}" aria-label="Masuk"
+                 @php $is = request()->routeIs('pindah_masuk.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 7h7m0 0l-3-3m3 3l-3 3M3 13h13a4 4 0 014 4v2H3v-6z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Masuk</span>
+              </a>
+
+              <a href="{{ route('warga_meninggal.index', absolute: false) }}" aria-label="Kematian"
+                 @php $is = request()->routeIs('warga_meninggal.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Kematian</span>
+              </a>
+
+              <a href="{{ route('rumah_ibadah.index', absolute: false) }}" aria-label="Ibadah"
+                 @php $is = request()->routeIs('rumah_ibadah.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 5v7a5 5 0 11-10 0V7l3-5z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">Ibadah</span>
+              </a>
+
+              <a href="{{ route('umkm.index', absolute: false) }}" aria-label="UMKM"
+                 @php $is = request()->routeIs('umkm.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                 class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 11h16M6 15h12v2a2 2 0 01-2 2H8a2 2 0 01-2-2v-2z" />
+                </svg>
+                <span class="text-xs {{ $txt }}">UMKM</span>
+              </a>
+
+              @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
+              @if($canAdminOps)
+                <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" aria-label="Import"
+                   @php $is = request()->is('import*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                   class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                  <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4-4-4M21 21H3" />
+                  </svg>
+                  <span class="text-xs {{ $txt }}">Import</span>
+                </a>
+              @endif
+
+              @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
+                <a href="{{ route('admin.users.index', absolute: false) }}" aria-label="Pengguna"
+                   @php $is = request()->routeIs('admin.users.*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                   class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                  <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11a4 4 0 10-8 0 4 4 0 008 0zM3 20a7 7 0 0114 0H3zm14-9l3 3m0 0l3-3m-3 3V7" />
+                  </svg>
+                  <span class="text-xs {{ $txt }}">Pengguna</span>
+                </a>
+              @endif
+
+              <form method="POST" action="{{ route('logout') }}" class="inline-flex">
+                @csrf
+                <button type="submit" aria-label="Logout" class="inline-flex flex-col items-center justify-center h-14 px-3 rounded">
+                  <svg class="w-6 h-6 mb-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H9M13 21H7a2 2 0 01-2-2V5a2 2 0 012-2h6" />
+                  </svg>
+                  <span class="text-xs text-gray-500">Logout</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+        @endauth
+    </div>
+
+    {{-- Vite will inject scripts when manifest exists; otherwise we already loaded local js above --}}
+</body>
+</html>
