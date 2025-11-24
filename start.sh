@@ -13,5 +13,12 @@ php artisan migrate --force || true
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
+
+# Ensure Vite assets exist; build if manifest missing
+if [ ! -f public/build/manifest.json ]; then
+  if command -v npm >/dev/null 2>&1; then
+    npm ci && npm run build || true
+  fi
+fi
 echo "Starting PHP server on PORT=${PORT} with router server.php"
 php -S 0.0.0.0:${PORT} -t public server.php
