@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama', 150);
             $table->string('jenis', 20);
-            $table->text('alamat');
+            $table->string('alamat', 255);
             $table->string('lingkungan')->nullable()->index();
             $table->string('status_operasional', 20)->default('Aktif')->index();
             $table->integer('kapasitas')->unsigned()->nullable();
