@@ -48,7 +48,7 @@
                         <a href="{{ route('dashboard', absolute: false) }}">
                             <x-application-logo class="h-8" />
                         </a>
-                        <h1 class="ms-3 text-2xl font-bold hidden lg:block">@yield('title', config('app.name'))</h1>
+                       <!-- <h1 class="ms-3 text-2xl font-bold hidden lg:block">@yield('title', config('app.name'))</h1> -->
                     </div>
                     <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-blue-600" aria-label="Dashboard">
                         <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
