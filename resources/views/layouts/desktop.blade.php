@@ -17,7 +17,10 @@
         <aside class="col-span-3 hidden lg:block bg-white border-r p-4 min-h-screen sticky top-0">
             <h2 class="text-lg font-semibold mb-4">{{ config('app.name','Kelurahan') }}</h2>
             <nav class="space-y-2 text-sm">
-                <a href="{{ route('dashboard', absolute: false) }}" class="block text-blue-600">Dashboard</a>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                <a href="{{ route('dashboard', absolute: false) }}" class="nav-link">Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <p>
@@ -26,21 +29,29 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Kartu Keluarga</a></li>
-                        <li class="nav-item"><a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Individu</a></li>
-                        <li class="nav-item"><a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a></li>
-                        <li class="nav-item"><a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a></li>
-                        <li class="nav-item"><a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a></li>
+                        <li class="nav-item"><a href="{{ route('data_keluarga.index', absolute: false) }}" class="nav-link">Kartu Keluarga</a></li>
+                        <li class="nav-item"><a href="{{ route('biodata_warga.index', absolute: false) }}" class="nav-link">Data Individu</a></li>
+                        <li class="nav-item"><a href="{{ route('pindah_keluar.index') }}" class="nav-link">Pindah Keluar</a></li>
+                        <li class="nav-item"><a href="{{ route('pindah_masuk.index') }}" class="nav-link">Pindah Masuk</a></li>
+                        <li class="nav-item"><a href="{{ route('warga_meninggal.index') }}" class="nav-link">Data Kematian</a></li>
                     </ul>
                 </li>
-                <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>
-                <a href="{{ route('umkm.index', absolute: false) }}" class="block">UMKM</a>
+                <li class="nav-item">
+                <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="nav-link">Rumah Ibadah</a>
+                </li>
+                <li class="nav-item">
+                <a href="{{ route('umkm.index', absolute: false) }}" class="nav-link">UMKM</a>
+                </li>
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
-                    <a href="{{ route('import.form', absolute: false) }}" class="block">Import</a>
+                <li class="nav-item">
+                    <a href="{{ route('import.form', absolute: false) }}" class="nav-link">Import</a>
+                </li>
                 @endif
                 @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
-                    <a href="{{ route('admin.users.index', absolute: false) }}" class="block">Manajemen Pengguna</a>
+                <li class="nav-item">
+                    <a href="{{ route('admin.users.index', absolute: false) }}" class="nav-link">Manajemen Pengguna</a>
+                </li>
                 @endif
                 @auth
                     <form method="POST" action="{{ route('logout') }}" class="mt-4">
@@ -48,6 +59,7 @@
                         <button type="submit" class="block text-red-600 hover:text-red-800">Logout</button>
                     </form>
                 @endauth
+                </ul>
             </nav>
         </aside>
 
