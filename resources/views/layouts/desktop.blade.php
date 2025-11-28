@@ -17,41 +17,35 @@
         <aside class="col-span-3 hidden lg:block bg-white border-r p-4 min-h-screen sticky top-0">
             <h2 class="text-lg font-semibold mb-4">{{ config('app.name','Kelurahan') }}</h2>
             <nav class="space-y-2 text-sm">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                <a href="{{ route('dashboard', absolute: false) }}" class="nav-link">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <p>
-                            Kependudukan
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="{{ route('data_keluarga.index', absolute: false) }}" class="nav-link">Kartu Keluarga</a></li>
-                        <li class="nav-item"><a href="{{ route('biodata_warga.index', absolute: false) }}" class="nav-link">Data Individu</a></li>
-                        <li class="nav-item"><a href="{{ route('pindah_keluar.index') }}" class="nav-link">Pindah Keluar</a></li>
-                        <li class="nav-item"><a href="{{ route('pindah_masuk.index') }}" class="nav-link">Pindah Masuk</a></li>
-                        <li class="nav-item"><a href="{{ route('warga_meninggal.index') }}" class="nav-link">Data Kematian</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="nav-link">Rumah Ibadah</a>
-                </li>
-                <li class="nav-item">
-                <a href="{{ route('umkm.index', absolute: false) }}" class="nav-link">UMKM</a>
-                </li>
+                <a href="{{ route('dashboard', absolute: false) }}" class="block text-blue-600">Dashboard</a>
+                    <details class="group">
+                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
+                    <span class="font-medium">Data Kependudukan</span>
+                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                    </summary>
+                   <div class="mt-2 ms-4 space-y-1">
+                        <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Kartu Keluarga</a>
+                        <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Individu</a>
+                        <a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a>
+                        <a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a>
+                        <a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a>
+                    </div>
+                </details>
+              
+                <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>
+               
+                <a href="{{ route('umkm.index', absolute: false) }}" class="block">UMKM</a>
+                
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
-                <li class="nav-item">
-                    <a href="{{ route('import.form', absolute: false) }}" class="nav-link">Import</a>
-                </li>
+               
+                    <a href="{{ route('import.form', absolute: false) }}" class="block">Import</a>
+               
                 @endif
                 @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
-                <li class="nav-item">
-                    <a href="{{ route('admin.users.index', absolute: false) }}" class="nav-link">Manajemen Pengguna</a>
-                </li>
+               
+                    <a href="{{ route('admin.users.index', absolute: false) }}" class="block">Manajemen Pengguna</a>
+               
                 @endif
                 @auth
                     <form method="POST" action="{{ route('logout') }}" class="mt-4">
@@ -59,7 +53,7 @@
                         <button type="submit" class="block text-red-600 hover:text-red-800">Logout</button>
                     </form>
                 @endauth
-                </ul>
+               
             </nav>
         </aside>
 
