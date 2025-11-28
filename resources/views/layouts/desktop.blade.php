@@ -18,13 +18,23 @@
             <h2 class="text-lg font-semibold mb-4">{{ config('app.name','Kelurahan') }}</h2>
             <nav class="space-y-2 text-sm">
                 <a href="{{ route('dashboard', absolute: false) }}" class="block text-blue-600">Dashboard</a>
-                <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Data Keluarga</a>
-                <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Warga</a>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p>
+                            Kependudukan
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item"><a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Kartu Keluarga</a></li>
+                        <li class="nav-item"><a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Individu</a></li>
+                        <li class="nav-item"><a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a></li>
+                        <li class="nav-item"><a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a></li>
+                        <li class="nav-item"><a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a></li>
+                    </ul>
+                </li>
                 <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>
                 <a href="{{ route('umkm.index', absolute: false) }}" class="block">UMKM</a>
-                <a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a>
-                <a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a>
-                <a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a>
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
                     <a href="{{ route('import.form', absolute: false) }}" class="block">Import</a>
