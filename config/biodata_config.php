@@ -2,7 +2,7 @@
 
 return [
     'stts_hub_keluarga' => [
-        'Kepala Keluarga','Suami','Istri','Anak','Kakek','Nenek','Cucu','Menantu','Famili Lain'
+        'Kepala Keluarga','Suami','Istri','Anak','Orang Tua','Kakek','Nenek','Cucu','Menantu','Famili Lain'
     ],
 
     'agama' => [
