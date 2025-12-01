@@ -43,7 +43,6 @@
                         <a href="{{ route('data_keluarga.show', $f) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $f->nama_kep }}</a>
                         <div class="text-xs text-gray-600 mt-2">{{ Str::limit($f->alamat,60) }}</div>
                         <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $f->lingkungan }}</span></div>
-                        <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $f->created_at }}</span></div>
                     @if ($f->status_keluarga==1)
                         <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili</span></div>
                     @elseif ($f->status_keluarga==2)
@@ -51,6 +50,7 @@
                     @else
                         <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili Baru</span></div>
                     @endif
+                         <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $f->created_at }}</span></div>
                     </div>
 
                         <div class="text-right">
