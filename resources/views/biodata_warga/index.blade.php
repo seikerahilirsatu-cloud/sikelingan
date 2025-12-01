@@ -36,6 +36,7 @@
                         <div class="text-xs text-gray-600 mt-1">KK: {{ $r->no_kk }} • {{ $r->stts_hub_keluarga }}</div>
                         <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $r->lingkungan ?? ($r->family?->lingkungan ?? '-') }}</span></div>
                         <div class="text-sm text-gray-600 mt-2">{{ $r->pekerjaan }}</div>
+                        <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $r->created_at }}</span></div>
                     </div>
                     <div class="text-right">
                         <a href="{{ route('biodata_warga.edit', $r) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
