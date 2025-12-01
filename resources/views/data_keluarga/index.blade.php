@@ -9,12 +9,12 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Daftar Data Keluarga</h1>
+        <h1 class="text-2xl font-semibold">Daftar Kartu Keluarga</h1>
     </div>
 
     <div class="flex mb-3 items-center justify-between gap-2">
         <form id="searchForm" class="flex-grow" action="{{ route('data_keluarga.index', absolute: false) }}" method="get">
-            <input id="searchInput" name="q" value="{{ $q ?? '' }}" placeholder="Cari nama kepala atau alamat" class="w-72 p-2 border rounded-lg" />
+            <input id="searchInput" name="q" value="{{ $q ?? '' }}" placeholder="Cari nama kep. keluarga atau alamat" class="w-72 p-2 border rounded-lg" />
         </form>
         <script>
         (function(){
