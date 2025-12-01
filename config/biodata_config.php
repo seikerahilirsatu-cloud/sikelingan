@@ -14,7 +14,7 @@ return [
     ],
 
     'pekerjaan' => [
-        'Belum/Tidak Bekerja','Mengurus Rumah Tangga','Pelajar/Mahasiswa','Pegawai Negeri Sipil (PNS)','Karyawan Swasta','Karyawan BUMN','Karyawan BUMD','Guru','Dosen','Honorer','Dokter','Bidan','Perawat','Polisi','TNI','Anggota Dewan','Wakil Walikota','Wiraswasta','Lainnya'
+        'Belum/Tidak Bekerja','Mengurus Rumah Tangga','Pelajar/Mahasiswa','Pegawai Negeri Sipil (PNS)','Karyawan Swasta','Karyawan BUMN','Karyawan BUMD','Guru','Dosen','Honorer','Dokter','Bidan','Perawat','Polisi','TNI','Anggota Dewan','Wakil Walikota','Pensiunan','Wiraswasta','Lainnya'
     ],
 
     'stts_kawin' => [
