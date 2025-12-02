@@ -38,7 +38,7 @@
                     <div class="flex items-start justify-between">
                         <div>
                             @if(!empty($p->photo_path))
-                                @php $photoUrl = Illuminate\Support\Facades\Storage::disk('public')->exists($p->photo_path) ? Illuminate\Support\Facades\Storage::url($p->photo_path) : null; @endphp
+                                @php $disk = config('filesystems.default'); $photoUrl = Illuminate\Support\Facades\Storage::disk($disk)->exists($p->photo_path) ? Illuminate\Support\Facades\Storage::url($p->photo_path) : null; @endphp
                                 @if($photoUrl)
                                     <img src="{{ $photoUrl }}" alt="{{ $p->nama }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
                                 @endif

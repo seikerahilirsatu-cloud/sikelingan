@@ -54,7 +54,9 @@ class RumahIbadahController extends Controller
             $data['lingkungan'] = $user->lingkungan;
         }
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('rumah_ibadah', 'public');
+            $disk = config('filesystems.default');
+            $path = $request->file('photo')->storePublicly('rumah_ibadah', $disk);
+            try { \Illuminate\Support\Facades\Storage::disk($disk)->setVisibility($path, 'public'); } catch(\Throwable $e) {}
             $data['photo_path'] = $path;
         }
         RumahIbadah::create($data);
@@ -75,10 +77,12 @@ class RumahIbadahController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('rumah_ibadah', 'public');
+            $disk = config('filesystems.default');
+            $path = $request->file('photo')->storePublicly('rumah_ibadah', $disk);
             if (!empty($rumahIbadah->photo_path)) {
-                Storage::disk('public')->delete($rumahIbadah->photo_path);
+                Storage::disk($disk)->delete($rumahIbadah->photo_path);
             }
+            try { Storage::disk($disk)->setVisibility($path, 'public'); } catch(\Throwable $e) {}
             $data['photo_path'] = $path;
         }
         $rumahIbadah->update($data);
