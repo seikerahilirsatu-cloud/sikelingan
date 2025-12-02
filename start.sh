@@ -9,8 +9,12 @@ CURRENT_KEY=$(grep -E '^APP_KEY=' .env | cut -d= -f2- || true)
 if [ -z "$CURRENT_KEY" ]; then php artisan key:generate --force || true; fi
 # Ensure storage directories for sessions/cache/views exist and are writable
 mkdir -p storage/framework/sessions storage/framework/cache storage/framework/views || true
+chown -R $(id -u):$(id -g) storage bootstrap/cache || true
 chmod -R 775 storage bootstrap/cache || true
+if [ -d public/storage ] && [ ! -L public/storage ]; then rm -rf public/storage || true; fi
 if [ ! -L public/storage ]; then php artisan storage:link || true; fi
+ls -ld public/storage || true
+ls -ld storage/app/public || true
 php artisan config:clear || true
 php artisan view:clear || true
 php artisan migrate --force || true
