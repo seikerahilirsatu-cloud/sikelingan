@@ -38,7 +38,10 @@
                     <div class="flex items-start justify-between">
                         <div>
                             @if(!empty($p->photo_path))
-                                <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
+                                @php $photoUrl = Illuminate\Support\Facades\Storage::disk('public')->exists($p->photo_path) ? Illuminate\Support\Facades\Storage::url($p->photo_path) : null; @endphp
+                                @if($photoUrl)
+                                    <img src="{{ $photoUrl }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
+                                @endif
                             @endif
                             <div class="text-sm text-gray-500">Jenis: <span class="font-medium">{{ $p->jenis }}</span></div>
                             <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $p->nama_usaha }}</a>
