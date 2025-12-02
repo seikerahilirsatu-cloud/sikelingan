@@ -37,11 +37,22 @@
                 <article class="bg-white p-4 rounded-lg shadow-sm">
                     <div class="flex items-start justify-between">
                         <div>
-                            @if(!empty($p->photo_path))
-                                @php $disk = config('filesystems.default'); $photoUrl = Illuminate\Support\Facades\Storage::disk($disk)->exists($p->photo_path) ? Illuminate\Support\Facades\Storage::url($p->photo_path) : null; @endphp
-                                @if($photoUrl)
-                                    <img src="{{ $photoUrl }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
-                                @endif
+                            @php
+                                $disk = config('filesystems.default');
+                                $path = $p->photo_path ?? null;
+                                $photoUrl = null;
+                                if (!empty($path)) {
+                                    if (Illuminate\Support\Str::startsWith($path, ['http://','https://'])) {
+                                        $photoUrl = $path;
+                                    } elseif (Illuminate\Support\Str::startsWith($path, ['storage/'])) {
+                                        $photoUrl = asset($path);
+                                    } else {
+                                        $photoUrl = Illuminate\Support\Facades\Storage::url($path);
+                                    }
+                                }
+                            @endphp
+                            @if($photoUrl)
+                                <img src="{{ $photoUrl }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
                             @endif
                             <div class="text-sm text-gray-500">Jenis: <span class="font-medium">{{ $p->jenis }}</span></div>
                             <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $p->nama_usaha }}</a>
