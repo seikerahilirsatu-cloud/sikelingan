@@ -18,12 +18,12 @@
             <h2 class="text-lg font-semibold mb-4">{{ config('app.name','Kelurahan') }}</h2>
             <nav class="space-y-2 text-sm">
                 <a href="{{ route('dashboard', absolute: false) }}" class="block text-blue-600">Dashboard</a>
-                    <details class="group">
+                <details class="group">
                     <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
-                    <span class="font-medium">Data Kependudukan</span>
+                        <span class="font-medium">Data Kependudukan</span>
                         <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
                     </summary>
-                   <div class="mt-2 ms-4 space-y-1">
+                    <div class="mt-2 ms-4 space-y-1">
                         <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Kartu Keluarga</a>
                         <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Individu</a>
                         <a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a>
@@ -31,11 +31,9 @@
                         <a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a>
                     </div>
                 </details>
-              
                 <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>
                
                 <a href="{{ route('umkm.index', absolute: false) }}" class="block">UMKM</a>
-                
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
                
@@ -64,12 +62,12 @@
                         <a href="{{ route('dashboard', absolute: false) }}">
                             <x-application-logo class="h-8" />
                         </a>
-                       <!-- <h1 class="ms-3 text-2xl font-bold hidden lg:block">@yield('title', config('app.name'))</h1> -->
-                    </div>
-                    <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-blue-600" aria-label="Dashboard">
-                        <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" />
-                        </svg>
+                        
+                </div>
+                <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-blue-600" aria-label="Dashboard">
+                    <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" />
+                    </svg>
                         <span class="sr-only">Dashboard</span>
                     </a>
                 </div>

@@ -82,9 +82,84 @@
         
         <div>
             <label class="block text-sm">Foto</label>
-            <input type="file" name="photo" accept="image/*" class="w-full" />
+            <div class="flex items-center gap-2 mb-2">
+                <button type="button" id="btnUseCameraUmkm" class="px-4 py-2 bg-gray-700 text-white rounded">Gunakan Kamera</button>
+                <button type="button" id="btnCancelCameraUmkm" class="px-4 py-2 bg-gray-600 text-white rounded hidden">Batal Kamera</button>
+            </div>
+            <input type="file" id="photoFileUmkm" name="photo" accept="image/*" class="block w-full" />
+            <div id="cameraBoxUmkm" class="hidden space-y-2 mt-2">
+                <video id="cameraVideoUmkm" autoplay playsinline class="w-full rounded bg-black"></video>
+                <canvas id="cameraCanvasUmkm" class="hidden w-full rounded"></canvas>
+                <div class="flex gap-2">
+                    <button type="button" id="btnCaptureUmkm" class="px-4 py-2 bg-green-600 text-white rounded">Ambil Foto</button>
+                    <button type="button" id="btnRetakeUmkm" class="px-4 py-2 bg-gray-600 text-white rounded hidden">Ulangi</button>
+                </div>
+            </div>
         </div>
         <button class="w-full bg-blue-600 text-white p-2 rounded">Simpan</button>
     </form>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var video=document.getElementById('cameraVideoUmkm');
+  var canvas=document.getElementById('cameraCanvasUmkm');
+  var btnCapture=document.getElementById('btnCaptureUmkm');
+  var btnRetake=document.getElementById('btnRetakeUmkm');
+  var btnUseCamera=document.getElementById('btnUseCameraUmkm');
+  var btnCancelCamera=document.getElementById('btnCancelCameraUmkm');
+  var fileInput=document.getElementById('photoFileUmkm');
+  var cameraBox=document.getElementById('cameraBoxUmkm');
+  function start(){
+    var fm={ideal:'environment'};
+    navigator.mediaDevices.getUserMedia({video:{facingMode:fm}}).then(function(stream){
+      video.srcObject=stream;
+      cameraBox.classList.remove('hidden');
+      fileInput.classList.add('hidden');
+      btnUseCamera.classList.add('hidden');
+      btnCancelCamera.classList.remove('hidden');
+    }).catch(function(){
+      cameraBox.classList.add('hidden');
+      fileInput.classList.remove('hidden');
+      btnUseCamera.classList.remove('hidden');
+      btnCancelCamera.classList.add('hidden');
+    });
+  }
+  function stop(){
+    var s=video.srcObject; if(s&&s.getTracks){ s.getTracks().forEach(function(t){t.stop();}); }
+    video.srcObject=null;
+  }
+  btnUseCamera.addEventListener('click',function(){ start(); });
+  btnCancelCamera.addEventListener('click',function(){
+    stop();
+    cameraBox.classList.add('hidden');
+    fileInput.classList.remove('hidden');
+    btnUseCamera.classList.remove('hidden');
+    btnCancelCamera.classList.add('hidden');
+  });
+  btnCapture.addEventListener('click',function(){
+    var w=video.videoWidth||640; var h=video.videoHeight||480;
+    canvas.width=w; canvas.height=h;
+    var ctx=canvas.getContext('2d');
+    ctx.drawImage(video,0,0,w,h);
+    canvas.classList.remove('hidden');
+    video.classList.add('hidden');
+    btnRetake.classList.remove('hidden');
+    btnCapture.classList.add('hidden');
+    canvas.toBlob(function(blob){
+      var file=new File([blob],'photo.jpg',{type:'image/jpeg'});
+      var dt=new DataTransfer();
+      dt.items.add(file);
+      fileInput.files=dt.files;
+    },'image/jpeg',0.92);
+    stop();
+  });
+  btnRetake.addEventListener('click',function(){
+    fileInput.value='';
+    canvas.classList.add('hidden');
+    video.classList.remove('hidden');
+    btnRetake.classList.add('hidden');
+    btnCapture.classList.remove('hidden');
+  });
+});
+</script>
 @endsection

@@ -13,7 +13,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
     
-    <div class="min-h-screen max-w-lg mx-auto">
+    <div class="min-h-screen max-w-lg mx-auto" x-data="{open:false}">
         <header class="bg-gray-100 text-gray-800 p-4 shadow sticky top-0 z-10 backdrop-blur-sm">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
@@ -21,14 +21,59 @@
                   <x-application-logo class="h-8" />
                 </a>
               </div>
-              <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-gray-700" aria-label="Dashboard">
-                <svg class="h-6 w-6 text-gray-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" />
+              <button type="button" class="text-sm text-gray-700" aria-label="Menu" @click="open=!open">
+                <svg class="h-6 w-6 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
-                <span class="sr-only">Dashboard</span>
-              </a>
+                <span class="sr-only">Menu</span>
+              </button>
             </div>
         </header>
+
+        <div x-show="open" class="fixed inset-0 z-30" x-cloak>
+            <div class="absolute inset-0 bg-black/30" @click="open=false"></div>
+            <div class="absolute top-0 right-0 bottom-0 w-72 bg-white shadow-lg p-4">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="font-semibold">Menu</div>
+                    <button type="button" class="p-1" aria-label="Tutup" @click="open=false">
+                        <svg class="h-5 w-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M6 18L18 6"/></svg>
+                    </button>
+                </div>
+                <nav class="space-y-1 text-sm">
+                    <a href="{{ route('dashboard', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Dashboard</a>
+                    <div class="mt-2 px-3 text-xs uppercase text-gray-500">Data Kependudukan</div>
+                    <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Keluarga</a>
+                    <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Warga</a>
+                    <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Keluar</a>
+                    <a href="{{ route('pindah_masuk.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Masuk</a>
+                    <a href="{{ route('warga_meninggal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Kematian</a>
+
+                    <div class="mt-2 px-3 text-xs uppercase text-gray-500">Lainnya</div>
+                    <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Rumah Ibadah</a>
+                    <a href="{{ route('umkm.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">UMKM</a>
+
+                    @guest
+                        @if (Route::has('login'))
+                            <a href="{{ route('login') }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Login</a>
+                        @endif
+                    @endguest
+
+                    @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
+                    @if($canAdminOps)
+                        <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Import</a>
+                    @endif
+                    @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
+                        <a href="{{ route('admin.users.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Manajemen Pengguna</a>
+                    @endif
+                    @auth
+                    <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                        @csrf
+                        <button type="submit" class="w-full text-left px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Logout</button>
+                    </form>
+                    @endauth
+                </nav>
+            </div>
+        </div>
 
         <main class="p-4 {{ auth()->check() ? 'pb-24' : '' }}" @if(auth()->check()) style="padding-bottom: calc(env(safe-area-inset-bottom) + 6rem);" @endif>
             @if(session('success'))

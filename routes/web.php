@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PindahKeluarController;
 use App\Http\Controllers\DataKeluargaController;
@@ -10,13 +11,22 @@ use App\Http\Controllers\RumahIbadahController;
 use App\Http\Controllers\ImportRumahIbadahController;
 use App\Http\Controllers\ExportController;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [DashboardController::class, 'index']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/m', function () {
+    return view('mobile_react');
+})->name('mobile.react');
+
+// Statistics pages
+use App\Http\Controllers\StatsController;
+Route::get('/stats/penduduk', [StatsController::class, 'penduduk'])->name('stats.penduduk');
+Route::get('/stats/ibadah', [StatsController::class, 'ibadah'])->name('stats.ibadah');
+Route::get('/stats/umkm', [StatsController::class, 'umkm'])->name('stats.umkm');
+Route::get('/stats/pendidikan', [StatsController::class, 'pendidikan'])->name('stats.pendidikan');
+Route::get('/stats/olahraga', [StatsController::class, 'olahraga'])->name('stats.olahraga');
+Route::get('/stats/pasar', [StatsController::class, 'pasar'])->name('stats.pasar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
