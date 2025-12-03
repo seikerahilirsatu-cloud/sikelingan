@@ -15,10 +15,26 @@ class BiodataWargaController extends Controller
     public function index(Request $request)
     {
         $q = $request->input('q');
-        $query = BiodataWarga::when($q, fn($query) => $query->where('nik','like',"%$q%")
-            ->orWhere('nama_lgkp','like',"%$q%")
-            ->orWhere('no_kk','like',"%$q%")
-        );
+        $query = BiodataWarga::query();
+        if ($q !== null && $q !== '') {
+            $mq = strtolower(trim($q));
+            $monthMap = [
+                'januari' => 1, 'februari' => 2, 'maret' => 3, 'april' => 4,
+                'mei' => 5, 'juni' => 6, 'juli' => 7, 'agustus' => 8,
+                'september' => 9, 'oktober' => 10, 'november' => 11, 'desember' => 12,
+                'january' => 1, 'february' => 2, 'march' => 3, 'april' => 4,
+                'may' => 5, 'june' => 6, 'july' => 7, 'august' => 8,
+                'september' => 9, 'october' => 10, 'november' => 11, 'december' => 12,
+            ];
+            $query->where(function($s) use ($q, $mq, $monthMap) {
+                $s->where('nik','like',"%{$q}%")
+                  ->orWhere('nama_lgkp','like',"%{$q}%")
+                  ->orWhere('no_kk','like',"%{$q}%");
+                if (isset($monthMap[$mq])) {
+                    $s->orWhereMonth('tgl_lhr', $monthMap[$mq]);
+                }
+            });
+        }
 
         $user = Auth::user();
         if ($user && $user->role === 'kepala_lingkungan') {
