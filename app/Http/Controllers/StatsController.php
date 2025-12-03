@@ -7,6 +7,8 @@ use App\Models\BiodataWarga;
 use App\Models\DataKeluarga;
 use App\Models\RumahIbadah;
 use App\Models\Umkm;
+use App\Models\PendidikanFormal;
+use App\Models\PendidikanNonFormal;
 
 class StatsController extends Controller
 {
@@ -19,6 +21,16 @@ class StatsController extends Controller
         $totalPerempuan = BiodataWarga::whereIn('jenis_kelamin', ['P','PEREMPUAN','Perempuan','perempuan'])->count();
         $genderLabels = ['Pria','Wanita'];
         $genderDataChart = [$totalLaki, $totalPerempuan];
+
+        $lingkunganOpts = config('app_local.lingkungan_opts', []);
+        $lingRaw = BiodataWarga::select('lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('lingkungan')
+            ->get();
+        $lingMap = [];
+        foreach ($lingRaw as $row) { $key = trim($row->lingkungan ?? ''); if ($key === '') continue; $lingMap[$key] = (int)($row->total ?? 0); }
+        $lingkunganLabels = $lingkunganOpts;
+        $lingkunganDataChart = array_map(function($l) use ($lingMap) { return $lingMap[$l] ?? 0; }, $lingkunganLabels);
 
         // Age groups using MySQL TIMESTAMPDIFF
         $ageBuckets = [
@@ -105,6 +117,7 @@ class StatsController extends Controller
 
         return view('stats.penduduk', compact(
             'totalWarga','totalKeluarga','genderLabels','genderDataChart',
+            'lingkunganLabels','lingkunganDataChart',
             'ageLabels','ageData','agamaLabels','agamaData','eduLabels','eduData','jobLabels','jobData'
         ));
     }
@@ -135,7 +148,43 @@ class StatsController extends Controller
 
     public function pendidikan(Request $request)
     {
-        return view('stats.pendidikan');
+        $totalFormal = PendidikanFormal::count();
+        $totalNonFormal = PendidikanNonFormal::count();
+
+        $jenjangOrdered = config('pendidikan.jenjang', []);
+        $formalByJenjang = PendidikanFormal::select('jenjang')->selectRaw('COUNT(*) as total')->groupBy('jenjang')->get();
+        $mapJenjang = [];
+        foreach ($formalByJenjang as $r) { $lbl = trim($r->jenjang ?? ''); if ($lbl==='') continue; $mapJenjang[$lbl] = (int)($r->total ?? 0); }
+        $formalJenjangLabels = $jenjangOrdered;
+        $formalJenjangData = array_map(fn($j) => $mapJenjang[$j] ?? 0, $formalJenjangLabels);
+
+        $lingkunganOpts = config('app_local.lingkungan_opts', []);
+        $formalByLing = PendidikanFormal::select('lingkungan')->selectRaw('COUNT(*) as total')->groupBy('lingkungan')->get();
+        $mapFormalLing = [];
+        foreach ($formalByLing as $r) { $lbl = trim($r->lingkungan ?? ''); if ($lbl==='') continue; $mapFormalLing[$lbl] = (int)($r->total ?? 0); }
+        $formalLingLabels = $lingkunganOpts;
+        $formalLingData = array_map(fn($l) => $mapFormalLing[$l] ?? 0, $formalLingLabels);
+
+        $bidangOrdered = config('pendidikan.bidang_pelatihan', []);
+        $nonFormalByBidang = PendidikanNonFormal::select('bidang_pelatihan')->selectRaw('COUNT(*) as total')->groupBy('bidang_pelatihan')->get();
+        $mapBidang = [];
+        foreach ($nonFormalByBidang as $r) { $lbl = trim($r->bidang_pelatihan ?? ''); if ($lbl==='') continue; $mapBidang[$lbl] = (int)($r->total ?? 0); }
+        $nonFormBidangLabels = $bidangOrdered;
+        $nonFormBidangData = array_map(fn($b) => $mapBidang[$b] ?? 0, $nonFormBidangLabels);
+
+        $nonFormalByLing = PendidikanNonFormal::select('lingkungan')->selectRaw('COUNT(*) as total')->groupBy('lingkungan')->get();
+        $mapNonLing = [];
+        foreach ($nonFormalByLing as $r) { $lbl = trim($r->lingkungan ?? ''); if ($lbl==='') continue; $mapNonLing[$lbl] = (int)($r->total ?? 0); }
+        $nonFormLingLabels = $lingkunganOpts;
+        $nonFormLingData = array_map(fn($l) => $mapNonLing[$l] ?? 0, $nonFormLingLabels);
+
+        return view('stats.pendidikan', compact(
+            'totalFormal','totalNonFormal',
+            'formalJenjangLabels','formalJenjangData',
+            'formalLingLabels','formalLingData',
+            'nonFormBidangLabels','nonFormBidangData',
+            'nonFormLingLabels','nonFormLingData'
+        ));
     }
 
     public function olahraga(Request $request)

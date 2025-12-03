@@ -10,6 +10,8 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\RumahIbadahController;
 use App\Http\Controllers\ImportRumahIbadahController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\PendidikanFormalController;
+use App\Http\Controllers\PendidikanNonFormalController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -40,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('biodata_warga', BiodataWargaController::class);
     Route::resource('rumah_ibadah', RumahIbadahController::class);
     Route::resource('umkm', \App\Http\Controllers\UmkmController::class);
+    Route::resource('pendidikan_formal', PendidikanFormalController::class);
+    Route::resource('pendidikan_non_formal', PendidikanNonFormalController::class);
 
     Route::middleware('check.role:admin,staff')->group(function () {
         Route::get('import/rumah_ibadah', [ImportRumahIbadahController::class,'form'])->name('import.rumah_ibadah.form');
@@ -65,6 +69,18 @@ Route::middleware('auth')->group(function () {
         Route::post('import/data_keluarga/preview', [ImportController::class,'familyPreview'])->name('import.data_keluarga.preview');
         Route::post('import/data_keluarga/commit', [ImportController::class,'familyCommit'])->name('import.data_keluarga.commit');
         Route::get('import/data_keluarga/template', [ImportController::class,'familyTemplate'])->name('import.data_keluarga.template');
+
+        // Import Pendidikan Formal
+        Route::get('import/pendidikan_formal', [\App\Http\Controllers\ImportPendidikanFormalController::class,'form'])->name('import.pendidikan_formal.form');
+        Route::post('import/pendidikan_formal/preview', [\App\Http\Controllers\ImportPendidikanFormalController::class,'preview'])->name('import.pendidikan_formal.preview');
+        Route::post('import/pendidikan_formal/commit', [\App\Http\Controllers\ImportPendidikanFormalController::class,'commit'])->name('import.pendidikan_formal.commit');
+        Route::get('import/pendidikan_formal/template', [\App\Http\Controllers\ImportPendidikanFormalController::class,'template'])->name('import.pendidikan_formal.template');
+
+        // Import Pendidikan Non-Formal
+        Route::get('import/pendidikan_non_formal', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'form'])->name('import.pendidikan_non_formal.form');
+        Route::post('import/pendidikan_non_formal/preview', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'preview'])->name('import.pendidikan_non_formal.preview');
+        Route::post('import/pendidikan_non_formal/commit', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'commit'])->name('import.pendidikan_non_formal.commit');
+        Route::get('import/pendidikan_non_formal/template', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'template'])->name('import.pendidikan_non_formal.template');
     });
 
     Route::get('import', [ImportController::class,'form'])->name('import.form')->middleware('check.role:admin,staff');
@@ -73,6 +89,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('export/biodata', [ExportController::class,'biodata'])->name('export.biodata');
     Route::get('export/keluarga', [ExportController::class,'keluarga'])->name('export.keluarga');
+    Route::get('export/pendidikan_formal', [ExportController::class,'pendidikanFormal'])->name('export.pendidikan_formal');
+    Route::get('export/pendidikan_non_formal', [ExportController::class,'pendidikanNonFormal'])->name('export.pendidikan_non_formal');
+    Route::get('export/pendidikan_formal/excel', [ExportController::class,'pendidikanFormalExcel'])->name('export.pendidikan_formal_excel');
+    Route::get('export/pendidikan_non_formal/excel', [ExportController::class,'pendidikanNonFormalExcel'])->name('export.pendidikan_non_formal_excel');
 
     // import jobs
     Route::get('import/jobs', [\App\Http\Controllers\ImportJobController::class, 'index'])->name('import.jobs.index')->middleware('check.role:admin,staff');

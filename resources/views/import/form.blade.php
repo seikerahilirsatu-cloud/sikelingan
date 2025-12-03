@@ -27,6 +27,16 @@
             <div class="mt-1 text-lg font-semibold text-gray-800">Biodata Warga</div>
             <div class="mt-2 text-xs text-gray-500">Unggah file sesuai template Biodata Warga</div>
         </a>
+        <a href="{{ route('import.pendidikan_formal.form', absolute: false) }}" class="block p-4 bg-white rounded-lg shadow hover:shadow-md transition">
+            <div class="text-sm text-gray-600">Import</div>
+            <div class="mt-1 text-lg font-semibold text-gray-800">Pendidikan Formal</div>
+            <div class="mt-2 text-xs text-gray-500">Unggah file sesuai template Pendidikan Formal</div>
+        </a>
+        <a href="{{ route('import.pendidikan_non_formal.form', absolute: false) }}" class="block p-4 bg-white rounded-lg shadow hover:shadow-md transition">
+            <div class="text-sm text-gray-600">Import</div>
+            <div class="mt-1 text-lg font-semibold text-gray-800">Pendidikan Non-Formal</div>
+            <div class="mt-2 text-xs text-gray-500">Unggah file sesuai template Pendidikan Non-Formal</div>
+        </a>
     </div>
 
     

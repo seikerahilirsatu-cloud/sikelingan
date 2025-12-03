@@ -35,7 +35,16 @@
                     </div>
                 </details>
                 <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>
-               
+                <details class="group">
+                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
+                        <span class="font-medium">Sarana Pendidikan</span>
+                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                    </summary>
+                    <div class="mt-2 ms-4 space-y-1">
+                        <a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="block">Formal</a>
+                        <a href="{{ route('pendidikan_non_formal.index', absolute: false) }}" class="block">Non-Formal</a>
+                    </div>
+                </details>
                 <a href="{{ route('umkm.index', absolute: false) }}" class="block">UMKM</a>
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)

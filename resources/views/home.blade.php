@@ -6,6 +6,8 @@
         $totalWarga = \App\Models\BiodataWarga::count();
         $totalIbadah = \App\Models\RumahIbadah::count();
         $totalUmkm = \App\Models\Umkm::count();
+        $totalFormal = \App\Models\PendidikanFormal::count();
+        $totalNonFormal = \App\Models\PendidikanNonFormal::count();
     @endphp
 
     <section class="space-y-6">
@@ -101,16 +103,17 @@
                     <div class="text-2xl font-semibold mt-1">{{ number_format($totalUmkm,0,',','.') }}</div>
                 </div>
             </a>
-            <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="block bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
-                <div class="text-sm text-gray-600">Jumlah Sarana Pendidikan</div>
-                <div class="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-50 to-orange-100 text-amber-700 border border-amber-100 shadow-sm ring-1 ring-amber-100/50">
-                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
-                    <svg class="w-5 h-5 text-amber-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M12 2l10 6-10 6L2 8 12 2z"/>
-                        <path d="M3 13h18v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3z"/>
-                        <path d="M7 18h10v2H7z"/>
+            <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
+                <div class="h-12 w-12 rounded-xl bg-amber-100 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6" />
                     </svg>
-                    <span class="text-xs font-semibold">Under Construction</span>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Sarana Pendidikan</div>
+                    <div class="text-2xl font-semibold mt-1">{{ number_format($totalFormal,0,',','.') }}</div>
                 </div>
             </a>
             <a href="{{ route('stats.olahraga') }}#stat-olahraga" class="block bg-white rounded-2xl shadow p-4 hover:bg-gray-50">

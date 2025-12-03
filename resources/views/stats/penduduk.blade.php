@@ -34,6 +34,30 @@
   </div>
 
   <section class="bg-white rounded-2xl shadow p-4">
+    <div class="text-sm font-medium mb-2">Berdasarkan Lingkungan</div>
+    <div class="h-56 w-full"><canvas id="statLingkungan" style="width:100%;height:100%" data-labels='{!! json_encode($lingkunganLabels ?? []) !!}' data-data='{!! json_encode($lingkunganDataChart ?? []) !!}' data-total='{{ $totalWarga }}'></canvas></div>
+    @php
+      $lLabels = $lingkunganLabels ?? [];
+      $lData = $lingkunganDataChart ?? [];
+      $lTotal = max(1, (int)($totalWarga ?? array_sum($lData)));
+      $colorsLingDot = ['bg-blue-500','bg-emerald-500','bg-amber-500','bg-red-500','bg-violet-500','bg-pink-500','bg-orange-500','bg-cyan-500','bg-lime-500','bg-teal-500','bg-fuchsia-500','bg-sky-500','bg-rose-500'];
+      $colorsLingTxt = ['text-blue-600','text-emerald-600','text-amber-600','text-red-600','text-violet-600','text-pink-600','text-orange-600','text-cyan-600','text-lime-600','text-teal-600','text-fuchsia-600','text-sky-600','text-rose-600'];
+    @endphp
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+      @foreach($lLabels as $i => $label)
+        @php $val = (int)($lData[$i] ?? 0); $pct = round(($val/$lTotal)*100,1); @endphp
+        <div class="flex items-center justify-between bg-gray-50 rounded-xl p-4">
+          <div>
+            <div class="flex items-center gap-2 text-sm text-gray-700"><span class="inline-block w-3 h-3 rounded-full {{ $colorsLingDot[$i % count($colorsLingDot)] }}"></span>{{ $label }}</div>
+            <div class="text-xl font-semibold">{{ number_format($val,0,',','.') }}</div>
+          </div>
+          <div class="text-xs {{ $colorsLingTxt[$i % count($colorsLingTxt)] }}">{{ $pct }}%</div>
+        </div>
+      @endforeach
+    </div>
+  </section>
+
+  <section class="bg-white rounded-2xl shadow p-4">
     <div class="text-sm font-medium mb-2">Berdasarkan Jenis Kelamin</div>
     <div class="h-56 w-full"><canvas id="statGender" style="width:100%;height:100%" data-labels='{!! json_encode($genderLabels) !!}' data-data='{!! json_encode($genderDataChart) !!}' data-total='{{ $totalWarga }}'></canvas></div>
     @php
@@ -136,6 +160,14 @@
       const el = document.getElementById(id); if(!el) return;
       new Chart(el,{type:'bar',data:{labels:labels,datasets:[{label:'Total',data:data,backgroundColor:color}]} ,options:{indexAxis:'y',plugins:{legend:{display:false}},maintainAspectRatio:false}});
     };
+
+    try {
+      const lEl = document.getElementById('statLingkungan');
+      const lLabels = JSON.parse(lEl.dataset.labels||'[]');
+      const lData = JSON.parse(lEl.dataset.data||'[]');
+      const colors = ['#60A5FA','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316','#22D3EE','#84CC16','#14B8A6','#A21CAF','#0EA5E9','#F43F5E'];
+      doughnut('statLingkungan', lLabels, lData, colors.slice(0,lData.length));
+    } catch(e) {}
 
     try {
       const gEl = document.getElementById('statGender');

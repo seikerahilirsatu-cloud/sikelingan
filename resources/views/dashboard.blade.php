@@ -16,6 +16,8 @@
         $totalMeninggal = $applyLkg(\App\Models\WargaMeninggal::query())->count();
         $totalIbadah = $applyLkg(\App\Models\RumahIbadah::query())->count();
         $totalUmkm = $applyLkg(\App\Models\Umkm::query())->count();
+        $totalFormal = $applyLkg(\App\Models\PendidikanFormal::query())->count();
+        $totalNonFormal = $applyLkg(\App\Models\PendidikanNonFormal::query())->count();
 
         $kkDomisili = $applyLkg(\App\Models\DataKeluarga::where('status_keluarga','KK Domisili'))->count();
         $kkLuarDomisili = $applyLkg(\App\Models\DataKeluarga::where('status_keluarga','KK Luar Domisili'))->count();
@@ -76,6 +78,15 @@
                 <div class="text-2xl font-semibold mt-1">{{ number_format($totalUmkm,0,',','.') }}</div>
             </div>
         </div>
+        <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
+            <div class="h-12 w-12 rounded-xl bg-amber-100 flex items-center justify-center">
+                <svg class="w-7 h-7 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6"/></svg>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Sarana Pendidikan</div>
+                <div class="text-2xl font-semibold mt-1">{{ number_format($totalFormal,0,',','.') }}</div>
+            </div>
+        </a>
     </div>
 
     <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -255,9 +266,45 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="bg-white rounded-2xl shadow p-4" id="stat-pendidikan">
+            <div class="text-sm font-medium mb-2">Statistik Data Sarana Pendidikan</div>
+            @php
+                $jenjangOrdered = config('pendidikan.jenjang', []);
+                $formalByJenjang = $applyLkg(\App\Models\PendidikanFormal::select('jenjang')->selectRaw('COUNT(*) as total'))
+                    ->groupBy('jenjang')->get();
+                $mapJenjang = [];
+                foreach ($formalByJenjang as $r) { $lbl = trim($r->jenjang ?? ''); if ($lbl==='') continue; $mapJenjang[$lbl] = (int)($r->total ?? 0); }
+                $formalJenjangLabels = $jenjangOrdered;
+                $formalJenjangData = array_map(fn($j) => $mapJenjang[$j] ?? 0, $formalJenjangLabels);
+
+                $bidangOrdered = config('pendidikan.bidang_pelatihan', []);
+                $nonFormalByBidang = $applyLkg(\App\Models\PendidikanNonFormal::select('bidang_pelatihan')->selectRaw('COUNT(*) as total'))
+                    ->groupBy('bidang_pelatihan')->get();
+                $mapBidang = [];
+                foreach ($nonFormalByBidang as $r) { $lbl = trim($r->bidang_pelatihan ?? ''); if ($lbl==='') continue; $mapBidang[$lbl] = (int)($r->total ?? 0); }
+                $nonFormBidangLabels = $bidangOrdered;
+                $nonFormBidangData = array_map(fn($b) => $mapBidang[$b] ?? 0, $nonFormBidangLabels);
+            @endphp
+            <div class="mt-4 h-56 w-full"><canvas id="chartFormalJenjang" style="width:100%;height:100%" data-labels='{!! json_encode($formalJenjangLabels) !!}' data-data='{!! json_encode($formalJenjangData) !!}' data-total='{{ $totalFormal }}' data-fallback-label='Formal'></canvas></div>
+            <div class="mt-4 h-56 w-full"><canvas id="chartNonBidang" style="width:100%;height:100%" data-labels='{!! json_encode($nonFormBidangLabels) !!}' data-data='{!! json_encode($nonFormBidangData) !!}' data-total='{{ $totalNonFormal }}' data-fallback-label='Non-Formal'></canvas></div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    (function(){
+        const doughnut = (id) => {
+            const el = document.getElementById(id); if(!el) return;
+            const labels = JSON.parse(el.dataset.labels||'[]');
+            const data = JSON.parse(el.dataset.data||'[]');
+            const colors = ['#60A5FA','#10B981','#F59E0B','#EF4444','#8B5CF6','#EC4899','#F97316','#22D3EE'];
+            new Chart(el,{type:'doughnut',data:{labels:labels,datasets:[{data:data,backgroundColor:colors.slice(0,data.length)}]},options:{plugins:{legend:{position:'bottom'}},maintainAspectRatio:false,cutout:'65%'}});
+        };
+        try { doughnut('chartFormalJenjang'); } catch(e){}
+        try { doughnut('chartNonBidang'); } catch(e){}
+    })();
+    </script>
     <script>
     (function(){
         const CenterTextPlugin = {
