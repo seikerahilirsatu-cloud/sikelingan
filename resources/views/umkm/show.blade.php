@@ -4,7 +4,9 @@
 <div class="space-y-3">
     <div class="bg-white p-3 rounded">
         @if($item->photo_path)
-            <img src="{{ asset('storage/'.$item->photo_path) }}" alt="Foto" class="w-full max-h-64 object-cover rounded mb-2" />
+            <img src="{{ asset('storage/'.$item->photo_path) }}" alt="Foto" class="w-full max-h-64 object-cover rounded mb-2" data-placeholder="{{ asset('images/placeholder-umkm.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+        @else
+            <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="Foto" class="w-full max-h-64 object-cover rounded mb-2" />
         @endif
         <div class="text-sm text-gray-500">Jenis: {{ $item->jenis }}</div>
         <div class="font-medium">{{ $item->nama_usaha }}</div>

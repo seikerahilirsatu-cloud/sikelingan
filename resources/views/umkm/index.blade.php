@@ -38,7 +38,9 @@
                     <div class="flex items-start justify-between">
                         <div>
                             @if(!empty($p->photo_path))
-                                <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;"/>
+                                <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-umkm.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+                            @else
+                                <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
                             @endif
                             <div class="text-sm text-gray-500">Jenis: <span class="font-medium">{{ $p->jenis }}</span></div>
                             <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $p->nama_usaha }}</a>
