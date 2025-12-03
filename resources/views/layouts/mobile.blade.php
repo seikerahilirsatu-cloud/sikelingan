@@ -41,19 +41,35 @@
                 </div>
                 <nav class="space-y-1 text-sm">
                     <a href="{{ route('dashboard', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Dashboard</a>
-                    <div class="mt-2 px-3 text-xs uppercase text-gray-500">Data Kependudukan</div>
-                    <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Keluarga</a>
-                    <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Warga</a>
-                    <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Keluar</a>
-                    <a href="{{ route('pindah_masuk.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Masuk</a>
-                    <a href="{{ route('warga_meninggal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Kematian</a>
-                    @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
-                        <a href="{{ route('stats.mutasi', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Laporan Mutasi Penduduk</a>
-                    @endif
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
+                            <span class="font-medium">Data Kependudukan</span>
+                            <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="mt-1 ms-4 space-y-1">
+                            <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Keluarga</a>
+                            <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Warga</a>
+                            <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Keluar</a>
+                            <a href="{{ route('pindah_masuk.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Masuk</a>
+                            <a href="{{ route('warga_meninggal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Kematian</a>
+                            @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
+                                <a href="{{ route('stats.mutasi', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Laporan Mutasi Penduduk</a>
+                            @endif
+                        </div>
+                    </details>
 
-                    <div class="mt-2 px-3 text-xs uppercase text-gray-500">Lainnya</div>
                     <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Rumah Ibadah</a>
                     <a href="{{ route('umkm.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">UMKM</a>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
+                            <span class="font-medium">Sarana Pendidikan</span>
+                            <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="mt-1 ms-4 space-y-1">
+                            <a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Formal</a>
+                            <a href="{{ route('pendidikan_non_formal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Non-Formal</a>
+                        </div>
+                    </details>
 
                     @guest
                         @if (Route::has('login'))
@@ -63,8 +79,16 @@
 
                     @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                     @if($canAdminOps)
-                        <a href="{{ route('export.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Export</a>
-                        <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Import</a>
+                        <details class="group">
+                            <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
+                                <span class="font-medium">Export/Import Data</span>
+                                <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                            </summary>
+                            <div class="mt-1 ms-4 space-y-1">
+                                <a href="{{ route('export.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Export</a>
+                                <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Import</a>
+                            </div>
+                        </details>
                     @endif
                     @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
                         <a href="{{ route('admin.users.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Manajemen Pengguna</a>
