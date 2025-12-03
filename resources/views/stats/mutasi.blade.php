@@ -23,6 +23,7 @@
     </div>
     <div class="flex items-end">
       <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Terapkan</button>
+      <a href="{{ route('stats.mutasi.export_excel', ['start' => $start, 'end' => $end]) }}" class="px-4 py-2 ml-2 bg-green-600 text-white rounded-lg">Export Excel</a>
     </div>
   </form>
 

@@ -28,6 +28,8 @@ Route::get('/stats/pendidikan', [StatsController::class, 'pendidikan'])->name('s
 Route::get('/stats/olahraga', [StatsController::class, 'olahraga'])->name('stats.olahraga');
 Route::get('/stats/pasar', [StatsController::class, 'pasar'])->name('stats.pasar');
 Route::get('/stats/mutasi', [StatsController::class, 'mutasi'])->name('stats.mutasi');
+Route::get('/stats/mutasi/export', [StatsController::class, 'exportMutasiCsv'])->name('stats.mutasi.export');
+Route::get('/stats/mutasi/export-excel', [StatsController::class, 'exportMutasiExcel'])->name('stats.mutasi.export_excel');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -244,4 +244,230 @@ class StatsController extends Controller
         $lingkunganLabels = $lingkungans;
         return view('stats.mutasi', compact('start','end','rows','lingkunganLabels'));
     }
+
+    public function exportMutasiCsv(Request $request)
+    {
+        $start = $request->input('start');
+        $end = $request->input('end');
+        if (!$start || !$end) {
+            $end = now()->toDateString();
+            $start = now()->startOfMonth()->toDateString();
+        }
+
+        $lingkungans = config('app_local.lingkungan_opts', []);
+        $rows = [];
+        foreach ($lingkungans as $l) {
+            $rows[$l] = [
+                'lahir_L' => 0,
+                'lahir_P' => 0,
+                'meninggal_L' => 0,
+                'meninggal_P' => 0,
+                'masuk_L' => 0,
+                'masuk_P' => 0,
+                'keluar_L' => 0,
+                'keluar_P' => 0,
+            ];
+        }
+
+        $male = ['L','LAKI-LAKI','Laki-laki','laki-laki','Pria','pria'];
+        $female = ['P','PEREMPUAN','Perempuan','perempuan','Wanita','wanita'];
+
+        $lahirL = BiodataWarga::whereBetween('tgl_lhr', [$start, $end])
+            ->whereIn('jenis_kelamin', $male)
+            ->select('lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('lingkungan')
+            ->get();
+        foreach ($lahirL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['lahir_L'] = (int)($r->total ?? 0); }
+        $lahirP = BiodataWarga::whereBetween('tgl_lhr', [$start, $end])
+            ->whereIn('jenis_kelamin', $female)
+            ->select('lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('lingkungan')
+            ->get();
+        foreach ($lahirP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['lahir_P'] = (int)($r->total ?? 0); }
+
+        $meninggalL = \App\Models\WargaMeninggal::join('biodata_warga as bw', 'warga_meninggal.warga_id', '=', 'bw.id')
+            ->whereBetween('warga_meninggal.tanggal_meninggal', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('warga_meninggal.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('warga_meninggal.lingkungan')
+            ->get();
+        foreach ($meninggalL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['meninggal_L'] = (int)($r->total ?? 0); }
+        $meninggalP = \App\Models\WargaMeninggal::join('biodata_warga as bw', 'warga_meninggal.warga_id', '=', 'bw.id')
+            ->whereBetween('warga_meninggal.tanggal_meninggal', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('warga_meninggal.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('warga_meninggal.lingkungan')
+            ->get();
+        foreach ($meninggalP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['meninggal_P'] = (int)($r->total ?? 0); }
+
+        $masukL = \App\Models\PindahMasuk::join('biodata_warga as bw', 'pindah_masuk.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_masuk.tanggal_masuk', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('pindah_masuk.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_masuk.lingkungan')
+            ->get();
+        foreach ($masukL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['masuk_L'] = (int)($r->total ?? 0); }
+        $masukP = \App\Models\PindahMasuk::join('biodata_warga as bw', 'pindah_masuk.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_masuk.tanggal_masuk', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('pindah_masuk.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_masuk.lingkungan')
+            ->get();
+        foreach ($masukP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['masuk_P'] = (int)($r->total ?? 0); }
+
+        $keluarL = \App\Models\PindahKeluar::join('biodata_warga as bw', 'pindah_keluar.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_keluar.tanggal_pindah', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('pindah_keluar.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_keluar.lingkungan')
+            ->get();
+        foreach ($keluarL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['keluar_L'] = (int)($r->total ?? 0); }
+        $keluarP = \App\Models\PindahKeluar::join('biodata_warga as bw', 'pindah_keluar.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_keluar.tanggal_pindah', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('pindah_keluar.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_keluar.lingkungan')
+            ->get();
+        foreach ($keluarP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['keluar_P'] = (int)($r->total ?? 0); }
+
+        return response()->stream(function () use ($rows, $lingkungans, $start, $end) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['Lingkungan','Lahir L','Lahir P','Meninggal L','Meninggal P','Masuk L','Masuk P','Keluar L','Keluar P']);
+            foreach ($lingkungans as $l) {
+                $r = $rows[$l] ?? ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0];
+                fputcsv($handle, [$l, $r['lahir_L'], $r['lahir_P'], $r['meninggal_L'], $r['meninggal_P'], $r['masuk_L'], $r['masuk_P'], $r['keluar_L'], $r['keluar_P']]);
+            }
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="laporan_mutasi_penduduk_' . $start . '_' . $end . '.csv"',
+        ]);
+    }
+
+    public function exportMutasiExcel(Request $request)
+    {
+        $start = $request->input('start');
+        $end = $request->input('end');
+        if (!$start || !$end) {
+            $end = now()->toDateString();
+            $start = now()->startOfMonth()->toDateString();
+        }
+
+        $lingkungans = config('app_local.lingkungan_opts', []);
+        $rows = [];
+        foreach ($lingkungans as $l) {
+            $rows[$l] = [
+                'lahir_L' => 0,
+                'lahir_P' => 0,
+                'meninggal_L' => 0,
+                'meninggal_P' => 0,
+                'masuk_L' => 0,
+                'masuk_P' => 0,
+                'keluar_L' => 0,
+                'keluar_P' => 0,
+            ];
+        }
+
+        $male = ['L','LAKI-LAKI','Laki-laki','laki-laki','Pria','pria'];
+        $female = ['P','PEREMPUAN','Perempuan','perempuan','Wanita','wanita'];
+
+        $lahirL = BiodataWarga::whereBetween('tgl_lhr', [$start, $end])
+            ->whereIn('jenis_kelamin', $male)
+            ->select('lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('lingkungan')
+            ->get();
+        foreach ($lahirL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['lahir_L'] = (int)($r->total ?? 0); }
+        $lahirP = BiodataWarga::whereBetween('tgl_lhr', [$start, $end])
+            ->whereIn('jenis_kelamin', $female)
+            ->select('lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('lingkungan')
+            ->get();
+        foreach ($lahirP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['lahir_P'] = (int)($r->total ?? 0); }
+
+        $meninggalL = \App\Models\WargaMeninggal::join('biodata_warga as bw', 'warga_meninggal.warga_id', '=', 'bw.id')
+            ->whereBetween('warga_meninggal.tanggal_meninggal', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('warga_meninggal.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('warga_meninggal.lingkungan')
+            ->get();
+        foreach ($meninggalL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['meninggal_L'] = (int)($r->total ?? 0); }
+        $meninggalP = \App\Models\WargaMeninggal::join('biodata_warga as bw', 'warga_meninggal.warga_id', '=', 'bw.id')
+            ->whereBetween('warga_meninggal.tanggal_meninggal', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('warga_meninggal.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('warga_meninggal.lingkungan')
+            ->get();
+        foreach ($meninggalP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['meninggal_P'] = (int)($r->total ?? 0); }
+
+        $masukL = \App\Models\PindahMasuk::join('biodata_warga as bw', 'pindah_masuk.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_masuk.tanggal_masuk', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('pindah_masuk.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_masuk.lingkungan')
+            ->get();
+        foreach ($masukL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['masuk_L'] = (int)($r->total ?? 0); }
+        $masukP = \App\Models\PindahMasuk::join('biodata_warga as bw', 'pindah_masuk.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_masuk.tanggal_masuk', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('pindah_masuk.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_masuk.lingkungan')
+            ->get();
+        foreach ($masukP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['masuk_P'] = (int)($r->total ?? 0); }
+
+        $keluarL = \App\Models\PindahKeluar::join('biodata_warga as bw', 'pindah_keluar.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_keluar.tanggal_pindah', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $male)
+            ->select('pindah_keluar.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_keluar.lingkungan')
+            ->get();
+        foreach ($keluarL as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['keluar_L'] = (int)($r->total ?? 0); }
+        $keluarP = \App\Models\PindahKeluar::join('biodata_warga as bw', 'pindah_keluar.warga_id', '=', 'bw.id')
+            ->whereBetween('pindah_keluar.tanggal_pindah', [$start, $end])
+            ->whereIn('bw.jenis_kelamin', $female)
+            ->select('pindah_keluar.lingkungan')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('pindah_keluar.lingkungan')
+            ->get();
+        foreach ($keluarP as $r) { $key = $r->lingkungan ?: '-'; if (!isset($rows[$key])) $rows[$key] = ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0]; $rows[$key]['keluar_P'] = (int)($r->total ?? 0); }
+
+        $html = '<html><head><meta charset="utf-8" /></head><body>';
+        $html .= '<table border="1">';
+        $html .= '<tr><th>Lingkungan</th><th>Lahir L</th><th>Lahir P</th><th>Meninggal L</th><th>Meninggal P</th><th>Masuk L</th><th>Masuk P</th><th>Keluar L</th><th>Keluar P</th></tr>';
+        foreach ($lingkungans as $l) {
+            $r = $rows[$l] ?? ['lahir_L'=>0,'lahir_P'=>0,'meninggal_L'=>0,'meninggal_P'=>0,'masuk_L'=>0,'masuk_P'=>0,'keluar_L'=>0,'keluar_P'=>0];
+            $html .= '<tr>';
+            $html .= '<td>'.htmlspecialchars($l).'</td>';
+            $html .= '<td>'.$r['lahir_L'].'</td>';
+            $html .= '<td>'.$r['lahir_P'].'</td>';
+            $html .= '<td>'.$r['meninggal_L'].'</td>';
+            $html .= '<td>'.$r['meninggal_P'].'</td>';
+            $html .= '<td>'.$r['masuk_L'].'</td>';
+            $html .= '<td>'.$r['masuk_P'].'</td>';
+            $html .= '<td>'.$r['keluar_L'].'</td>';
+            $html .= '<td>'.$r['keluar_P'].'</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+        $html .= '</body></html>';
+
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="laporan_mutasi_penduduk_' . $start . '_' . $end . '.xls"',
+        ]);
+    }
 }
