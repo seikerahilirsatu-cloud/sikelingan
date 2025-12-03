@@ -27,6 +27,7 @@ Route::get('/stats/umkm', [StatsController::class, 'umkm'])->name('stats.umkm');
 Route::get('/stats/pendidikan', [StatsController::class, 'pendidikan'])->name('stats.pendidikan');
 Route::get('/stats/olahraga', [StatsController::class, 'olahraga'])->name('stats.olahraga');
 Route::get('/stats/pasar', [StatsController::class, 'pasar'])->name('stats.pasar');
+Route::get('/stats/mutasi', [StatsController::class, 'mutasi'])->name('stats.mutasi');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
