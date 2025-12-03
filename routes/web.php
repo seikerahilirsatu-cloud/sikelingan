@@ -87,11 +87,18 @@ Route::middleware('auth')->group(function () {
     Route::post('import/preview', [ImportController::class,'preview'])->name('import.preview')->middleware('check.role:admin,staff');
     Route::post('import/commit', [ImportController::class,'commit'])->name('import.commit')->middleware('check.role:admin,staff');
 
+    Route::get('export', [ExportController::class,'index'])->name('export.index');
     Route::get('export/biodata', [ExportController::class,'biodata'])->name('export.biodata');
+    Route::get('export/biodata/excel', [ExportController::class,'biodataExcel'])->name('export.biodata_excel');
     Route::get('export/keluarga', [ExportController::class,'keluarga'])->name('export.keluarga');
+    Route::get('export/keluarga/excel', [ExportController::class,'keluargaExcel'])->name('export.keluarga_excel');
+    Route::get('export/rumah_ibadah', [ExportController::class,'rumahIbadah'])->name('export.rumah_ibadah');
+    Route::get('export/rumah_ibadah/excel', [ExportController::class,'rumahIbadahExcel'])->name('export.rumah_ibadah_excel');
+    Route::get('export/umkm', [ExportController::class,'umkm'])->name('export.umkm');
+    Route::get('export/umkm/excel', [ExportController::class,'umkmExcel'])->name('export.umkm_excel');
     Route::get('export/pendidikan_formal', [ExportController::class,'pendidikanFormal'])->name('export.pendidikan_formal');
-    Route::get('export/pendidikan_non_formal', [ExportController::class,'pendidikanNonFormal'])->name('export.pendidikan_non_formal');
     Route::get('export/pendidikan_formal/excel', [ExportController::class,'pendidikanFormalExcel'])->name('export.pendidikan_formal_excel');
+    Route::get('export/pendidikan_non_formal', [ExportController::class,'pendidikanNonFormal'])->name('export.pendidikan_non_formal');
     Route::get('export/pendidikan_non_formal/excel', [ExportController::class,'pendidikanNonFormalExcel'])->name('export.pendidikan_non_formal_excel');
 
     // import jobs

@@ -75,7 +75,9 @@
             </a>
         </div>
 
-        <div class="space-y-3">
+        <section class="bg-white rounded-2xl shadow p-4">
+            <div class="text-sm font-medium mb-2">Sei Kera Hilir I Dalam Angka</div>
+            <div class="space-y-3">
             <a href="{{ route('stats.penduduk') }}#stat-penduduk" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
                 <div class="h-12 w-12 rounded-xl bg-blue-100 flex items-center justify-center">
                     <svg class="w-7 h-7 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm-6 8v-1a6 6 0 0112 0v1H6z"/></svg>
@@ -140,7 +142,8 @@
                     <span class="text-xs font-semibold">Under Construction</span>
                 </div>
             </a>
-        </div>
+            </div>
+        </section>
         
 
         

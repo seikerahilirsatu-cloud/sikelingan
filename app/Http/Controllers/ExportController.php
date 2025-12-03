@@ -13,6 +13,10 @@ use App\Models\PendidikanNonFormal;
 
 class ExportController extends Controller
 {
+    public function index()
+    {
+        return view('export.index');
+    }
     public function biodata(Request $request)
     {
         $q = $request->input('q');
@@ -333,6 +337,111 @@ class ExportController extends Controller
         return response($html, 200, [
             'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
             'Content-Disposition' => 'attachment; filename="pendidikan_non_formal_'. now()->format('Ymd_His') .'.xls"',
+        ]);
+    }
+
+    public function biodataExcel(Request $request)
+    {
+        $rows = BiodataWarga::orderBy('id','desc')->get(['nik','nama_lgkp','no_kk','jenis_kelamin','tgl_lhr','agama','pendidikan_terakhir','pekerjaan','stts_kawin','stts_hub_keluarga','status_warga','flag_status']);
+        $html = '<html><head><meta charset="utf-8" /></head><body><table border="1">';
+        $html .= '<tr><th>NIK</th><th>Nama</th><th>No. KK</th><th>Jenis Kelamin</th><th>Tgl Lahir</th><th>Agama</th><th>Pendidikan</th><th>Pekerjaan</th><th>Status Kawin</th><th>Hub Keluarga</th><th>Status Warga</th><th>Flag Status</th></tr>';
+        foreach ($rows as $r) {
+            $html .= '<tr>'
+                . '<td>'.htmlspecialchars($r->nik).'</td>'
+                . '<td>'.htmlspecialchars($r->nama_lgkp).'</td>'
+                . '<td>'.htmlspecialchars($r->no_kk).'</td>'
+                . '<td>'.htmlspecialchars($r->jenis_kelamin).'</td>'
+                . '<td>'.htmlspecialchars($r->tgl_lhr).'</td>'
+                . '<td>'.htmlspecialchars($r->agama).'</td>'
+                . '<td>'.htmlspecialchars($r->pendidikan_terakhir).'</td>'
+                . '<td>'.htmlspecialchars($r->pekerjaan).'</td>'
+                . '<td>'.htmlspecialchars($r->stts_kawin).'</td>'
+                . '<td>'.htmlspecialchars($r->stts_hub_keluarga).'</td>'
+                . '<td>'.htmlspecialchars($r->status_warga).'</td>'
+                . '<td>'.htmlspecialchars($r->flag_status).'</td>'
+                . '</tr>';
+        }
+        $html .= '</table></body></html>';
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="biodata_warga_'. now()->format('Ymd_His') .'.xls"',
+        ]);
+    }
+
+    public function keluargaExcel(Request $request)
+    {
+        $rows = \App\Models\DataKeluarga::orderBy('id','desc')->get(['no_kk','nama_kep','alamat','lingkungan','status_keluarga']);
+        $html = '<html><head><meta charset="utf-8" /></head><body><table border="1">';
+        $html .= '<tr><th>No. KK</th><th>Nama Kepala</th><th>Alamat</th><th>Lingkungan</th><th>Status Keluarga</th></tr>';
+        foreach ($rows as $r) {
+            $html .= '<tr>'
+                . '<td>'.htmlspecialchars($r->no_kk).'</td>'
+                . '<td>'.htmlspecialchars($r->nama_kep).'</td>'
+                . '<td>'.htmlspecialchars($r->alamat).'</td>'
+                . '<td>'.htmlspecialchars($r->lingkungan).'</td>'
+                . '<td>'.htmlspecialchars($r->status_keluarga).'</td>'
+                . '</tr>';
+        }
+        $html .= '</table></body></html>';
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="data_keluarga_'. now()->format('Ymd_His') .'.xls"',
+        ]);
+    }
+
+    public function rumahIbadahExcel(Request $request)
+    {
+        $rows = RumahIbadah::orderBy('id','desc')->get(['nama','jenis','alamat','lingkungan','status_operasional','kapasitas','tanggal_berdiri','pengurus_nik','kontak','koordinat_lat','koordinat_lng']);
+        $html = '<html><head><meta charset="utf-8" /></head><body><table border="1">';
+        $html .= '<tr><th>Nama</th><th>Jenis</th><th>Alamat</th><th>Lingkungan</th><th>Status</th><th>Kapasitas</th><th>Tgl Berdiri</th><th>Pengurus NIK</th><th>Kontak</th><th>Lat</th><th>Lng</th></tr>';
+        foreach ($rows as $r) {
+            $html .= '<tr>'
+                . '<td>'.htmlspecialchars($r->nama).'</td>'
+                . '<td>'.htmlspecialchars($r->jenis).'</td>'
+                . '<td>'.htmlspecialchars($r->alamat).'</td>'
+                . '<td>'.htmlspecialchars($r->lingkungan).'</td>'
+                . '<td>'.htmlspecialchars($r->status_operasional).'</td>'
+                . '<td>'.htmlspecialchars($r->kapasitas).'</td>'
+                . '<td>'.htmlspecialchars($r->tanggal_berdiri).'</td>'
+                . '<td>'.htmlspecialchars($r->pengurus_nik).'</td>'
+                . '<td>'.htmlspecialchars($r->kontak).'</td>'
+                . '<td>'.htmlspecialchars($r->koordinat_lat).'</td>'
+                . '<td>'.htmlspecialchars($r->koordinat_lng).'</td>'
+                . '</tr>';
+        }
+        $html .= '</table></body></html>';
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="rumah_ibadah_'. now()->format('Ymd_His') .'.xls"',
+        ]);
+    }
+
+    public function umkmExcel(Request $request)
+    {
+        $rows = Umkm::orderBy('id','desc')->get(['nama_usaha','jenis','alamat','lingkungan','status_operasional','pemilik_nik','npwp_pemilik','no_nib','kontak','tanggal_berdiri','omzet','koordinat_lat','koordinat_lng']);
+        $html = '<html><head><meta charset="utf-8" /></head><body><table border="1">';
+        $html .= '<tr><th>Nama Usaha</th><th>Jenis</th><th>Alamat</th><th>Lingkungan</th><th>Status</th><th>Pemilik NIK</th><th>NPWP</th><th>NIB</th><th>Kontak</th><th>Tgl Berdiri</th><th>Omzet</th><th>Lat</th><th>Lng</th></tr>';
+        foreach ($rows as $r) {
+            $html .= '<tr>'
+                . '<td>'.htmlspecialchars($r->nama_usaha).'</td>'
+                . '<td>'.htmlspecialchars($r->jenis).'</td>'
+                . '<td>'.htmlspecialchars($r->alamat).'</td>'
+                . '<td>'.htmlspecialchars($r->lingkungan).'</td>'
+                . '<td>'.htmlspecialchars($r->status_operasional).'</td>'
+                . '<td>'.htmlspecialchars($r->pemilik_nik).'</td>'
+                . '<td>'.htmlspecialchars($r->npwp_pemilik).'</td>'
+                . '<td>'.htmlspecialchars($r->no_nib).'</td>'
+                . '<td>'.htmlspecialchars($r->kontak).'</td>'
+                . '<td>'.htmlspecialchars($r->tanggal_berdiri).'</td>'
+                . '<td>'.htmlspecialchars($r->omzet).'</td>'
+                . '<td>'.htmlspecialchars($r->koordinat_lat).'</td>'
+                . '<td>'.htmlspecialchars($r->koordinat_lng).'</td>'
+                . '</tr>';
+        }
+        $html .= '</table></body></html>';
+        return response($html, 200, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="umkm_'. now()->format('Ymd_His') .'.xls"',
         ]);
     }
 }

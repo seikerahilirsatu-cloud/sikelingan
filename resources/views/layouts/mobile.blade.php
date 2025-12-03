@@ -63,6 +63,7 @@
 
                     @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                     @if($canAdminOps)
+                        <a href="{{ route('export.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Export</a>
                         <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Import</a>
                     @endif
                     @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
@@ -154,6 +155,14 @@
 
               @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
               @if($canAdminOps)
+                <a href="{{ route('export.index', absolute: false) }}" aria-label="Export"
+                   @php $is = request()->is('export*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
+                   class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">
+                  <svg class="w-6 h-6 mb-1 {{ $txt }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4-4-4M3 21h18" />
+                  </svg>
+                  <span class="text-xs {{ $txt }}">Export</span>
+                </a>
                 <a href="{{ route('import.form', absolute: false) ?? url('/import') }}" aria-label="Import"
                    @php $is = request()->is('import*'); $txt = $is ? 'text-indigo-600' : 'text-gray-500'; $bg = $is ? 'bg-indigo-50' : ''; @endphp
                    class="inline-flex flex-col items-center justify-center h-14 px-3 rounded {{ $bg }}">

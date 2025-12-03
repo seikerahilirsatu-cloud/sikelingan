@@ -20,10 +20,7 @@
             </div>
         </form>
         <a href="{{ route('biodata_warga.create', absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow" role="button" aria-label="Tambah warga">Tambah</a>
-        @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
-        @if($canAdminOps)
-            <a href="{{ route('export.biodata', ['q' => $q], absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-gray-700 text-white rounded-lg shadow" role="button" aria-label="Export biodata">Export CSV</a>
-        @endif
+        
     </div>
 
     <div class="grid grid-cols-1 gap-3">
