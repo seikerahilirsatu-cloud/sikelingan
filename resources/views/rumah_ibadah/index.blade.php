@@ -42,11 +42,11 @@
                             @else
                                 <img src="{{ asset('images/placeholder-ibadah.svg') }}" alt="{{ $p->nama }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
                             @endif
-                            <div class="text-sm text-gray-500">Jenis: <span class="font-medium">{{ $p->jenis }}</span></div>
-                            <a href="{{ route('rumah_ibadah.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $p->nama }}</a>
-                            <div class="text-xs text-gray-600 mt-1">{{ $p->alamat }}</div>
-                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $p->lingkungan ?? '-' }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Status: {{ $p->status_operasional }}</div>
+                            <div class="text-sm text-gray-500">Jenis: <span class="font-medium">@db($p->jenis)</span></div>
+                            <a href="{{ route('rumah_ibadah.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama)</a>
+                            <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-')</span></div>
+                            <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
                         </div>
                         <div class="text-right">
                             <a href="{{ route('rumah_ibadah.edit', $p) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>

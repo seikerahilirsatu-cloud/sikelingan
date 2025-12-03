@@ -47,7 +47,9 @@
                     <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Keluar</a>
                     <a href="{{ route('pindah_masuk.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Pindah Masuk</a>
                     <a href="{{ route('warga_meninggal.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Data Kematian</a>
-                    <a href="{{ route('stats.mutasi', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Laporan Mutasi Penduduk</a>
+                    @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
+                        <a href="{{ route('stats.mutasi', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Laporan Mutasi Penduduk</a>
+                    @endif
 
                     <div class="mt-2 px-3 text-xs uppercase text-gray-500">Lainnya</div>
                     <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Rumah Ibadah</a>

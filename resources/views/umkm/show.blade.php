@@ -8,19 +8,19 @@
         @else
             <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="Foto" class="w-full max-h-64 object-cover rounded mb-2" />
         @endif
-        <div class="text-sm text-gray-500">Jenis: {{ $item->jenis }}</div>
-        <div class="font-medium">{{ $item->nama_usaha }}</div>
-        <div class="text-xs text-gray-600">{{ $item->alamat }}</div>
-        <div class="text-xs text-gray-600">Lingkungan: {{ $item->lingkungan ?? '-' }}</div>
-        <div class="text-xs text-gray-600">Status: {{ $item->status_operasional }}</div>
+        <div class="text-sm text-gray-500">Jenis: @db($item->jenis)</div>
+        <div class="font-medium">@db($item->nama_usaha)</div>
+        <div class="text-xs text-gray-600">@db($item->alamat)</div>
+        <div class="text-xs text-gray-600">Lingkungan: @db($item->lingkungan ?? '-')</div>
+        <div class="text-xs text-gray-600">Status: @db($item->status_operasional)</div>
         @if($item->pemilik_nik)
-        <div class="text-xs text-gray-600">Pemilik NIK: {{ $item->pemilik_nik }}</div>
+        <div class="text-xs text-gray-600">Pemilik NIK: @db($item->pemilik_nik)</div>
         @endif
         @if($item->npwp_pemilik)
-        <div class="text-xs text-gray-600">NPWP Pemilik: {{ $item->npwp_pemilik }}</div>
+        <div class="text-xs text-gray-600">NPWP Pemilik: @db($item->npwp_pemilik)</div>
         @endif
         @if($item->no_nib)
-        <div class="text-xs text-gray-600">No NIB: {{ $item->no_nib }}</div>
+        <div class="text-xs text-gray-600">No NIB: @db($item->no_nib)</div>
         @endif
         @if($item->koordinat_lat && $item->koordinat_lng)
             <div class="text-xs text-blue-600"><a href="https://www.google.com/maps?q={{ $item->koordinat_lat }},{{ $item->koordinat_lng }}" target="_blank" rel="noopener">Lihat di Maps</a></div>

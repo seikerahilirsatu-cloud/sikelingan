@@ -31,11 +31,11 @@
             <article class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
                 <div class="flex items-start justify-between">
                     <div>
-                        <div class="text-sm text-gray-500">NIK: <span class="font-medium">{{ $r->nik }}</span></div>
-                        <a href="{{ route('biodata_warga.show', $r) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $r->nama_lgkp }}</a>
-                        <div class="text-xs text-gray-600 mt-1">KK: {{ $r->no_kk }} • {{ $r->stts_hub_keluarga }}</div>
-                        <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $r->lingkungan ?? ($r->family?->lingkungan ?? '-') }}</span></div>
-                        <div class="text-sm text-gray-600 mt-2">{{ $r->pekerjaan }}</div>
+                        <div class="text-sm text-gray-500">NIK: <span class="font-medium">@db($r->nik)</span></div>
+                        <a href="{{ route('biodata_warga.show', $r) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($r->nama_lgkp)</a>
+                        <div class="text-xs text-gray-600 mt-1">KK: @db($r->no_kk) • @db($r->stts_hub_keluarga)</div>
+                        <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($r->lingkungan ?? ($r->family?->lingkungan ?? '-'))</span></div>
+                        <div class="text-sm text-gray-600 mt-2">@db($r->pekerjaan)</div>
                         <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $r->created_at }}</span></div>
                     </div>
                     <div class="text-right">

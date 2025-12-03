@@ -39,10 +39,10 @@
             <li class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
                 <div class="flex items-start justify-between">
                     <div>
-                        <div class="text-sm text-gray-500">KK: <span class="font-medium">{{ $f->no_kk }}</span></div>
-                        <a href="{{ route('data_keluarga.show', $f) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $f->nama_kep }}</a>
-                        <div class="text-xs text-gray-600 mt-2">{{ Str::limit($f->alamat,60) }}</div>
-                        <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $f->lingkungan }}</span></div>
+                        <div class="text-sm text-gray-500">KK: <span class="font-medium">@db($f->no_kk)</span></div>
+                        <a href="{{ route('data_keluarga.show', $f) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($f->nama_kep)</a>
+                        <div class="text-xs text-gray-600 mt-2">@db(Str::limit($f->alamat,60))</div>
+                        <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($f->lingkungan)</span></div>
                         @if ($f->status_keluarga==1)
                             <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili</span></div>
                         @elseif ($f->status_keluarga==2)

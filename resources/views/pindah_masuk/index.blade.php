@@ -50,24 +50,24 @@
                 <article class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
                     <div class="flex items-start justify-between">
                         <div>
-                            <div class="text-sm text-gray-500">NIK: <span class="font-medium">{{ $it->warga?->nik ?? '-' }}</span></div>
-                            <div class="block mt-1 text-lg font-semibold text-gray-800">{{ $it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—' }}</div>
+                            <div class="text-sm text-gray-500">NIK: <span class="font-medium">@db($it->warga?->nik ?? '-')</span></div>
+                            <div class="block mt-1 text-lg font-semibold text-gray-800">@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</div>
                             <div class="text-xs text-gray-600 mt-2">Tanggal Masuk: <span class="font-medium">{{ optional($it->tanggal_masuk)->format('Y-m-d') ?? '-' }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Jenis: <span class="font-medium">{{ $it->jenis_masuk }}</span></div>
-                            <div class="text-sm text-gray-600 mt-2">Asal: {{ $it->asal }}</div>
-                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $it->lingkungan ?? ($it->warga?->lingkungan ?? '-') }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Alamat: <span class="font-medium">{{ $it->alamat ?? ($it->warga?->alamat ?? '-') }}</span></div>
+                            <div class="text-xs text-gray-600 mt-1">Jenis: <span class="font-medium">@db($it->jenis_masuk)</span></div>
+                            <div class="text-sm text-gray-600 mt-2">Asal: @db($it->asal)</div>
+                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($it->lingkungan ?? ($it->warga?->lingkungan ?? '-'))</span></div>
+                            <div class="text-xs text-gray-600 mt-1">Alamat: <span class="font-medium">@db($it->alamat ?? ($it->warga?->alamat ?? '-'))</span></div>
                         </div>
 
                         <div class="text-right">
                             <div class="text-sm text-gray-600">Pencatat</div>
-                            <div class="text-sm font-medium">{{ $it->creator?->name ?? '-' }}</div>
+                            <div class="text-sm font-medium">@db($it->creator?->name ?? '-')</div>
                             <div class="mt-2 flex items-center gap-2">
                                 @if(Route::has('pindah_masuk.edit'))
                                     <a href="{{ route('pindah_masuk.edit', $it) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
                                 @endif
 
-                                <form action="{{ route('pindah_masuk.destroy', $it) }}" method="POST" onsubmit="return confirm('Hapus pencatatan pindah masuk untuk {{ $it->warga?->nama_lgkp ?? $it->warga?->nama }}?')">
+                                <form action="{{ route('pindah_masuk.destroy', $it) }}" method="POST" onsubmit="return confirm('Hapus pencatatan pindah masuk untuk @db($it->warga?->nama_lgkp ?? $it->warga?->nama)?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">Hapus</button>

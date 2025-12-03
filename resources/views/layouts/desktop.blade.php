@@ -29,7 +29,9 @@
                         <a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a>
                         <a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a>
                         <a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a>
-                        <a href="{{ route('stats.mutasi', absolute: false) }}" class="block">Laporan Mutasi Penduduk</a>
+                        @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
+                            <a href="{{ route('stats.mutasi', absolute: false) }}" class="block">Laporan Mutasi Penduduk</a>
+                        @endif
                     </div>
                 </details>
                 <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block">Rumah Ibadah</a>

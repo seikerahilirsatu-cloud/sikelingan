@@ -27,9 +27,9 @@ Route::get('/stats/umkm', [StatsController::class, 'umkm'])->name('stats.umkm');
 Route::get('/stats/pendidikan', [StatsController::class, 'pendidikan'])->name('stats.pendidikan');
 Route::get('/stats/olahraga', [StatsController::class, 'olahraga'])->name('stats.olahraga');
 Route::get('/stats/pasar', [StatsController::class, 'pasar'])->name('stats.pasar');
-Route::get('/stats/mutasi', [StatsController::class, 'mutasi'])->name('stats.mutasi');
-Route::get('/stats/mutasi/export', [StatsController::class, 'exportMutasiCsv'])->name('stats.mutasi.export');
-Route::get('/stats/mutasi/export-excel', [StatsController::class, 'exportMutasiExcel'])->name('stats.mutasi.export_excel');
+Route::get('/stats/mutasi', [StatsController::class, 'mutasi'])->middleware(['auth','check.role:admin,staff'])->name('stats.mutasi');
+Route::get('/stats/mutasi/export', [StatsController::class, 'exportMutasiCsv'])->middleware(['auth','check.role:admin,staff'])->name('stats.mutasi.export');
+Route::get('/stats/mutasi/export-excel', [StatsController::class, 'exportMutasiExcel'])->middleware(['auth','check.role:admin,staff'])->name('stats.mutasi.export_excel');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -53,6 +53,18 @@ Route::middleware('auth')->group(function () {
         Route::post('import/umkm/commit', [\App\Http\Controllers\ImportUmkmController::class,'commit'])->name('import.umkm.commit');
         Route::get('import/umkm/template', [\App\Http\Controllers\ImportUmkmController::class,'template'])->name('import.umkm.template');
         Route::get('export/umkm', [ExportController::class,'umkm'])->name('export.umkm');
+
+        // Import Biodata Warga
+        Route::get('import/biodata', [ImportController::class,'biodataForm'])->name('import.biodata.form');
+        Route::post('import/biodata/preview', [ImportController::class,'preview'])->name('import.biodata.preview');
+        Route::post('import/biodata/commit', [ImportController::class,'commit'])->name('import.biodata.commit');
+        Route::get('import/biodata/template', [ImportController::class,'biodataTemplate'])->name('import.biodata.template');
+
+        // Import Data Keluarga
+        Route::get('import/data_keluarga', [ImportController::class,'familyForm'])->name('import.data_keluarga.form');
+        Route::post('import/data_keluarga/preview', [ImportController::class,'familyPreview'])->name('import.data_keluarga.preview');
+        Route::post('import/data_keluarga/commit', [ImportController::class,'familyCommit'])->name('import.data_keluarga.commit');
+        Route::get('import/data_keluarga/template', [ImportController::class,'familyTemplate'])->name('import.data_keluarga.template');
     });
 
     Route::get('import', [ImportController::class,'form'])->name('import.form')->middleware('check.role:admin,staff');
@@ -60,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::post('import/commit', [ImportController::class,'commit'])->name('import.commit')->middleware('check.role:admin,staff');
 
     Route::get('export/biodata', [ExportController::class,'biodata'])->name('export.biodata');
+    Route::get('export/keluarga', [ExportController::class,'keluarga'])->name('export.keluarga');
 
     // import jobs
     Route::get('import/jobs', [\App\Http\Controllers\ImportJobController::class, 'index'])->name('import.jobs.index')->middleware('check.role:admin,staff');

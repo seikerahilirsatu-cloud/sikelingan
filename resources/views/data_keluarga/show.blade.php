@@ -3,10 +3,10 @@
 @section('content')
 <div class="space-y-3">
     <div class="bg-white p-3 rounded">
-        <div class="text-sm text-gray-500">KK: {{ $family->no_kk }}</div>
-        <div class="font-medium">{{ $family->nama_kep }}</div>
-        <div class="text-xs text-gray-600">{{ $family->alamat }}</div>
-        <div class="text-xs text-gray-600">Lingkungan: {{ $family->lingkungan }}</div>
+        <div class="text-sm text-gray-500">KK: @db($family->no_kk)</div>
+        <div class="font-medium">@db($family->nama_kep)</div>
+        <div class="text-xs text-gray-600">@db($family->alamat)</div>
+        <div class="text-xs text-gray-600">Lingkungan: @db($family->lingkungan)</div>
         <div class="text-xs text-gray-600">Status: @if($family->status_keluarga==1) Warga Domisili @elseif($family->status_keluarga==2) Warga Luar Domisili @else Warga Domisili Baru @endif</div>
     </div>
 
@@ -18,9 +18,9 @@
         <ul class="space-y-2">
             @foreach($family->members as $m)
                 <li class="bg-white p-3 rounded">
-                    <div class="text-sm text-gray-500">NIK: {{ $m->nik }}</div>
-                    <div class="font-medium">{{ $m->nama_lgkp }}</div>
-                    <div class="text-xs text-gray-600">{{ $m->stts_hub_keluarga }}</div>
+                    <div class="text-sm text-gray-500">NIK: @db($m->nik)</div>
+                    <div class="font-medium">@db($m->nama_lgkp)</div>
+                    <div class="text-xs text-gray-600">@db($m->stts_hub_keluarga)</div>
                 </li>
             @endforeach
         </ul>

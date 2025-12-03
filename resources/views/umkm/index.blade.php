@@ -42,19 +42,19 @@
                             @else
                                 <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
                             @endif
-                            <div class="text-sm text-gray-500">Jenis: <span class="font-medium">{{ $p->jenis }}</span></div>
-                            <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">{{ $p->nama_usaha }}</a>
-                            <div class="text-xs text-gray-600 mt-1">{{ $p->alamat }}</div>
-                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">{{ $p->lingkungan ?? '-' }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Status: {{ $p->status_operasional }}</div>
+                            <div class="text-sm text-gray-500">Jenis: <span class="font-medium">@db($p->jenis)</span></div>
+                            <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama_usaha)</a>
+                            <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-')</span></div>
+                            <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
                             @if($p->pemilik_nik)
-                                <div class="text-xs text-gray-600 mt-1">Pemilik NIK: {{ $p->pemilik_nik }}</div>
+                                <div class="text-xs text-gray-600 mt-1">Pemilik NIK: @db($p->pemilik_nik)</div>
                             @endif
                             @if($p->npwp_pemilik)
-                                <div class="text-xs text-gray-600 mt-1">NPWP: {{ $p->npwp_pemilik }}</div>
+                                <div class="text-xs text-gray-600 mt-1">NPWP: @db($p->npwp_pemilik)</div>
                             @endif
                             @if($p->no_nib)
-                                <div class="text-xs text-gray-600 mt-1">NIB: {{ $p->no_nib }}</div>
+                                <div class="text-xs text-gray-600 mt-1">NIB: @db($p->no_nib)</div>
                             @endif
                         </div>
                         <div class="text-right">

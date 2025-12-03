@@ -8,13 +8,13 @@
         @else
             <img src="{{ asset('images/placeholder-ibadah.svg') }}" alt="Foto" class="w-full max-h-64 object-cover rounded mb-2" />
         @endif
-        <div class="text-sm text-gray-500">Jenis: {{ $place->jenis }}</div>
-        <div class="font-medium">{{ $place->nama }}</div>
-        <div class="text-xs text-gray-600">{{ $place->alamat }}</div>
-        <div class="text-xs text-gray-600">Lingkungan: {{ $place->lingkungan ?? '-' }}</div>
-        <div class="text-xs text-gray-600">Status: {{ $place->status_operasional }}</div>
-        <div class="text-xs text-gray-600">Kapasitas: {{ $place->kapasitas ?? '-' }}</div>
-        <div class="text-xs text-gray-600">Pengurus: {{ $place->pengurus?->nama_lgkp ?? ($place->pengurus_nik ?? '-') }}</div>
+        <div class="text-sm text-gray-500">Jenis: @db($place->jenis)</div>
+        <div class="font-medium">@db($place->nama)</div>
+        <div class="text-xs text-gray-600">@db($place->alamat)</div>
+        <div class="text-xs text-gray-600">Lingkungan: @db($place->lingkungan ?? '-')</div>
+        <div class="text-xs text-gray-600">Status: @db($place->status_operasional)</div>
+        <div class="text-xs text-gray-600">Kapasitas: @db($place->kapasitas ?? '-')</div>
+        <div class="text-xs text-gray-600">Pengurus: @db($place->pengurus?->nama_lgkp ?? ($place->pengurus_nik ?? '-'))</div>
         @if($place->koordinat_lat && $place->koordinat_lng)
             <div class="text-xs text-blue-600"><a href="https://www.google.com/maps?q={{ $place->koordinat_lat }},{{ $place->koordinat_lng }}" target="_blank" rel="noopener">Lihat di Maps</a></div>
         @endif

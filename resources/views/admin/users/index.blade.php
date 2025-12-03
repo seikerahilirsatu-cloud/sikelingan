@@ -15,10 +15,10 @@
             <tbody>
                 @foreach($users as $u)
                     <tr class="border-t">
-                        <td class="p-2">{{ $u->name }}</td>
-                        <td class="p-2">{{ $u->email }}</td>
-                        <td class="p-2">{{ $u->role }}</td>
-                        <td class="p-2">{{ $u->lingkungan }}</td>
+                        <td class="p-2">@db($u->name)</td>
+                        <td class="p-2">@db($u->email)</td>
+                        <td class="p-2">@db($u->role)</td>
+                        <td class="p-2">@db($u->lingkungan)</td>
                         <td class="p-2">
                             <form action="{{ route('admin.users.update', $u->id) }}" method="post" class="flex gap-2 items-center">
                                 @csrf

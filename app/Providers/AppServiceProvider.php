@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 use App\Models\PindahKeluar;
 use App\Observers\PindahKeluarObserver;
@@ -56,6 +57,15 @@ class AppServiceProvider extends ServiceProvider
             \App\Models\BiodataWarga::observe($audit);
         } catch (\Throwable $e) {
             // ignore when models not available in artisan context
+        }
+
+        // Blade directive for rendering database text as uppercase
+        try {
+            Blade::directive('db', function($expression) {
+                return "<?php echo e(mb_strtoupper($expression, 'UTF-8')); ?>";
+            });
+        } catch (\Throwable $e) {
+            // noop when blade is not available in certain contexts
         }
     }
 }

@@ -159,4 +159,41 @@ class ExportController extends Controller
             fclose($out);
         }, 200, $headers);
     }
+
+    public function keluarga(Request $request)
+    {
+        $q = $request->input('q');
+        $lingkungan = $request->input('lingkungan');
+        $query = \App\Models\DataKeluarga::query()
+            ->when($q, fn($qb) => $qb->where(function($w) use ($q) {
+                $w->where('no_kk','like',"%$q%")
+                  ->orWhere('nama_kep','like',"%$q%")
+                  ->orWhere('alamat','like',"%$q%");
+            }));
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if (!$lingkungan && $user && !empty($user->lingkungan)) { $lingkungan = $user->lingkungan; }
+        if ($lingkungan) { $query->where('lingkungan', $lingkungan); }
+        if ($user && $user->role === 'kepala_lingkungan') { $query->where('lingkungan', $user->lingkungan); }
+
+        $filename = 'data_keluarga_' . now()->format('Ymd_His') . '.csv';
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+        $columns = ['no_kk','nama_kep','alamat','lingkungan','status_keluarga'];
+
+        return response()->stream(function () use ($query, $columns) {
+            $out = fopen('php://output', 'w');
+            fputcsv($out, $columns);
+            $query->orderBy('id','desc')->chunk(500, function ($rows) use ($out, $columns) {
+                foreach ($rows as $r) {
+                    $row = [];
+                    foreach ($columns as $col) { $row[] = $r->{$col}; }
+                    fputcsv($out, $row);
+                }
+            });
+            fclose($out);
+        }, 200, $headers);
+    }
 }
