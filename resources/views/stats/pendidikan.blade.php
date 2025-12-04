@@ -8,18 +8,18 @@
     </a>
     <div>
       <div class="text-lg font-semibold">Statistik Sarana Pendidikan</div>
-      <div class="text-xs text-gray-600">Halaman dalam pengembangan</div>
+      <div class="text-xs text-gray-600">Pendidikan Formal dan Non-Formal</div>
     </div>
   </header>
 
   <section class="bg-white rounded-2xl shadow p-4">
     <div class="grid grid-cols-2 gap-3">
       <div class="bg-gray-50 rounded-xl p-4 text-center">
-        <div class="text-sm text-gray-600">Total Pendidikan Formal</div>
+        <div class="text-sm text-gray-600">Jumlah SaranaPendidikan Formal</div>
         <div class="text-2xl font-bold">{{ number_format($totalFormal ?? 0,0,',','.') }}</div>
       </div>
       <div class="bg-gray-50 rounded-xl p-4 text-center">
-        <div class="text-sm text-gray-600">Total Pendidikan Non-Formal</div>
+        <div class="text-sm text-gray-600">Jumlah Sarana Pendidikan Non-Formal</div>
         <div class="text-2xl font-bold">{{ number_format($totalNonFormal ?? 0,0,',','.') }}</div>
       </div>
     </div>

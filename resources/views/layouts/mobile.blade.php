@@ -60,6 +60,7 @@
 
                     <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Rumah Ibadah</a>
                     <a href="{{ route('umkm.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">UMKM</a>
+                    <a href="{{ route('kelurahan.info', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Info Kelurahan</a>
                     <details class="group">
                         <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
                             <span class="font-medium">Sarana Pendidikan</span>

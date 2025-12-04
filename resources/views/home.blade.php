@@ -17,7 +17,7 @@
         </div>
 
         <div class="flex flex-wrap gap-4">
-            <a href="#" class="w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
+            <a href="{{ route('kelurahan.info') }}" class="w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="mx-auto w-12 h-12 grid place-items-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow ring-1 ring-white/30">
                     <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path d="M12 2a10 10 0 1 0 0 20a10 10 0 0 0 0-20Z" stroke-width="2" />

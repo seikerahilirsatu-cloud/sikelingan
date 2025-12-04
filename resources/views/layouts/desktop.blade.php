@@ -61,6 +61,10 @@
                     <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 11h16M6 15h12v2a2 2 0 01-2 2H8a2 2 0 01-2-2v-2z" /></svg>
                     <span>UMKM</span>
                 </a>
+                <a href="{{ route('kelurahan.info', absolute: false) }}" class="inline-flex items-center gap-2">
+                    <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8h.01M11 12h2v4h-2z"/></svg>
+                    <span>Info Kelurahan</span>
+                </a>
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
                 <details class="group">
