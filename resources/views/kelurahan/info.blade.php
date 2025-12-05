@@ -48,7 +48,8 @@
       </div>
       <div class="bg-white rounded-xl shadow p-6">
         <div class="text-sm text-gray-600">Jam Layanan</div>
-        <div class="mt-1 text-base font-semibold">{{ config('kelurahan.jam_layanan') ?: '—' }}</div>
+        <div class="mt-1 text-base font-semibold">Senin s.d Jum'at {{ config('kelurahan.jam_layanan') ?: '—' }}</div>
+        <div class="text-sm text-gray-600">Sabtu dan Minggu Libur</div>
       </div>
     </section>
 

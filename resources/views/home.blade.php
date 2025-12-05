@@ -8,6 +8,7 @@
         $totalUmkm = \App\Models\Umkm::count();
         $totalFormal = \App\Models\PendidikanFormal::count();
         $totalNonFormal = \App\Models\PendidikanNonFormal::count();
+        $baruCount = \App\Models\Pengaduan::where('status','baru')->count();
     @endphp
 
     <section class="space-y-6">
@@ -37,7 +38,7 @@
                 </div>
                 <div class="mt-1 text-xs font-medium">Layanan Administrasi</div>
             </a>
-            <a href="#" class="w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
+            <a href="{{ route('pengaduan.cek', absolute: false) }}" class="relative group w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="mx-auto w-12 h-12 grid place-items-center rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 text-white shadow ring-1 ring-white/30">
                     <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path d="M12 4l8 14H4L12 4z" stroke-width="2" stroke-linejoin="round" />
@@ -46,6 +47,12 @@
                     </svg>
                 </div>
                 <div class="mt-1 text-xs font-medium">Pengaduan</div>
+                @if($baruCount > 0)
+                    <span title="Ada {{ $baruCount }} pengaduan baru masuk" aria-label="Ada {{ $baruCount }} pengaduan baru masuk" class="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-red-600 text-white shadow">{{ $baruCount }}</span>
+                    <div class="absolute -top-9 right-0 hidden group-hover:block group-focus:block bg-gray-900 text-white text-[10px] px-2 py-1 rounded shadow">
+                        Ada {{ $baruCount }} pengaduan baru masuk
+                    </div>
+                @endif
             </a>
             <a href="#" class="w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="mx-auto w-12 h-12 grid place-items-center rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white shadow ring-1 ring-white/30">
@@ -238,3 +245,25 @@
 
  
 @endsection
+        <!-- Bottom sheet Pengaduan -->
+        <div x-show="openPengaduan" x-cloak class="fixed inset-0 z-40">
+            <div class="absolute inset-0 bg-black/30" @click="openPengaduan=false"></div>
+            <div class="absolute left-0 right-0 bottom-0 bg-white rounded-t-2xl shadow-xl p-4">
+                <div class="flex items-center justify-between">
+                    <div class="text-base font-semibold">Pengaduan Warga</div>
+                    <button type="button" class="p-2" aria-label="Tutup" @click="openPengaduan=false">
+                        <svg class="h-5 w-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6l12 12M6 18L18 6"/></svg>
+                    </button>
+                </div>
+                <div class="mt-3 grid grid-cols-1 gap-2">
+                    <a href="{{ route('pengaduan.create', absolute: false) }}" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-red-600 text-white hover:bg-red-700">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
+                        <span>Ajukan Pengaduan</span>
+                    </a>
+                    <a href="{{ route('pengaduan.cek', absolute: false) }}" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span>Cek Status Pengaduan</span>
+                    </a>
+                </div>
+            </div>
+        </div>

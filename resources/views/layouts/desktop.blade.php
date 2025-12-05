@@ -4,12 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{ config('app.name','Kelurahan') }}</title>
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 text-gray-800">
     
@@ -65,6 +60,23 @@
                     <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8h.01M11 12h2v4h-2z"/></svg>
                     <span>Info Kelurahan</span>
                 </a>
+                <details class="group">
+                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
+                        <span class="flex items-center gap-2 font-medium">
+                            <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
+                            <span>Pengaduan Warga</span>
+                        </span>
+                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                    </summary>
+                    <div class="mt-2 ms-4 space-y-1">
+                        <a href="{{ route('pengaduan.create', absolute: false) }}" class="block">Ajukan Pengaduan</a>
+                        <a href="{{ route('pengaduan.cek', absolute: false) }}" class="block">Cek Status Pengaduan</a>
+                        @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
+                        @if($canAdminOps)
+                            <a href="{{ route('admin.pengaduan.index', absolute: false) }}" class="block">Admin Pengaduan</a>
+                        @endif
+                    </div>
+                </details>
                 @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                 @if($canAdminOps)
                 <details class="group">

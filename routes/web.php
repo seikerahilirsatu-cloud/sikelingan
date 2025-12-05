@@ -12,6 +12,7 @@ use App\Http\Controllers\ImportRumahIbadahController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PendidikanFormalController;
 use App\Http\Controllers\PendidikanNonFormalController;
+use App\Http\Controllers\PengaduanController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -35,6 +36,11 @@ Route::get('/stats/mutasi/export-excel', [StatsController::class, 'exportMutasiE
 
 // Info Kelurahan (public)
 Route::view('/kelurahan/info', 'kelurahan.info')->name('kelurahan.info');
+
+// Pengaduan publik
+Route::get('/pengaduan', [PengaduanController::class, 'create'])->name('pengaduan.create');
+Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
+Route::get('/pengaduan/cek', [PengaduanController::class, 'cek'])->name('pengaduan.cek');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,6 +90,12 @@ Route::middleware('auth')->group(function () {
         Route::post('import/pendidikan_non_formal/preview', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'preview'])->name('import.pendidikan_non_formal.preview');
         Route::post('import/pendidikan_non_formal/commit', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'commit'])->name('import.pendidikan_non_formal.commit');
         Route::get('import/pendidikan_non_formal/template', [\App\Http\Controllers\ImportPendidikanNonFormalController::class,'template'])->name('import.pendidikan_non_formal.template');
+
+        // Admin Pengaduan
+        Route::get('admin/pengaduan', [PengaduanController::class,'adminIndex'])->name('admin.pengaduan.index');
+        Route::get('admin/pengaduan/{id}', [PengaduanController::class,'adminShow'])->name('admin.pengaduan.show');
+        Route::put('admin/pengaduan/{id}', [PengaduanController::class,'adminUpdate'])->name('admin.pengaduan.update');
+        Route::delete('admin/pengaduan/{id}', [PengaduanController::class,'adminDestroy'])->name('admin.pengaduan.destroy')->middleware('check.role:admin');
     });
 
     Route::get('import', [ImportController::class,'form'])->name('import.form')->middleware('check.role:admin,staff');

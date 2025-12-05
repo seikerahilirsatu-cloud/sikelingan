@@ -87,6 +87,24 @@
                 <div class="text-2xl font-semibold mt-1">{{ number_format($totalFormal,0,',','.') }}</div>
             </div>
         </a>
+        <a href="{{ route('pengaduan.create', absolute: false) }}" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
+            <div class="h-12 w-12 rounded-xl bg-red-100 flex items-center justify-center">
+                <svg class="w-7 h-7 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Layanan Publik</div>
+                <div class="text-2xl font-semibold mt-1">Ajukan Pengaduan</div>
+            </div>
+        </a>
+        <a href="{{ route('pengaduan.cek', absolute: false) }}" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
+            <div class="h-12 w-12 rounded-xl bg-indigo-100 flex items-center justify-center">
+                <svg class="w-7 h-7 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div>
+                <div class="text-sm text-gray-600">Layanan Publik</div>
+                <div class="text-2xl font-semibold mt-1">Cek Status Pengaduan</div>
+            </div>
+        </a>
     </div>
 
     <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">

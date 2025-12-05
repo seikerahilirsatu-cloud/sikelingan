@@ -5,14 +5,14 @@ return [
     'kecamatan' => 'Medan Perjuangan',
 
     'sejarah' => '',
-    'visi' => '',
+    'visi' => 'Menjadikan Kelurahan Sei Kera Hilir I Berkualitas, Akuntabel dalam Pelayanan Publik, menuju Masyarkat Sejahtera.',
     'misi' => [
-        '',
-        '',
-        '',
+        'Meningkatkan Kualitas Pelayanan Administrasi Publik.',
+        'Meningkatkan Kuantitas dan Kualitas Pemberdayaan Masyarakat Kelurahan.',
+        'Meningkatkan Kuantitas dan Kualitas Pembangunan Sarana dan Prasarana Kelurahan.',
     ],
 
-    'luas_wilayah' => '',
+    'luas_wilayah' => '55 Ha',
     'alamat' => 'Jl. Pimpinan No. 79 Medan',
     'jam_layanan' => '08.00 - 16.00 WIB',
 

@@ -4,12 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{ config('app.name','Kelurahan') }}</title>
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    @endif
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 text-gray-800">
     
@@ -61,6 +56,20 @@
                     <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Rumah Ibadah</a>
                     <a href="{{ route('umkm.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">UMKM</a>
                     <a href="{{ route('kelurahan.info', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Info Kelurahan</a>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
+                            <span class="font-medium">Pengaduan Warga</span>
+                            <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="mt-1 ms-4 space-y-1">
+                            <a href="{{ route('pengaduan.create', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Ajukan Pengaduan</a>
+                            <a href="{{ route('pengaduan.cek', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Cek Status Pengaduan</a>
+                            @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
+                            @if($canAdminOps)
+                                <a href="{{ route('admin.pengaduan.index', absolute: false) }}" class="block px-3 py-2 rounded hover:bg-gray-50" @click="open=false">Admin Pengaduan</a>
+                            @endif
+                        </div>
+                    </details>
                     <details class="group">
                         <summary class="flex items-center justify-between cursor-pointer px-3 py-2 rounded hover:bg-gray-50">
                             <span class="font-medium">Sarana Pendidikan</span>
