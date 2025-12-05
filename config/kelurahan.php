@@ -17,17 +17,17 @@ return [
     'jam_layanan' => '08.00 - 16.00 WIB',
 
     'perangkat' => [
-        ['jabatan' => 'Lurah', 'nama' => 'Agung Satria, S.STP', 'foto_url' => 'https://images.unsplash.com/photo-1672685667592-0392f458f46f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBtYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjQ3Njc1NjV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
-        ['jabatan' => 'Sekretaris Lurah', 'nama' => 'Sarah Novita Yolanda Saragih, SE', 'foto_url' => ''],
-        ['jabatan' => 'Kepala Seksi Pembangunan', 'nama' => 'Jauhariandi Saragih', 'foto_url' => ''],
-        ['jabatan' => 'Kepala Seksi Pemerintahan', 'nama' => 'Citra Nurralin, SE', 'foto_url' => 'https://drive.google.com/thumbnail?id=1FmpgdzdKRL-KiV4nJdMP4hMDbUcgZIMN&sz=w200'],
-        ['jabatan' => 'Kepala Seksi Ketentraman & Ketertiban', 'nama' => 'Masjelita Siregar', 'foto_url' => 'https://drive.google.com/thumbnail?id=121ofJKiklihlZR5_Ro0n-1uOVryTnY2B&sz=w200'],
-        ['jabatan' => 'Staff', 'nama' => 'Nadia Wiandhyta, A.Md', 'foto_url' => 'https://drive.google.com/thumbnail?id=1Meqj2-Q9d98H6pVA0u0L9GjK-RPA1JK-&sz=w100'],
-        ['jabatan' => 'Staff', 'nama' => '', 'foto_url' => ''],
+        ['jabatan' => 'Lurah', 'nama' => 'Agung Satria, S.STP', 'foto_url' => 'https://drive.google.com/thumbnail?id=17tVQPm5T6nBoiQe11nT86IQC9oZqX56K&sz=w800', 'masa_tugas' => ''],
+        ['jabatan' => 'Sekretaris Lurah', 'nama' => 'Sarah Novita Yolanda Saragih, SE', 'foto_url' => 'https://drive.google.com/thumbnail?id=10kCOhUvx4LexgrNqbMTWDyrpIOJPbQuP&sz=w800', 'masa_tugas' => ''],
+        ['jabatan' => 'Kepala Seksi Pemerintahan', 'nama' => 'Citra Nurralin, SE', 'foto_url' => 'https://drive.google.com/thumbnail?id=1FmpgdzdKRL-KiV4nJdMP4hMDbUcgZIMN&sz=w800', 'masa_tugas' => 'Maret 2022'],
+        ['jabatan' => 'Kepala Seksi Ketentraman & Ketertiban', 'nama' => 'Masjelita Siregar', 'foto_url' => 'https://drive.google.com/thumbnail?id=121ofJKiklihlZR5_Ro0n-1uOVryTnY2B&sz=w800', 'masa_tugas' => ''],
+        ['jabatan' => 'Kepala Seksi Pembangunan', 'nama' => 'Jauhariandi Saragih', 'foto_url' => 'https://drive.google.com/thumbnail?id=1Sp9ymwKsuYjDsf3HQRbBE3egq4CdwESb&sz=w800', 'masa_tugas' => 'Maret 2022'],
+        ['jabatan' => 'Staff', 'nama' => 'Nadia Wiandhyta, A.Md', 'foto_url' => 'https://drive.google.com/thumbnail?id=1Meqj2-Q9d98H6pVA0u0L9GjK-RPA1JK-&sz=w800', 'masa_tugas' => ''],
+        ['jabatan' => 'Staff', 'nama' => 'Angela Windi Anggiasari Situmorang, SE', 'foto_url' => '', 'masa_tugas' => ''],
     ],
 
     'kepala_lingkungan' => [
-        1 => ['nama' => 'Elmina Purba', 'foto_url' => 'https://images.unsplash.com/photo-1666451791310-5d77fb4980ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRvbmVzaWFuJTIwd29tYW4lMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjQ3Njc3Mzl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral'],
+        1 => ['nama' => 'Elmina Purba', 'foto_url' => 'https://drive.google.com/thumbnail?id=19iTbL7hR8jjUozZW8WwcRmnZjNuxkUmi&sz=w800'],
         2 => ['nama' => 'Pandapotan Rambe', 'foto_url' => ''],
         3 => ['nama' => 'Cut Fitria', 'foto_url' => ''],
         4 => ['nama' => 'Abdul Khalik Lubis', 'foto_url' => ''],
@@ -44,4 +44,3 @@ return [
 
     'peta_embed_url' => 'https://www.google.com/maps?q=Kelurahan+Sei+Kera+Hilir+I,+Medan&output=embed',
 ];
-

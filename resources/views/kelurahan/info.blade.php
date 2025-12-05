@@ -43,7 +43,7 @@
         <div class="mt-1 text-base font-semibold">{{ config('kelurahan.luas_wilayah') ?: '—' }}</div>
       </div>
       <div class="bg-white rounded-xl shadow p-6">
-        <div class="text-sm text-gray-600">Alamat</div>
+        <div class="text-sm text-gray-600">Alamat Kantor</div>
         <div class="mt-1 text-base font-semibold">{{ config('kelurahan.alamat') ?: '—' }}</div>
       </div>
       <div class="bg-white rounded-xl shadow p-6">
@@ -73,6 +73,7 @@
               <div class="flex-1">
                 <p class="text-xs {{ $isLurah ? 'text-blue-600' : 'text-gray-500' }} mb-1">{{ $p['jabatan'] ?? '' }}</p>
                 <p class="font-medium">{{ $p['nama'] ?: '—' }}</p>
+                <p class="text-xs text-gray-500">Sejak {{ $p['masa_tugas'] ?: '—' }} - Sekarang</p>
               </div>
             </div>
           </div>
@@ -94,7 +95,7 @@
                 @endif
               </div>
               <div class="flex-1">
-                <p class="text-xs text-gray-500 mb-1">Kepling {{ $i }}</p>
+                <p class="text-xs text-gray-500 mb-1">Kepala Lingkungan {{ $i }}</p>
                 <p class="font-medium">{{ $k['nama'] ?: '—' }}</p>
               </div>
             </div>
