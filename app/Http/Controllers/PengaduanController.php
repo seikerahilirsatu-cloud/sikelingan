@@ -6,6 +6,7 @@ use App\Models\Pengaduan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
  
 
 class PengaduanController extends Controller
@@ -96,7 +97,7 @@ class PengaduanController extends Controller
         $p->status = $validated['status'];
         $p->handled_notes = $validated['handled_notes'] ?? null;
         $p->public_notes = $validated['public_notes'] ?? null;
-        $p->handled_by = auth()->id();
+        $p->handled_by = Auth::id();
         $p->handled_at = now();
         $p->save();
         return redirect()->route('admin.pengaduan.show', $p->id)->with('success','Status diperbarui');
