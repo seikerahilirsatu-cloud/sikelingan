@@ -40,7 +40,7 @@
             </a>
             <a href="{{ route('pengaduan.cek', absolute: false) }}" class="relative group w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="mx-auto w-12 h-12 grid place-items-center rounded-2xl bg-gradient-to-br from-rose-500 to-red-600 text-white shadow ring-1 ring-white/30">
-                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path d="M12 4l8 14H4L12 4z" stroke-width="2" stroke-linejoin="round" />
                         <path d="M12 10v4" stroke-width="2" stroke-linecap="round" />
                         <circle cx="12" cy="16.5" r="1.2" fill="currentColor" />
@@ -49,7 +49,7 @@
                 <div class="mt-1 text-xs font-medium">Pengaduan</div>
                 @if($baruCount > 0)
                     <span title="Ada {{ $baruCount }} pengaduan baru masuk" aria-label="Ada {{ $baruCount }} pengaduan baru masuk" class="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-red-600 text-white shadow">{{ $baruCount }}</span>
-                    <div class="absolute -top-9 right-0 hidden group-hover:block group-focus:block bg-gray-900 text-white text-[10px] px-2 py-1 rounded shadow">
+                    <div hidden style="display:none" class="absolute -top-9 right-0 group-hover:block group-focus:block bg-gray-900 text-white text-[10px] px-2 py-1 rounded shadow">
                         Ada {{ $baruCount }} pengaduan baru masuk
                     </div>
                 @endif

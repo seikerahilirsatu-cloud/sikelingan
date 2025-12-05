@@ -4,8 +4,8 @@
 <div class="py-6">
   <div class="max-w-2xl mx-auto">
     <div class="flex items-center gap-3 mb-4">
-      <a href="{{ url('/') }}" class="p-2 rounded bg-gray-100" aria-label="Kembali">
-        <svg class="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      <a href="{{ url('/') }}" class="p-2 rounded bg-gray-100" aria-label="Kembali" style="background:#f3f4f6;border-radius:.375rem">
+        <svg width="20" height="20" class="text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </a>
       <div>
         <div class="text-lg font-semibold">Cek Status Pengaduan</div>
@@ -14,8 +14,8 @@
     </div>
 
     <div class="mb-4 flex items-center gap-2">
-      <a href="{{ route('pengaduan.create', absolute: false) }}" class="inline-flex items-center px-3 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700">
-        <svg class="w-4 h-4 me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
+      <a href="{{ route('pengaduan.create', absolute: false) }}" class="inline-flex items-center px-3 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700" style="background:#dc2626;color:#fff;padding:8px 12px;border-radius:.5rem;font-size:.875rem;display:inline-flex;align-items:center">
+        <svg width="16" height="16" class="me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
         Ajukan Pengaduan
       </a>
     </div>
@@ -50,13 +50,13 @@
             @endphp
             <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold shadow-sm {{ $badgeClass }}">
               @if($st==='baru')
-                <svg class="w-3.5 h-3.5 me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+                <svg width="14" height="14" class="me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
               @elseif($st==='diproses')
                 <span class="inline-block w-3.5 h-3.5 me-1 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
               @elseif($st==='selesai')
-                <svg class="w-3.5 h-3.5 me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <svg width="14" height="14" class="me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               @elseif($st==='ditolak')
-                <svg class="w-3.5 h-3.5 me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <svg width="14" height="14" class="me-1" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
               @endif
               {{ ucfirst($pengaduan->status) }}
             </span>
