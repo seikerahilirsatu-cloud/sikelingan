@@ -22,7 +22,7 @@
             <div class="flex items-center gap-2">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="3" stroke-width="2"/><path d="M12 8v4" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="13.5" r="1.2" fill="currentColor"/></svg>
                 <span class="text-sm font-medium">Ada {{ $baruCount }} pengaduan baru belum diproses</span>
-                <a href="{{ route('pengaduan.cek', absolute: false) }}" class="underline font-semibold" style="color:#7f1d1d">Lihat</a>
+                <a href="{{ route('admin.pengaduan.index', absolute: false) }}" class="underline font-semibold" style="color:#7f1d1d">Lihat</a>
             </div>
         </div>
         @endif

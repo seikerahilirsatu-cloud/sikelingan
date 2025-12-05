@@ -28,7 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $default = route('dashboard', absolute: false);
+        if ($user && in_array($user->role ?? null, ['admin','staff'])) {
+            $default = route('admin.pengaduan.index', absolute: false);
+        }
+        return redirect()->intended($default);
     }
 
     /**
