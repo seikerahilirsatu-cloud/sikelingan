@@ -118,4 +118,13 @@ class PengaduanController extends Controller
         $p->delete();
         return redirect()->route('admin.pengaduan.index')->with('success','Pengaduan dihapus');
     }
+
+    public function publicBaru(Request $request)
+    {
+        $items = Pengaduan::query()
+            ->where('status','baru')
+            ->latest()
+            ->paginate(10);
+        return view('pengaduan.baru', ['items' => $items]);
+    }
 }

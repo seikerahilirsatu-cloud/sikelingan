@@ -41,6 +41,7 @@ Route::view('/kelurahan/info', 'kelurahan.info')->name('kelurahan.info');
 Route::get('/pengaduan', [PengaduanController::class, 'create'])->name('pengaduan.create');
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/cek', [PengaduanController::class, 'cek'])->name('pengaduan.cek');
+Route::get('/pengaduan/baru', [PengaduanController::class, 'publicBaru'])->name('pengaduan.baru');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
