@@ -11,7 +11,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gradient-to-br from-indigo-200 via-sky-200 to-cyan-200 text-gray-800">
     
     <div class="min-h-screen max-w-7xl mx-auto grid grid-cols-12 gap-6">
         <aside class="col-span-3 hidden lg:block bg-white border-r p-4 min-h-screen sticky top-0">

@@ -11,7 +11,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gradient-to-br from-indigo-200 via-sky-200 to-cyan-200 text-gray-800">
     
     <div class="min-h-screen max-w-lg mx-auto" x-data="{open:false}">
         <header class="bg-gray-100 text-gray-800 p-4 shadow sticky top-0 z-10 backdrop-blur-sm">
@@ -124,6 +124,8 @@
             @endif
             @yield('content')
         </main>
+
+        
 
         @auth
         <nav class="fixed bottom-0 left-0 right-0 bg-gray-100 border-t border-gray-200 shadow z-20 backdrop-blur-sm" role="navigation" aria-label="Bottom Navigation">
