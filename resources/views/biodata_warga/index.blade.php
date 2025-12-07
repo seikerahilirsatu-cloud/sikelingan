@@ -15,11 +15,13 @@
     <div class="flex items-center gap-3 mb-4">
         <form class="flex-1" action="{{ route('biodata_warga.index') }}" method="get">
             <div class="relative">
-                <input name="q" value="{{ $q ?? '' }}" placeholder="Cari NIK, nama atau No KK" class="w-full pl-10 pr-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-200" />
-                <div class="absolute left-3 top-2 text-gray-400">🔍</div>
+                <input name="q" value="{{ $q ?? '' }}" placeholder="Cari NIK, nama atau No KK" class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 shadow-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/40 focus:border-indigo-300" />
+                <span class="absolute left-3 top-2.5">
+                  <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 20l-3.5-3.5"/></svg>
+                </span>
             </div>
         </form>
-        <a href="{{ route('biodata_warga.create', absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow" role="button" aria-label="Tambah warga">Tambah</a>
+        <a href="{{ route('biodata_warga.create', absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300/50" role="button" aria-label="Tambah warga">Tambah</a>
         
     </div>
 
