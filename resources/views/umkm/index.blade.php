@@ -52,15 +52,7 @@
                             <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
                             <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-')</span></div>
                             <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
-                            @if($p->pemilik_nik)
-                                <div class="text-xs text-gray-600 mt-1">Pemilik NIK: @db($p->pemilik_nik)</div>
-                            @endif
-                            @if($p->npwp_pemilik)
-                                <div class="text-xs text-gray-600 mt-1">NPWP: @db($p->npwp_pemilik)</div>
-                            @endif
-                            @if($p->no_nib)
-                                <div class="text-xs text-gray-600 mt-1">NIB: @db($p->no_nib)</div>
-                            @endif
+                            
                         </div>
                         <div class="text-right">
                             <a href="{{ route('umkm.edit', $p) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
