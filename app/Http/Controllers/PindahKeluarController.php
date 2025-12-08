@@ -142,6 +142,12 @@ class PindahKeluarController extends Controller
         return redirect()->route('pindah_keluar.index')->with('success', 'Pencatatan pindah keluar diperbarui.');
     }
 
+    public function show(PindahKeluar $pindah_keluar)
+    {
+        $pindah_keluar->load('warga','family','creator');
+        return view('pindah_keluar.show', ['item' => $pindah_keluar]);
+    }
+
     public function destroy(PindahKeluar $pindah_keluar)
     {
         $warga = $pindah_keluar->warga;

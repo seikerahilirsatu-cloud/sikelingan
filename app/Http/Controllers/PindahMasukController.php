@@ -140,6 +140,12 @@ class PindahMasukController extends Controller
         return redirect()->route('pindah_masuk.index')->with('success', 'Pencatatan pindah masuk diperbarui.');
     }
 
+    public function show(PindahMasuk $pindah_masuk)
+    {
+        $pindah_masuk->load('warga','family','creator');
+        return view('pindah_masuk.show', ['item' => $pindah_masuk]);
+    }
+
     public function destroy(PindahMasuk $pindah_masuk)
     {
         $warga = $pindah_masuk->warga;

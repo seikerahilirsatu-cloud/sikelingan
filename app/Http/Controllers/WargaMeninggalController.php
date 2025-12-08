@@ -145,6 +145,12 @@ class WargaMeninggalController extends Controller
         return redirect()->route('warga_meninggal.index')->with('success', 'Data warga meninggal diperbarui.');
     }
 
+    public function show(WargaMeninggal $warga_meninggal)
+    {
+        $warga_meninggal->load('warga','family','creator');
+        return view('warga_meninggal.show', ['item' => $warga_meninggal]);
+    }
+
     public function destroy(WargaMeninggal $warga_meninggal)
     {
         $warga = $warga_meninggal->warga;

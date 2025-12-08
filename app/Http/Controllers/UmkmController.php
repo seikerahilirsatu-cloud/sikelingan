@@ -62,7 +62,7 @@ class UmkmController extends Controller
             $data['lingkungan'] = $user->lingkungan;
         }
         if ($request->hasFile('photo')) {
-            $disk = config('filesystems.default');
+            $disk = 'public';
             $path = $request->file('photo')->storePublicly('umkm', $disk);
             try { \Illuminate\Support\Facades\Storage::disk($disk)->setVisibility($path, 'public'); } catch(\Throwable $e) {}
             $data['photo_path'] = $path;
@@ -102,7 +102,7 @@ class UmkmController extends Controller
             'photo' => 'nullable|image',
         ]);
         if ($request->hasFile('photo')) {
-            $disk = config('filesystems.default');
+            $disk = 'public';
             $path = $request->file('photo')->storePublicly('umkm', $disk);
             if (!empty($umkm->photo_path)) {
                 Storage::disk($disk)->delete($umkm->photo_path);

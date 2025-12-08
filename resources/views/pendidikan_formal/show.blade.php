@@ -28,6 +28,10 @@
         <div class="text-sm text-gray-600">Tahun Berdiri</div>
         <div class="text-base font-semibold">@db($item->tahun_berdiri)</div>
       </div>
+      <div>
+        <div class="text-sm text-gray-600">SK Pendirian</div>
+        <div class="text-base font-semibold">@db($item->sk_pendirian)</div>
+      </div>
       <div class="sm:col-span-2">
         <div class="text-sm text-gray-600">Alamat</div>
         <div class="text-base font-semibold">@db($item->alamat)</div>
@@ -83,4 +87,3 @@
   </div>
 </div>
 @endsection
-

@@ -14,7 +14,10 @@
         <div class="text-xs text-gray-600">Lingkungan: @db($place->lingkungan ?? '-')</div>
         <div class="text-xs text-gray-600">Status: @db($place->status_operasional)</div>
         <div class="text-xs text-gray-600">Kapasitas: @db($place->kapasitas ?? '-')</div>
+        <div class="text-xs text-gray-600">Tanggal Berdiri: @db($place->tanggal_berdiri)</div>
+        <div class="text-xs text-gray-600">Kontak: @db($place->kontak)</div>
         <div class="text-xs text-gray-600">Pengurus: @db($place->pengurus?->nama_lgkp ?? ($place->pengurus_nik ?? '-'))</div>
+        <div class="text-xs text-gray-600">Koordinat: @db($place->koordinat_lat) , @db($place->koordinat_lng)</div>
         @if($place->koordinat_lat && $place->koordinat_lng)
             <div class="text-xs text-blue-600"><a href="https://www.google.com/maps?q={{ $place->koordinat_lat }},{{ $place->koordinat_lng }}" target="_blank" rel="noopener">Lihat di Maps</a></div>
         @endif

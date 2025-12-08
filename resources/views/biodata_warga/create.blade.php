@@ -17,8 +17,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="sm:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">No. KK</label>
-                <div class="flex gap-2">
-                    <select name="family_id" class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200">
+                <div class="space-y-2">
+                    <select name="family_id" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200">
                         <option value="">-- Pilih KK (atau pilih di daftar keluarga) --</option>
                         @foreach($families as $f)
                             @php
@@ -30,7 +30,7 @@
                             <option value="{{ $f->id }}" data-lingkungan="{{ $f->lingkungan }}" {{ $selected }}>{{ $f->no_kk }} — {{ $f->nama_kep }}</option>
                         @endforeach
                     </select>
-                    <input name="no_kk" value="{{ old('no_kk', request('no_kk')) }}" placeholder="Atau masukkan No. KK" class="w-40 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200" />
+                    <input name="no_kk" value="{{ old('no_kk', request('no_kk')) }}" placeholder="Atau masukkan No. KK" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200" />
                 </div>
                 <p class="text-xs text-gray-500 mt-1">Pilih KK dari daftar atau masukkan No. KK secara manual.</p>
             </div>

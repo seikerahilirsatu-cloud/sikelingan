@@ -51,10 +51,8 @@
                     <div class="flex items-start justify-between">
                         <div>
                             <div class="text-sm text-gray-500">NIK: <span class="font-medium">@db($it->warga?->nik ?? '-')</span></div>
-                            <div class="block mt-1 text-lg font-semibold text-gray-800">@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</div>
+                            <a href="{{ route('pindah_masuk.show', $it) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</a>
                             <div class="text-xs text-gray-600 mt-2">Tanggal Masuk: <span class="font-medium">{{ optional($it->tanggal_masuk)->format('Y-m-d') ?? '-' }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Jenis: <span class="font-medium">@db($it->jenis_masuk)</span></div>
-                            <div class="text-sm text-gray-600 mt-2">Asal: @db($it->asal)</div>
                             <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($it->lingkungan ?? ($it->warga?->lingkungan ?? '-'))</span></div>
                             <div class="text-xs text-gray-600 mt-1">Alamat: <span class="font-medium">@db($it->alamat ?? ($it->warga?->alamat ?? '-'))</span></div>
                         </div>

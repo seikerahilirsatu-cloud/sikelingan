@@ -57,7 +57,7 @@ class PendidikanFormalController extends Controller
             'photo' => 'nullable|image',
         ]);
         if ($request->hasFile('photo')) {
-            $disk = config('filesystems.default');
+            $disk = 'public';
             $path = $request->file('photo')->storePublicly('pendidikan_formal', $disk);
             try { Storage::disk($disk)->setVisibility($path, 'public'); } catch(\Throwable $e) {}
             $data['photo_path'] = $path;
@@ -102,7 +102,7 @@ class PendidikanFormalController extends Controller
             'photo' => 'nullable|image',
         ]);
         if ($request->hasFile('photo')) {
-            $disk = config('filesystems.default');
+            $disk = 'public';
             $path = $request->file('photo')->storePublicly('pendidikan_formal', $disk);
             if (!empty($pendidikan_formal->photo_path)) { Storage::disk($disk)->delete($pendidikan_formal->photo_path); }
             try { Storage::disk($disk)->setVisibility($path, 'public'); } catch(\Throwable $e) {}
@@ -119,4 +119,3 @@ class PendidikanFormalController extends Controller
         return redirect()->route('pendidikan_formal.index')->with('success','Data pendidikan formal dihapus.');
     }
 }
-
