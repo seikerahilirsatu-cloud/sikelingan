@@ -4,7 +4,7 @@
 <div class="max-w-xl mx-auto">
   <div class="mb-3">
     <a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="text-sm text-gray-600">Kembali</a>
-    <h1 class="text-2xl font-semibold">Edit Pendidikan Formal</h1>
+    <h1 class="text-2xl font-semibold">Edit data @db($item->nama_sekolah)</h1>
   </div>
   <form action="{{ route('pendidikan_formal.update', $item) }}" method="post" enctype="multipart/form-data" class="bg-white p-4 rounded shadow space-y-3">
     @csrf @method('PUT')
@@ -120,4 +120,3 @@
   </form>
 </div>
 @endsection
-

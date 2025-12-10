@@ -27,6 +27,7 @@
         </div>
         @endif
 
+        @if(isset($is_mobile) && $is_mobile)
         <div class="flex flex-wrap gap-4">
             <a href="{{ route('kelurahan.info') }}" class="w-1/3 bg-white border border-gray-100 rounded-xl shadow-sm p-3 flex flex-col items-center justify-center gap-2 min-h-[96px] hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="mx-auto w-12 h-12 grid place-items-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow ring-1 ring-white/30">
@@ -85,51 +86,52 @@
                 <div class="mt-1 text-xs font-medium">Informasi Penting</div>
             </a>
         </div>
+        @endif
 
-        <section class="bg-white rounded-2xl shadow p-4">
+        <section class="bg-white rounded-2xl shadow p-4 md:bg-transparent md:shadow-none md:p-0 md:rounded-none md:contents">
             <div class="text-sm font-medium mb-2">Sei Kera Hilir I Dalam Angka</div>
-            <div class="space-y-3">
-            <a href="{{ route('stats.penduduk') }}#stat-penduduk" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
-                <div class="h-12 w-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                    <svg class="w-7 h-7 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm-6 8v-1a6 6 0 0112 0v1H6z"/></svg>
+            <div class="flex flex-wrap -mx-1 md:-mx-3">
+            <a href="{{ route('stats.penduduk') }}#stat-penduduk" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-amber-500 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 rounded-xl grid place-items-center bg-blue-100 md:hidden">
+                    <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm-6 8v-1a6 6 0 0112 0v1H6z"/></svg>
                 </div>
-                <div>
-                    <div class="text-sm text-gray-600">Total Penduduk</div>
-                    <div class="text-2xl font-semibold mt-1">{{ number_format($totalWarga,0,',','.') }}</div>
-                </div>
-            </a>
-            <a href="{{ route('stats.ibadah') }}#stat-ibadah" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
-                <div class="h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center">
-                    <svg class="w-7 h-7 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l4 4v3h3v10H5V10h3V7l4-4z"/></svg>
-                </div>
-                <div>
-                    <div class="text-sm text-gray-600">Rumah Ibadah</div>
-                    <div class="text-2xl font-semibold mt-1">{{ number_format($totalIbadah,0,',','.') }}</div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Total Penduduk</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalWarga,0,',','.') }}</div>
                 </div>
             </a>
-            <a href="{{ route('stats.umkm') }}#stat-umkm" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
-                <div class="h-12 w-12 rounded-xl bg-emerald-100 flex items-center justify-center">
-                    <svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16l-1 5H5L4 7zm1 5v7h14v-7"/></svg>
+            <a href="{{ route('stats.ibadah') }}#stat-ibadah" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-teal-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 rounded-xl grid place-items-center bg-purple-100 md:hidden">
+                    <svg class="w-6 h-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l4 4v3h3v10H5V10h3V7l4-4z"/></svg>
                 </div>
-                <div>
-                    <div class="text-sm text-gray-600">UMKM Terdaftar</div>
-                    <div class="text-2xl font-semibold mt-1">{{ number_format($totalUmkm,0,',','.') }}</div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Rumah Ibadah</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalIbadah,0,',','.') }}</div>
                 </div>
             </a>
-            <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
-                <div class="h-12 w-12 rounded-xl bg-amber-100 flex items-center justify-center">
-                    <svg class="w-7 h-7 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <a href="{{ route('stats.umkm') }}#stat-umkm" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-blue-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 rounded-xl grid place-items-center bg-emerald-100 md:hidden">
+                    <svg class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16l-1 5H5L4 7zm1 5v7h14v-7"/></svg>
+                </div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">UMKM Terdaftar</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalUmkm,0,',','.') }}</div>
+                </div>
+            </a>
+            <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-emerald-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 rounded-xl grid place-items-center bg-amber-100 md:hidden">
+                    <svg class="w-6 h-6 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6" />
                     </svg>
                 </div>
-                <div>
-                    <div class="text-sm text-gray-600">Sarana Pendidikan</div>
-                    <div class="text-2xl font-semibold mt-1">{{ number_format($totalFormal,0,',','.') }}</div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Sarana Pendidikan</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalFormal,0,',','.') }}</div>
                 </div>
             </a>
-            <a href="{{ route('stats.olahraga') }}#stat-olahraga" class="block bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
+            <a href="{{ route('stats.olahraga') }}#stat-olahraga" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 block rounded-2xl shadow p-4 bg-white">
                 <div class="text-sm text-gray-600">Jumlah Sarana Olahraga</div>
                 <div class="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-50 to-orange-100 text-amber-700 border border-amber-100 shadow-sm ring-1 ring-amber-100/50">
                     <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
@@ -141,7 +143,7 @@
                     <span class="text-xs font-semibold">Under Construction</span>
                 </div>
             </a>
-            <a href="{{ route('stats.pasar') }}#stat-pasar" class="block bg-white rounded-2xl shadow p-4 hover:bg-gray-50">
+            <a href="{{ route('stats.pasar') }}#stat-pasar" class="w-full md:basis-1/3 px-1 md:px-3 mb-3 md:mb-0 block rounded-2xl shadow p-4 bg-white">
                 <div class="text-sm text-gray-600">Jumlah Pasar</div>
                 <div class="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-50 to-orange-100 text-amber-700 border border-amber-100 shadow-sm ring-1 ring-amber-100/50">
                     <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
@@ -156,12 +158,13 @@
             </div>
         </section>
         
-
         
+        
+
     </section>
 
-    <footer class="mt-8 bg-gradient-to-b from-white to-indigo-50 text-gray-700">
-        <div>
+    <footer class="mt-8 text-gray-700">
+        <div class="bg-white rounded-2xl shadow md:bg-transparent md:shadow-none md:rounded-none">
             <div class="max-w-4xl mx-auto px-4 py-10 space-y-6">
                 <div class="flex items-start gap-4">
                     <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center">
@@ -177,7 +180,7 @@
                 </div>
 
                 <div class="space-y-3">
-                    <div class="flex items-center gap-3 rounded-2xl bg-white/60 p-4">
+                    <div class="flex items-center gap-3 rounded-2xl bg-white/20 p-4">
                         <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                             <svg class="w-6 h-6 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 12.414a4 4 0 10-1.414 1.414l4.243 4.243"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6a4 4 0 110 8 4 4 0 010-8z"></path></svg>
                         </div>
@@ -186,7 +189,7 @@
                             <div class="text-sm font-semibold text-gray-800">Jl. Pimpinan No. 79 Medan.</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 rounded-2xl bg-white/60 p-4">
+                    <div class="flex items-center gap-3 rounded-2xl bg-white/20 p-4">
                         <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                             <svg class="w-6 h-6 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
@@ -195,7 +198,7 @@
                             <div class="text-sm font-semibold text-gray-800">seikerahilirsatu@gmail.com</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 rounded-2xl bg-white/60 p-4">
+                    <div class="flex items-center gap-3 rounded-2xl bg-white/20 p-4">
                         <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
                             <svg class="w-6 h-6 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v5l3 3"/><circle cx="12" cy="12" r="10" stroke-width="2"/></svg>
                         </div>
@@ -239,7 +242,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-indigo-50 text-center text-indigo-700 text-sm px-4 py-6">
+            <div class="bg-indigo-50 text-center text-indigo-700 text-sm px-4 py-6 rounded-b-2xl md:rounded-none">
                 <div>© {{ date('Y') }} Kelurahan Sei Kera Hilir I. All rights reserved.</div>
                 <div class="mt-1">Dikembangkan dengan <span class="text-red-500">❤️</span> untuk melayani masyarakat</div>
             </div>

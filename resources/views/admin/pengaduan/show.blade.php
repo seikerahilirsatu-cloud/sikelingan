@@ -4,9 +4,11 @@
 <div class="py-6">
   <div class="max-w-3xl mx-auto">
     <div class="flex items-center gap-3 mb-4">
+      @if(isset($is_mobile) && $is_mobile)
       <a href="{{ route('admin.pengaduan.index') }}" class="p-2 rounded bg-gray-100" aria-label="Kembali">
         <svg class="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </a>
+      @endif
       <div>
         <div class="text-lg font-semibold">Detail Pengaduan</div>
         <div class="text-xs text-gray-600">{{ strtoupper($p->kode_tiket) }}</div>

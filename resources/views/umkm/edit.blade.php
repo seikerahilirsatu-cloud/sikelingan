@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto">
     <div class="mb-4">
         <a href="{{ route('umkm.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-        <h1 class="text-2xl font-semibold">Edit UMKM</h1>
+        <h1 class="text-2xl font-semibold">Edit data @db($item->nama_usaha)</h1>
     </div>
     <form method="post" action="{{ route('umkm.update', $item, absolute: false) }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf
@@ -84,7 +84,10 @@
             <label class="block text-sm">Foto</label>
             <input type="file" name="photo" accept="image/*" class="w-full" />
         </div>
-        <button class="w-full bg-blue-600 text-white p-2 rounded">Simpan Perubahan</button>
+        <div class="flex justify-end gap-2">
+            <a href="{{ route('umkm.index') }}" class="mr-2 px-4 py-2 border rounded">Batal</a>
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan Perubahan</button>
+        </div>
     </form>
 </div>
 @endsection

@@ -9,7 +9,7 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Edit Data Keluarga</h1>
+        <h1 class="text-2xl font-semibold">Edit Data Kartu Keluarga (@db($family->no_kk) - @db($family->nama_kep))</h1>
     </div>
     <form method="post" action="{{ route('data_keluarga.update', $family) }}" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf
@@ -48,8 +48,9 @@
                 <option value="3" {{ $family->status_keluarga==3? 'selected':'' }}>Warga Domisili Baru</option>
             </select>
         </div>
-        <div class="pt-2">
-            <button class="w-full bg-blue-600 text-white p-2 rounded-lg">Perbarui</button>
+        <div class="flex justify-end gap-2 pt-2">
+            <a href="{{ route('data_keluarga.index') }}" class="mr-2 px-4 py-2 border rounded">Batal</a>
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan Perubahan</button>
         </div>
     </form>
 </div>

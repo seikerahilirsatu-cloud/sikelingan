@@ -9,7 +9,7 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Edit Data Warga</h1>
+        <h1 class="text-2xl font-semibold">Edit Data Warga (@db($resident->nik) - @db($resident->nama_lgkp))</h1>
     </div>
     <form method="post" action="{{ route('biodata_warga.update', $resident) }}" class="bg-white shadow-md rounded-lg p-6 space-y-6">
         @csrf
@@ -122,9 +122,9 @@
             </select>
         </div>
 
-        <div class="flex gap-2">
-            <a href="{{ route('biodata_warga.index') }}" class="flex-1 text-center py-2 border border-gray-300 rounded-lg">Batal</a>
-            <button class="flex-1 py-2 bg-indigo-600 text-white rounded-lg">Perbarui Warga</button>
+        <div class="flex justify-end gap-2">
+            <a href="{{ route('biodata_warga.index') }}" class="mr-2 px-4 py-2 border rounded">Batal</a>
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan Perubahan</button>
         </div>
     </form>
 </div>

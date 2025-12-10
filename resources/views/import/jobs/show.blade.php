@@ -11,6 +11,8 @@
         <pre class="text-xs bg-gray-50 p-2 rounded">{{ json_encode($job->errors, JSON_PRETTY_PRINT) }}</pre>
         <div class="mt-3"><a href="{{ route('import.jobs.download', $job->id) }}" class="inline-block bg-blue-600 text-white px-3 py-1 rounded">Download Errors</a></div>
     </div>
+    @if(isset($is_mobile) && $is_mobile)
     <div class="mt-3"><a href="{{ route('import.jobs.index') }}" class="text-sm text-gray-600">Back</a></div>
+    @endif
 </div>
 @endsection

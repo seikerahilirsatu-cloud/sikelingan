@@ -1,14 +1,12 @@
 @extends(isset($is_mobile) ? ($is_mobile ? 'layouts.mobile' : 'layouts.desktop') : 'layouts.mobile')
 
+@section('page_title','Daftar UMKM')
 @section('content')
-<div class="max-w-3xl mx-auto">
-    <div class="mb-4">
-        <a href="{{ route('dashboard', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-        <h1 class="text-2xl font-semibold">Daftar UMKM</h1>
-    </div>
+<div class="{{ (isset($is_mobile) && $is_mobile) ? 'max-w-3xl mx-auto' : 'container-fluid px-0' }}">
+    <div class="mb-4"></div>
 
     <div class="flex items-center gap-3 mb-4">
-        <form id="searchForm" class="flex-1" action="{{ route('umkm.index', absolute: false) }}" method="get">
+        <form id="searchForm" class="flex-1" action="{{ route('umkm.index') }}" method="get">
             <div class="relative">
                 <input id="searchInput" name="q" value="{{ $q ?? '' }}" placeholder="Cari nama usaha atau jenis" class="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-300 shadow-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/40 focus:border-indigo-300" />
                 <span class="absolute left-3 top-2.5">
@@ -31,42 +29,76 @@
           });
         })();
         </script>
-        <a href="{{ route('umkm.create', absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300/50" role="button">Tambah</a>
+        <a href="{{ route('umkm.create') }}" data-modal="true" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300/50" role="button">Tambah</a>
     </div>
 
-    @if($items->count() === 0)
+  @if($items->count() === 0)
         <div class="text-center text-gray-600 py-8">Data UMKM belum ada</div>
     @else
-        <div class="grid grid-cols-1 gap-3">
-            @foreach($items as $p)
-                <article class="bg-white p-4 rounded-lg shadow-sm">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            @if(!empty($p->photo_path))
-                                <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-umkm.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
-                            @else
-                                <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
-                            @endif
-                            <div class="text-sm text-gray-500">Jenis: <span class="font-medium">@db($p->jenis)</span></div>
-                            <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama_usaha)</a>
-                            <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
-                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-')</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
-                            
+        @if(isset($is_mobile) && $is_mobile)
+            <div class="grid grid-cols-1 gap-3">
+                @foreach($items as $p)
+                    <article class="bg-white p-4 rounded-lg shadow-sm">
+                        <div class="flex items-start justify_between">
+                            <div>
+                                @if(!empty($p->photo_path))
+                                    <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-umkm.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+                                @else
+                                    <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
+                                @endif
+                                <div class="text-sm text-gray-500">Jenis: <span class="font_medium">@db($p->jenis)</span></div>
+                                <a href="{{ route('umkm.show', $p) }}" class="block mt-1 text-lg font-semibold text_gray-800">@db($p->nama_usaha)</a>
+                                <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                                <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-') </span></div>
+                                <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
+                            </div>
+                            <div class="text-right">
+                                <a href="{{ route('umkm.edit', $p) }}" data-modal="true" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
+                                <form action="{{ route('umkm.destroy', $p) }}" method="post" class="mt-2">
+                                    @csrf @method('DELETE')
+                                    <button class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-md text-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <a href="{{ route('umkm.edit', $p) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
-                            <form action="{{ route('umkm.destroy', $p) }}" method="post" class="mt-2">
-                                @csrf @method('DELETE')
-                                <button class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-md text-sm" onclick="return confirm('Hapus data ini?')">Hapus</button>
-                            </form>
-                        </div>
-                    </div>
-                </article>
-            @endforeach
-        </div>
-
-        <div class="mt-4">{{ $items->withQueryString()->links() }}</div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+        <div class="table-responsive">
+            <table class="table table-modern table-hover col-address-3 col-status-5 col-actions-last center-data-4">
+                    <thead>
+                        <tr>
+                            <th>Nama Usaha</th>
+                            <th>Jenis</th>
+                            <th>Alamat</th>
+                            <th>Lingkungan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($items as $p)
+                        <tr>
+                            <td>@db($p->nama_usaha)</td>
+                            <td>@db($p->jenis)</td>
+                            <td>@db($p->alamat)</td>
+                            <td>@db($p->lingkungan ?? '-') </td>
+                            <td>@db($p->status_operasional)</td>
+                            <td>
+                                <a href="{{ route('umkm.show', $p) }}" data-modal="true" class="btn btn-sm btn-primary">Detail</a>
+                                <a href="{{ route('umkm.edit', $p) }}" data-modal="true" class="btn btn-sm btn-warning text-white">Edit</a>
+                                <form action="{{ route('umkm.destroy', $p) }}" method="post" class="d-inline">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3">{{ $items->withQueryString()->links() }}</div>
+        @endif
     @endif
 </div>
 @endsection

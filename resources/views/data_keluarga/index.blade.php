@@ -1,15 +1,10 @@
 @extends(isset($is_mobile) ? ($is_mobile ? 'layouts.mobile' : 'layouts.desktop') : 'layouts.mobile')
 
+@section('page_title','Daftar Kartu Keluarga')
 @section('content')
-<div class="max-w-3xl mx-auto">
+<div class="{{ (isset($is_mobile) && $is_mobile) ? 'max-w-3xl mx-auto' : 'container-fluid px-0' }}">
     <div class="mb-4">
-        <a href="{{ url('/dashboard') }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Kembali
-        </a>
-        <h1 class="text-2xl font-semibold">Daftar Kartu Keluarga</h1>
+        
     </div>
 
     <div class="flex items-center gap-3 mb-4">
@@ -36,35 +31,76 @@
           });
         })();
         </script>
-        <a href="{{ route('data_keluarga.create', absolute: false) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300/50" role="button" aria-label="Tambah keluarga">Tambah</a>
+        <a href="{{ route('data_keluarga.create', absolute: false) }}" data-modal="true" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-300/50" role="button" aria-label="Tambah keluarga">Tambah</a>
     </div>
 
-    <ul class="space-y-3">
-        @foreach($families as $f)
-            <li class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <div class="text-sm text-gray-500">KK: <span class="font-medium">@db($f->no_kk)</span></div>
-                        <a href="{{ route('data_keluarga.show', $f) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($f->nama_kep)</a>
-                        <div class="text-xs text-gray-600 mt-2">@db(Str::limit($f->alamat,60))</div>
-                        <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($f->lingkungan)</span></div>
-                        @if ($f->status_keluarga==1)
-                            <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili</span></div>
-                        @elseif ($f->status_keluarga==2)
-                            <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Luar Domisili</span></div>
-                        @else
-                            <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili Baru</span></div>
-                        @endif
-                        <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $f->created_at }}</span></div>
-                    </div>
-
-                        <div class="text-right">
-                            <a href="{{ route('data_keluarga.edit', $f) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
+    @if(isset($is_mobile) && $is_mobile)
+        <ul class="space-y-3">
+            @foreach($families as $f)
+                <li class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">KK: <span class="font-medium">@db($f->no_kk)</span></div>
+                            <a href="{{ route('data_keluarga.show', $f) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($f->nama_kep)</a>
+                            <div class="text-xs text-gray-600 mt-2">@db(Str::limit($f->alamat,60))</div>
+                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($f->lingkungan)</span></div>
+                            @if ($f->status_keluarga==1)
+                                <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili</span></div>
+                            @elseif ($f->status_keluarga==2)
+                                <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Luar Domisili</span></div>
+                            @else
+                                <div class="text-xs text-gray-600 mt-1">Status: <span class="font-medium">Warga Domisili Baru</span></div>
+                            @endif
+                            <div class="text-xs text-gray-600 mt-1">Tgl Entri: <span class="font-medium">{{ $f->created_at }}</span></div>
                         </div>
-                </div>
-            </li>
-        @endforeach
-    </ul>
+                        <div class="text-right">
+                            <a href="{{ route('data_keluarga.edit', $f) }}" data-modal="true" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
+                        </div>
+                    </div>
+                </li>
+            @endforeach
+        </ul>
+    @else
+        <div class="table-responsive">
+            <table class="table table-modern table-hover col-address-3 col-status-5 col-date-6 col-actions-last center-data-4">
+                <thead>
+                    <tr>
+                        <th>KK</th>
+                        <th>Nama Kepala Keluarga</th>
+                        <th>Alamat</th>
+                        <th>Lingkungan</th>
+                        <th>Status</th>
+                        <th>Tgl Entri</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($families as $f)
+                        <tr>
+                            <td>@db($f->no_kk)</td>
+                            <td>@db($f->nama_kep)</td>
+                            <td>@db(Str::limit($f->alamat, 60))</td>
+                            <td>@db($f->lingkungan)</td>
+                            <td>
+                                @if ($f->status_keluarga==1)
+                                    Warga Domisili
+                                @elseif ($f->status_keluarga==2)
+                                    Warga Luar Domisili
+                                @else
+                                    Warga Domisili Baru
+                                @endif
+                            </td>
+                            <td>{{ $f->created_at }}</td>
+                            <td>
+                                <a href="{{ route('data_keluarga.show', $f) }}" data-modal="true" class="btn btn-sm btn-primary">Detail</a>
+                                <a href="{{ route('data_keluarga.edit', $f) }}" data-modal="true" class="btn btn-sm btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
 
     <div class="mt-4">{{ $families->withQueryString()->links() }}</div>
 </div>

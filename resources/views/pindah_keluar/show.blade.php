@@ -3,7 +3,9 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
   <div class="mb-4">
+    @if(isset($is_mobile) && $is_mobile)
     <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
+    @endif
     <h1 class="text-2xl font-semibold">Detail Pindah Keluar</h1>
   </div>
 
@@ -22,8 +24,11 @@
       <div><div class="text-gray-600">Dibuat</div><div class="font-medium">{{ $item->created_at }}</div></div>
       <div><div class="text-gray-600">Diperbarui</div><div class="font-medium">{{ $item->updated_at }}</div></div>
     </div>
-    <div class="mt-4">
-      <a href="{{ route('pindah_keluar.edit', $item) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
+    <div class="mt-4 flex gap-2">
+      @if(isset($is_mobile) && $is_mobile)
+      <a href="{{ route('pindah_keluar.index') }}" class="px-3 py-2 border rounded">Kembali</a>
+      @endif
+      <a href="{{ route('pindah_keluar.edit', $item) }}" data-modal="true" class="px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
     </div>
   </div>
 </div>

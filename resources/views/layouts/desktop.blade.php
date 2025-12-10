@@ -10,133 +10,317 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
-</head>
-<body class="bg-gradient-to-br from-indigo-200 via-sky-200 to-cyan-200 text-gray-800">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <style>
+    .main-sidebar .nav-sidebar .nav-link{color:#cbd5e1;border-radius:12px;margin:4px 12px}
+    .main-sidebar .nav-sidebar .nav-link .nav-icon{color:#cbd5e1;margin-right:8px}
+    .main-sidebar .nav-sidebar .nav-link:hover{background:rgba(255,255,255,.06);color:#e5e7eb}
+    .main-sidebar .nav-sidebar .nav-link.active{background-image:linear-gradient(135deg,#6366F1,#3B82F6);color:#fff;box-shadow:0 6px 16px rgba(59,130,246,.35)}
+    .main-sidebar .nav-sidebar .nav-link.active .nav-icon{color:#fff}
+    .main-sidebar .nav-header{font-size:.75rem;letter-spacing:.08em;color:#9ca3af;padding:.75rem 1rem;margin-top:.5rem}
+    .brand-link,.brand-link .brand-text{color:#e5e7eb}
+
+    /* Table styles to match reference */
+    .table{border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.06);background:#fff;width:100%}
+    .table thead th{background:#F9FAFB;color:#6B7280;font-weight:600;text-transform:uppercase;font-size:.8rem;padding:12px 16px;border-bottom:1px solid #E5E7EB;text-align:left}
+    .table tbody td{font-size:.9rem;color:#1F2937;padding:14px 16px;vertical-align:middle;border-top:1px solid #EEF2F7}
+    .table tbody tr:first-child td{border-top:none}
+    .table td:first-child{font-weight:400;color:#111827}
+    .table-hover tbody tr:hover{background:#F8FAFC}
+    /* common column widths to avoid hidden columns */
+    .table th,.table td{white-space:nowrap}
+    .table .col-actions{width:220px}
+    .table .col-status{width:140px}
+    .table .col-date{width:160px}
+    .table .col-address{min-width:360px;white-space:normal}
+
+    /* Status pill */
+    .status-badge{display:inline-block;padding:6px 12px;border-radius:9999px;font-size:.8rem;font-weight:600}
+    .status-badge.status-active{background:#D1FAE5;color:#047857}
+    .status-badge.status-danger{background:#FEE2E2;color:#B91C1C}
+    .status-badge.status-warning{background:#FEF3C7;color:#92400E}
+
+    /* Action buttons (Bootstrap) */
+    .table .btn{border:none;border-radius:8px;padding:6px 12px;font-weight:600;font-size:.8rem}
+    .table .btn-primary{background:#2563EB}
+    .table .btn-warning{background:#F59E0B;color:#111827}
+    .table .btn-danger{background:#EF4444}
+
+    /* column helpers by index */
+    .table.col-actions-last th:last-child,.table.col-actions-last td:last-child{width:140px}
+    .table.col-date-3 th:nth-child(3),.table.col-date-3 td:nth-child(3){width:160px}
+    .table.col-date-6 th:nth-child(6),.table.col-date-6 td:nth-child(6){width:160px}
+    .table.col-status-5 th:nth-child(5),.table.col-status-5 td:nth-child(5){width:140px}
+    .table.col-address-3 th:nth-child(3),.table.col-address-3 td:nth-child(3){min-width:360px;white-space:normal}
+    .table.col-address-5 th:nth-child(5),.table.col-address-5 td:nth-child(5){min-width:360px;white-space:normal}
+    .table.col-address-6 th:nth-child(6),.table.col-address-6 td:nth-child(6){min-width:360px;white-space:normal}
+
+    .content-wrapper .container-fluid.px-0{padding-left:30px!important;padding-right:30px!important}
+    .content-header{padding-top:8px;padding-bottom:8px;margin-bottom:8px}
+    .content-wrapper .content{padding-top:8px}
     
-    <div class="min-h-screen max-w-7xl mx-auto grid grid-cols-12 gap-6">
-        <aside class="col-span-3 hidden lg:block bg-white border-r p-4 min-h-screen sticky top-0">
-            <h2 class="text-lg font-semibold mb-4">{{ config('app.name','Kelurahan') }}</h2>
-            <nav class="space-y-2 text-sm">
-                <a href="{{ route('dashboard', absolute: false) }}" class="inline-flex items-center gap-2 text-blue-600">
-                    <svg class="h-4 w-4 text-blue-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" /></svg>
-                    <span>Dashboard</span>
-                </a>
-                <details class="group">
-                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
-                        <span class="flex items-center gap-2 font-medium">
-                            <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke-width="2"/><path stroke-width="2" d="M6 19v-1a6 6 0 0112 0v1"/></svg>
-                            <span>Data Kependudukan</span>
-                        </span>
-                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
-                    </summary>
-                    <div class="mt-2 ms-4 space-y-1">
-                        <a href="{{ route('data_keluarga.index', absolute: false) }}" class="block">Kartu Keluarga</a>
-                        <a href="{{ route('biodata_warga.index', absolute: false) }}" class="block">Data Individu</a>
-                        <a href="{{ route('pindah_keluar.index') }}" class="block">Pindah Keluar</a>
-                        <a href="{{ route('pindah_masuk.index') }}" class="block">Pindah Masuk</a>
-                        <a href="{{ route('warga_meninggal.index') }}" class="block">Data Kematian</a>
-                        @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
-                            <a href="{{ route('stats.mutasi', absolute: false) }}" class="block">Laporan Mutasi Penduduk</a>
-                        @endif
-                    </div>
-                </details>
-                <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="inline-flex items-center gap-2">
-                    <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 5v7a5 5 0 11-10 0V7l3-5z" /></svg>
-                    <span>Rumah Ibadah</span>
-                </a>
-                <details class="group">
-                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
-                        <span class="flex items-center gap-2 font-medium">
-                            <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6" /></svg>
-                            <span>Sarana Pendidikan</span>
-                        </span>
-                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
-                    </summary>
-                    <div class="mt-2 ms-4 space-y-1">
-                        <a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="block">Formal</a>
-                        <a href="{{ route('pendidikan_non_formal.index', absolute: false) }}" class="block">Non-Formal</a>
-                    </div>
-                </details>
-                <a href="{{ route('umkm.index', absolute: false) }}" class="inline-flex items-center gap-2">
-                    <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 11h16M6 15h12v2a2 2 0 01-2 2H8a2 2 0 01-2-2v-2z" /></svg>
-                    <span>UMKM</span>
-                </a>
-                <a href="{{ route('kelurahan.info', absolute: false) }}" class="inline-flex items-center gap-2">
-                    <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8h.01M11 12h2v4h-2z"/></svg>
-                    <span>Info Kelurahan</span>
-                </a>
-                <details class="group">
-                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
-                        <span class="flex items-center gap-2 font-medium">
-                            <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
-                            <span>Pengaduan Warga</span>
-                        </span>
-                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
-                    </summary>
-                    <div class="mt-2 ms-4 space-y-1">
-                        <a href="{{ route('pengaduan.create', absolute: false) }}" class="block">Ajukan Pengaduan</a>
-                        <a href="{{ route('pengaduan.cek', absolute: false) }}" class="block">Cek Status Pengaduan</a>
+    /* center data helpers by index */
+    .table.center-data-4 th:nth-child(4),.table.center-data-4 td:nth-child(4){text-align:center}
+    .table.center-data-5 th:nth-child(5),.table.center-data-5 td:nth-child(5){text-align:center}
+    .modal-iframe{width:100%;height:80vh;border:0}
+    /* hide modal title text in desktop */
+    .modal .modal-header .modal-title{display:none}
+    /* hide chrome when inside modal */
+    body.is-modal .main-header,
+    body.is-modal .main-sidebar,
+    body.is-modal .main-footer{display:none!important}
+    body.is-modal .content-wrapper{margin-left:0!important;background:#fff}
+    </style>
+    <style>
+    .main-sidebar .nav-sidebar .nav-link{color:#cbd5e1;border-radius:12px;margin:4px 12px}
+    .main-sidebar .nav-sidebar .nav-link .nav-icon{color:#cbd5e1;margin-right:8px}
+    .main-sidebar .nav-sidebar .nav-link:hover{background:rgba(255,255,255,.06);color:#e5e7eb}
+    .main-sidebar .nav-sidebar .nav-link.active{background-image:linear-gradient(135deg,#6366F1,#3B82F6);color:#fff;box-shadow:0 6px 16px rgba(59,130,246,.35)}
+    .main-sidebar .nav-sidebar .nav-link.active .nav-icon{color:#fff}
+    .main-sidebar .nav-header{font-size:.75rem;letter-spacing:.08em;color:#9ca3af;padding:.75rem 1rem;margin-top:.5rem}
+    .brand-link,.brand-link .brand-text{color:#e5e7eb}
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+    
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-light" style="background:#ffffff; box-shadow:0 1px 6px rgba(0,0,0,.08); border-bottom:none;">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <span class="nav-link" style="font-weight:600;font-size:1.125rem;color:#111827;">@yield('page_title')</span>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                @auth
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-link nav-link">Logout</button>
+                    </form>
+                </li>
+                @endauth
+                @guest
+                <li class="nav-item">
+                    <a href="{{ route('login') }}" class="nav-link">Login</a>
+                </li>
+                @endguest
+            </ul>
+        </nav>
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-image: linear-gradient(180deg, #0F172A 0%, #111827 50%, #1F2937 100%);">
+            <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center" style="background: transparent; border-bottom: none;">
+                @php
+                    $logo = null;
+                    foreach (['images/kelurahan-logo.png','images/kelurahan-logo.svg','images/logo-kelurahan.png','images/logo.png'] as $p) {
+                        if (file_exists(public_path($p))) { $logo = asset($p); break; }
+                    }
+                @endphp
+                @if($logo)
+                    <img src="{{ $logo }}" alt="Logo Kelurahan" class="brand-image img-circle elevation-3" style="opacity:.8">
+                @else
+                    <span class="brand-image img-circle elevation-3 bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:33px;height:33px;font-weight:bold">Si</span>
+                @endif
+                <span class="brand-text font-weight-bold ml-2">SIKELINGAN</span>
+            </a>
+            <div class="px-3 pb-2 text-xs" style="color:#ffffff">Sistem Informasi Kelurahan Lingkungan</div>
+            <div class="sidebar" style="background: transparent;">
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a href="{{ route('dashboard', absolute: false) }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('kelurahan.info', absolute: false) }}" class="nav-link {{ request()->routeIs('kelurahan.info') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-info-circle"></i>
+                                <p>Info Kelurahan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Data Kependudukan<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="{{ route('data_keluarga.index', absolute: false) }}" class="nav-link"><p>Kartu Keluarga</p></a></li>
+                                <li class="nav-item"><a href="{{ route('biodata_warga.index', absolute: false) }}" class="nav-link"><p>Data Individu</p></a></li>
+                                <li class="nav-item"><a href="{{ route('pindah_keluar.index') }}" class="nav-link"><p>Pindah Keluar</p></a></li>
+                                <li class="nav-item"><a href="{{ route('pindah_masuk.index') }}" class="nav-link"><p>Pindah Masuk</p></a></li>
+                                <li class="nav-item"><a href="{{ route('warga_meninggal.index') }}" class="nav-link"><p>Data Kematian</p></a></li>
+                                @if(auth()->check() && in_array(auth()->user()->role ?? null, ['admin','staff']))
+                                <li class="nav-item"><a href="{{ route('stats.mutasi', absolute: false) }}" class="nav-link"><p>Laporan Mutasi Penduduk</p></a></li>
+                                @endif
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="nav-link {{ request()->routeIs('rumah_ibadah.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-place-of-worship"></i>
+                                <p>Rumah Ibadah</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-school"></i>
+                                <p>Sarana Pendidikan<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="nav-link {{ request()->routeIs('pendidikan_formal.*') ? 'active' : '' }}"><p>Formal</p></a></li>
+                                <li class="nav-item"><a href="{{ route('pendidikan_non_formal.index', absolute: false) }}" class="nav-link {{ request()->routeIs('pendidikan_non_formal.*') ? 'active' : '' }}"><p>Non-Formal</p></a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('umkm.index', absolute: false) }}" class="nav-link {{ request()->routeIs('umkm.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>UMKM</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i>
+                                <p>Pengaduan Warga<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="{{ route('pengaduan.create', absolute: false) }}" class="nav-link {{ request()->routeIs('pengaduan.create') ? 'active' : '' }}"><p>Ajukan Pengaduan</p></a></li>
+                                <li class="nav-item"><a href="{{ route('pengaduan.cek', absolute: false) }}" class="nav-link {{ request()->routeIs('pengaduan.cek') ? 'active' : '' }}"><p>Cek Status Pengaduan</p></a></li>
+                                @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
+                                @if($canAdminOps)
+                                <li class="nav-item"><a href="{{ route('admin.pengaduan.index', absolute: false) }}" class="nav-link {{ request()->routeIs('admin.pengaduan.*') ? 'active' : '' }}"><p>Admin Pengaduan</p></a></li>
+                                @endif
+                            </ul>
+                        </li>
                         @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
                         @if($canAdminOps)
-                            <a href="{{ route('admin.pengaduan.index', absolute: false) }}" class="block">Admin Pengaduan</a>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-exchange-alt"></i>
+                                <p>Export/Import Data<i class="right fas fa-angle-left"></i></p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item"><a href="{{ route('export.index', absolute: false) }}" class="nav-link {{ request()->routeIs('export.index') ? 'active' : '' }}"><p>Export</p></a></li>
+                                <li class="nav-item"><a href="{{ route('import.form', absolute: false) }}" class="nav-link {{ request()->routeIs('import.form') ? 'active' : '' }}"><p>Import</p></a></li>
+                            </ul>
+                        </li>
                         @endif
-                    </div>
-                </details>
-                @php $role = auth()->user()->role ?? null; $canAdminOps = in_array($role, ['admin','staff']); @endphp
-                @if($canAdminOps)
-                <details class="group">
-                    <summary class="flex items-center justify-between cursor-pointer px-2 py-1 rounded hover:bg-gray-50">
-                        <span class="flex items-center gap-2 font-medium">
-                            <svg class="h-4 w-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l4-4m-4 4-4-4M21 21H3" /></svg>
-                            <span>Export/Import Data</span>
-                        </span>
-                        <svg class="h-4 w-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.25 8.29a.75.75 0 01-.02-1.08z" clip-rule="evenodd"/></svg>
-                    </summary>
-                    <div class="mt-2 ms-4 space-y-1">
-                        <a href="{{ route('export.index', absolute: false) }}" class="block">Export</a>
-                        <a href="{{ route('import.form', absolute: false) }}" class="block">Import</a>
-                    </div>
-                </details>
-                @endif
-                @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
-               
-                    <a href="{{ route('admin.users.index', absolute: false) }}" class="block">Manajemen Pengguna</a>
-               
-                @endif
-                @auth
-                    <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                        @csrf
-                        <button type="submit" class="block text-red-600 hover:text-red-800">Logout</button>
-                    </form>
-                @endauth
-               
-            </nav>
+                        @if(auth()->check() && method_exists(auth()->user(),'isAdmin') && auth()->user()->isAdmin())
+                        <li class="nav-item">
+                            <a href="{{ route('admin.users.index', absolute: false) }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-users-cog"></i>
+                                <p>Manajemen Pengguna</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
         </aside>
 
-        <main class="col-span-12 lg:col-span-9 p-6">
-            <header class="mb-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <a href="{{ route('dashboard', absolute: false) }}">
-                            <x-application-logo class="h-8" />
-                        </a>
-                        
+        <div class="content-wrapper" style="background-image: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);">
+            <section class="content-header">
+                <div class="container-fluid">
+                    @if(session('success'))
+                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    @endif
                 </div>
-                <a href="{{ route('dashboard', absolute: false) }}" class="text-sm text-blue-600" aria-label="Dashboard">
-                    <svg class="h-6 w-6 text-blue-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z" />
-                    </svg>
-                        <span class="sr-only">Dashboard</span>
-                    </a>
+            </section>
+            <section class="content">
+                <div class="container-fluid">
+                    @yield('content')
                 </div>
-            </header>
-
-            @if(session('success'))
-                <div class="mb-3 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
-            @endif
-
-            @yield('content')
-        </main>
+            </section>
+        </div>
+        <footer class="main-footer" style="background:#ffffff; box-shadow:0 -1px 6px rgba(0,0,0,.06); border-top:none; color:#1F2937;">
+            <div class="float-right d-none d-sm-inline">{{ config('app.name','Kelurahan') }}</div>
+            <strong>&copy; {{ now()->year }}.</strong>
+        </footer>
+        <div class="modal fade" id="globalModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="globalModalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body" id="globalModalContent"></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <script>
+    $(function(){
+        var $modal = $('#globalModal');
+        var $content = $('#globalModalContent');
+        var $title = $('#globalModalTitle');
+
+        function extractContent(html){
+            var $tmp = $('<div>').html(html);
+            var $sel = $tmp.find('section.content .container-fluid');
+            if(!$sel.length){
+                $sel = $tmp.find('section.content');
+            }
+            if(!$sel.length){
+                $sel = $tmp.find('body');
+            }
+            return $sel.html() || html;
+        }
+
+        $(document).on('click','a[data-modal=true]',function(e){
+            e.preventDefault();
+            var raw = $(this).attr('href');
+            var t = $(this).data('title') || $(this).text().trim();
+            $title.text(t);
+            try {
+              var url = new URL(raw, window.location.origin);
+              url.searchParams.set('modal','1');
+              raw = url.toString();
+            } catch (err) {}
+            $content.html('<div class="p-4 text-center text-gray-600">Memuat...</div>');
+            $.ajax({url: raw, method: 'GET', dataType: 'html'}).done(function(res){
+                $content.html(extractContent(res));
+                $modal.modal('show');
+            }).fail(function(){
+                $content.html('<div class="p-4 text-center text-red-600">Gagal memuat konten</div>');
+                $modal.modal('show');
+            });
+        });
+
+        $(document).on('submit','#globalModalContent form', function(e){
+            e.preventDefault();
+            var $form = $(this);
+            var action = $form.attr('action');
+            var method = ($form.attr('method') || 'POST').toUpperCase();
+            var data = new FormData(this);
+            $content.addClass('position-relative').append('<div class="position-absolute w-100 h-100" style="left:0;top:0;background:rgba(255,255,255,.6)"></div>');
+            $.ajax({
+                url: action,
+                method: method,
+                data: data,
+                processData: false,
+                contentType: false,
+                dataType: 'html'
+            }).done(function(res, status, xhr){
+                var finalUrl = (xhr && xhr.responseURL) ? xhr.responseURL : '';
+                var redirected = finalUrl && finalUrl !== action;
+                var hasSuccess = /alert\s+alert\-success|class=\"alert alert\-success\"/i.test(res);
+                var hasPostForm = /<form[^>]*method=["']post["']/i.test(res);
+                if (redirected || hasSuccess || !hasPostForm) {
+                    $modal.modal('hide');
+                    try { window.location.reload(); } catch(e) {}
+                    return;
+                }
+                $content.html(extractContent(res));
+            }).fail(function(xhr){
+                var res = xhr.responseText || '<div class="p-4 text-center text-red-600">Gagal mengirim data</div>';
+                $content.html(extractContent(res));
+            });
+        });
+    });
+    </script>
 </body>
 </html>

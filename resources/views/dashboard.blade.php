@@ -1,8 +1,8 @@
 @extends(isset($is_mobile) ? ($is_mobile ? 'layouts.mobile' : 'layouts.desktop') : 'layouts.mobile')
 
+@section('page_title','Dashboard')
 @section('content')
 <div class="py-6">
-    <h2 class="font-semibold text-xl text-gray-800">{{ __('Dashboard') }}</h2>
     @php
         $user = auth()->user();
         $isHead = $user && method_exists($user,'isKepalaLingkungan') && $user->isKepalaLingkungan();
@@ -50,61 +50,63 @@
         $statusDataChart = $statusByFlag->pluck('total')->toArray();
     @endphp
 
-    <div class="mt-4 grid grid-cols-1 gap-3">
-        <div class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm-6 8v-1a6 6 0 0112 0v1H6z"/></svg>
-            </div>
-            <div>
-                <div class="text-sm text-gray-600">Total Penduduk</div>
-                <div class="text-2xl font-semibold mt-1">{{ number_format($totalWarga,0,',','.') }}</div>
-            </div>
-        </div>
-        <div class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l4 4v3h3v10H5V10h3V7l4-4z"/></svg>
-            </div>
-            <div>
-                <div class="text-sm text-gray-600">Rumah Ibadah</div>
-                <div class="text-2xl font-semibold mt-1">{{ number_format($totalIbadah,0,',','.') }}</div>
+    @php $baruCount = \App\Models\Pengaduan::where('status','baru')->count(); @endphp
+    @if($baruCount > 0)
+        <div class="rounded-2xl shadow p-3" style="background:#fee2e2;border:1px solid #fecaca;color:#7f1d1d">
+            <div class="flex items-center gap-2">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="3" stroke-width="2"/><path d="M12 8v4" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="13.5" r="1.2" fill="currentColor"/></svg>
+                <span class="text-sm font-medium">Ada {{ $baruCount }} pengaduan baru belum diproses</span>
+                <a href="{{ route('pengaduan.baru', absolute: false) }}" class="underline font-semibold" style="color:#7f1d1d">Lihat</a>
             </div>
         </div>
-        <div class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-emerald-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16l-1 5H5L4 7zm1 5v7h14v-7"/></svg>
-            </div>
-            <div>
-                <div class="text-sm text-gray-600">UMKM Terdaftar</div>
-                <div class="text-2xl font-semibold mt-1">{{ number_format($totalUmkm,0,',','.') }}</div>
+    @endif
+
+    <div class="mt-4 flex flex-wrap -mx-1">
+        <div class="w-full md:w-1/3 px-1 mb-3 md:mb-0">
+            <div class="flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-amber-500 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 md:hidden rounded-xl grid place-items-center bg-blue-100">
+                    <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm-6 8v-1a6 6 0 0112 0v1H6z"/></svg>
+                </div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Total Penduduk</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalWarga,0,',','.') }}</div>
+                </div>
             </div>
         </div>
-        <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-amber-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6"/></svg>
+        <div class="w-full md:w-1/3 px-1 mb-3 md:mb-0">
+            <div class="flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-teal-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 md:hidden rounded-xl grid place-items-center bg-purple-100">
+                    <svg class="w-6 h-6 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l4 4v3h3v10H5V10h3V7l4-4z"/></svg>
+                </div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Rumah Ibadah</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalIbadah,0,',','.') }}</div>
+                </div>
             </div>
-            <div>
-                <div class="text-sm text-gray-600">Sarana Pendidikan</div>
-                <div class="text-2xl font-semibold mt-1">{{ number_format($totalFormal,0,',','.') }}</div>
+        </div>
+        <div class="w-full md:w-1/3 px-1 mb-3 md:mb-0">
+            <div class="flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-blue-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 md:hidden rounded-xl grid place-items-center bg-emerald-100">
+                    <svg class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16l-1 5H5L4 7zm1 5v7h14v-7"/></svg>
+                </div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">UMKM Terdaftar</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalUmkm,0,',','.') }}</div>
+                </div>
             </div>
-        </a>
-        <a href="{{ route('pengaduan.create', absolute: false) }}" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-red-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 4h.01M5.07 19h13.86A2 2 0 0021 17.07V6.93A2 2 0 0018.93 5H5.07A2 2 0 003 6.93v10.14A2 2 0 005.07 19z"/></svg>
-            </div>
-            <div>
-                <div class="text-sm text-gray-600">Layanan Publik</div>
-                <div class="text-2xl font-semibold mt-1">Ajukan Pengaduan</div>
-            </div>
-        </a>
-        <a href="{{ route('pengaduan.cek', absolute: false) }}" class="flex items-center gap-3 bg-white rounded-2xl shadow p-4">
-            <div class="h-12 w-12 rounded-xl bg-indigo-100 flex items-center justify-center">
-                <svg class="w-7 h-7 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-            </div>
-            <div>
-                <div class="text-sm text-gray-600">Layanan Publik</div>
-                <div class="text-2xl font-semibold mt-1">Cek Status Pengaduan</div>
-            </div>
-        </a>
+        </div>
+        <div class="w-full md:w-1/3 px-1 mb-3 md:mb-0">
+            <a href="{{ route('stats.pendidikan') }}#stat-pendidikan" class="flex flex-row-reverse items-center md:flex-col md:items-start md:justify-center gap-3 md:gap-0 rounded-2xl shadow px-6 py-5 md:px-4 md:py-4 bg-emerald-600 text-white border-0 min-h-[96px]">
+                <div class="h-10 w-10 md:h-12 md:w-12 md:hidden rounded-xl grid place-items-center bg-amber-100">
+                    <svg class="w-6 h-6 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l9 5-9 5L3 8l9-5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13v6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10v6a5 5 0 0010 0v-6"/></svg>
+                </div>
+                <div class="flex-1 md:space-y-1">
+                    <div class="text-sm text-white/90">Sarana Pendidikan</div>
+                    <div class="text-3xl md:text-4xl font-semibold text-white">{{ number_format($totalFormal,0,',','.') }}</div>
+                </div>
+            </a>
+        </div>
+        
     </div>
 
     <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">

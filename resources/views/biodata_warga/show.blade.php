@@ -1,36 +1,44 @@
 @extends(isset($is_mobile) ? ($is_mobile ? 'layouts.mobile' : 'layouts.desktop') : 'layouts.mobile')
 
 @section('content')
-<div class="space-y-3">
-    <div class="bg-white p-4 rounded">
-        <h2 class="text-lg font-semibold text-gray-800 mb-2">Detail Warga</h2>
-        <div class="grid grid-cols-1 gap-2 text-sm text-gray-700">
-            <div><span class="text-gray-500">ID:</span> <span class="font-medium">@db($resident->id)</span></div>
-            <div><span class="text-gray-500">Family ID:</span> <span class="font-medium">@db($resident->family_id)</span></div>
-            <div><span class="text-gray-500">No. KK:</span> <span class="font-medium">@db($resident->no_kk)</span></div>
-            <div><span class="text-gray-500">Lingkungan:</span> <span class="font-medium">@db($resident->lingkungan ?? ($resident->family?->lingkungan ?? ''))</span></div>
-            <div><span class="text-gray-500">Alamat:</span> <span class="font-medium">@db($resident->alamat)</span></div>
-            <div><span class="text-gray-500">NIK:</span> <span class="font-medium">@db($resident->nik)</span></div>
-            <div><span class="text-gray-500">Nama Lengkap:</span> <span class="font-medium">@db($resident->nama_lgkp)</span></div>
-            <div><span class="text-gray-500">Jenis Kelamin:</span> <span class="font-medium">@db($resident->jenis_kelamin)</span></div>
-            <div><span class="text-gray-500">Tempat Lahir:</span> <span class="font-medium">@db($resident->tmpt_lahir)</span></div>
-            <div><span class="text-gray-500">Tanggal Lahir:</span> <span class="font-medium">@db($resident->tgl_lhr)</span></div>
-            <div><span class="text-gray-500">Agama:</span> <span class="font-medium">@db($resident->agama)</span></div>
-            <div><span class="text-gray-500">Pendidikan Terakhir:</span> <span class="font-medium">@db($resident->pendidikan_terakhir)</span></div>
-            <div><span class="text-gray-500">Pekerjaan:</span> <span class="font-medium">@db($resident->pekerjaan)</span></div>
-            <div><span class="text-gray-500">Status Kawin:</span> <span class="font-medium">@db($resident->stts_kawin)</span></div>
-            <div><span class="text-gray-500">Hubungan Keluarga:</span> <span class="font-medium">@db($resident->stts_hub_keluarga)</span></div>
-            <div><span class="text-gray-500">Status Warga:</span> <span class="font-medium">@db($resident->status_warga)</span></div>
-            <div><span class="text-gray-500">Flag Status:</span> <span class="font-medium">@db($resident->flag_status)</span></div>
-            <div><span class="text-gray-500">Created By:</span> <span class="font-medium">@db($resident->created_by)</span></div>
-            <div><span class="text-gray-500">Updated By:</span> <span class="font-medium">@db($resident->updated_by)</span></div>
-            <div><span class="text-gray-500">Dibuat:</span> <span class="font-medium">{{ $resident->created_at }}</span></div>
-            <div><span class="text-gray-500">Diperbarui:</span> <span class="font-medium">{{ $resident->updated_at }}</span></div>
-        </div>
+<div class="max-w-3xl mx-auto">
+  <div class="mb-4">
+    @if(isset($is_mobile) && $is_mobile)
+    <a href="{{ route('biodata_warga.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
+    @endif
+    <h1 class="text-2xl font-semibold">Detail Data Warga (@db($resident->nik) - @db($resident->nama_lgkp))</h1>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div><div class="text-sm text-gray-600">ID</div><div class="text-base font-semibold">@db($resident->id)</div></div>
+      <div><div class="text-sm text-gray-600">Family ID</div><div class="text-base font-semibold">@db($resident->family_id)</div></div>
+      <div><div class="text-sm text-gray-600">No. KK</div><div class="text-base font-semibold">@db($resident->no_kk)</div></div>
+      <div><div class="text-sm text-gray-600">Lingkungan</div><div class="text-base font-semibold">@db($resident->lingkungan ?? ($resident->family?->lingkungan ?? ''))</div></div>
+      <div class="sm:col-span-2"><div class="text-sm text-gray-600">Alamat</div><div class="text-base font-semibold">@db($resident->alamat)</div></div>
+      <div><div class="text-sm text-gray-600">NIK</div><div class="text-base font-semibold">@db($resident->nik)</div></div>
+      <div><div class="text-sm text_gray-600">Nama Lengkap</div><div class="text-base font-semibold">@db($resident->nama_lgkp)</div></div>
+      <div><div class="text-sm text-gray-600">Jenis Kelamin</div><div class="text-base font-semibold">@db($resident->jenis_kelamin)</div></div>
+      <div><div class="text-sm text-gray-600">Tempat Lahir</div><div class="text-base font-semibold">@db($resident->tmpt_lahir)</div></div>
+      <div><div class="text-sm text-gray-600">Tanggal Lahir</div><div class="text-base font-semibold">@db($resident->tgl_lhr)</div></div>
+      <div><div class="text-sm text-gray-600">Agama</div><div class="text-base font-semibold">@db($resident->agama)</div></div>
+      <div><div class="text-sm text-gray-600">Pendidikan Terakhir</div><div class="text-base font-semibold">@db($resident->pendidikan_terakhir)</div></div>
+      <div><div class="text-sm text-gray-600">Pekerjaan</div><div class="text-base font-semibold">@db($resident->pekerjaan)</div></div>
+      <div><div class="text-sm text-gray-600">Status Kawin</div><div class="text-base font-semibold">@db($resident->stts_kawin)</div></div>
+      <div><div class="text-sm text-gray-600">Hubungan Keluarga</div><div class="text-base font-semibold">@db($resident->stts_hub_keluarga)</div></div>
+      <div><div class="text-sm text-gray-600">Status Warga</div><div class="text-base font-semibold">@db($resident->status_warga)</div></div>
+      <div><div class="text-sm text-gray-600">Flag Status</div><div class="text-base font-semibold">@db($resident->flag_status)</div></div>
+      <div><div class="text-sm text-gray-600">Created By</div><div class="text-base font-semibold">@db($resident->created_by)</div></div>
+      <div><div class="text-sm text-gray-600">Updated By</div><div class="text-base font-semibold">@db($resident->updated_by)</div></div>
+      <div><div class="text-sm text-gray-600">Dibuat</div><div class="text-base font-semibold">{{ $resident->created_at }}</div></div>
+      <div><div class="text-sm text-gray-600">Diperbarui</div><div class="text-base font-semibold">{{ $resident->updated_at }}</div></div>
     </div>
-    <div class="flex gap-2">
-        <a href="{{ route('biodata_warga.index') }}" class="flex-1 text-center px-3 py-2 border rounded">Kembali</a>
-        <a href="{{ route('biodata_warga.edit', $resident) }}" class="flex-1 text-center px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
+    <div class="mt-4 flex gap-2">
+      @if(isset($is_mobile) && $is_mobile)
+      <a href="{{ route('biodata_warga.index') }}" class="px-3 py-2 border rounded">Kembali</a>
+      @endif
+      <a href="{{ route('biodata_warga.edit', $resident) }}" data-modal="true" class="px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
     </div>
+  </div>
 </div>
 @endsection

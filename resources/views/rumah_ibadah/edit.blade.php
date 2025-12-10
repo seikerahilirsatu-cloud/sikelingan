@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto">
     <div class="mb-4">
         <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-        <h1 class="text-2xl font-semibold">Edit Rumah Ibadah</h1>
+        <h1 class="text-2xl font-semibold">Edit data @db($place->nama)</h1>
     </div>
     <form method="post" action="{{ route('rumah_ibadah.update', $place, absolute: false) }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf
@@ -80,8 +80,9 @@
             <label class="block text-sm">Unggah Foto</label>
             <input type="file" name="photo" accept="image/*" capture="environment" class="w-full p-2 border rounded" />
         </div>
-        <div class="pt-2">
-            <button class="w-full bg-blue-600 text-white p-2 rounded-lg">Perbarui</button>
+        <div class="flex justify-end gap-2 pt-2">
+            <a href="{{ route('rumah_ibadah.index') }}" class="mr-2 px-4 py-2 border rounded">Batal</a>
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Simpan Perubahan</button>
         </div>
     </form>
 </div>

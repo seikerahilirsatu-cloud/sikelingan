@@ -1,16 +1,10 @@
 @extends(isset($is_mobile) ? ($is_mobile ? 'layouts.mobile' : 'layouts.desktop') : 'layouts.mobile')
 
+@section('page_title','Daftar Warga Pindah Masuk')
 @section('content')
-<div class="max-w-3xl mx-auto">
+<div class="{{ (isset($is_mobile) && $is_mobile) ? 'max-w-3xl mx-auto' : 'container-fluid px-0' }}">
     <div class="mb-4">
-        <h1 class="text-2xl font-semibold">Daftar Warga Pindah Masuk</h1>
 
-        <a href="{{ url('/dashboard') }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2 mt-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Kembali
-        </a>
 
         <div class="mb-4 mt-2">
             <form action="{{ route('pindah_masuk.index') }}" method="get" class="flex flex-col sm:flex-row items-center gap-3">
@@ -34,7 +28,7 @@
                 <div class="flex items-center gap-2">
                     <button type="submit" class="h-10 px-4 bg-indigo-600 text-white rounded-lg">Cari</button>
                     <a href="{{ route('pindah_masuk.index') }}" class="h-10 inline-flex items-center px-4 border border-red-300 bg-red-50 text-red-700 rounded-lg text-sm hover:bg-red-100">Reset</a>
-                    <a href="{{ route('pindah_masuk.create') }}" class="h-10 inline-flex items-center px-4 bg-indigo-600 text-white rounded-lg" role="button" aria-label="Tambah pencatatan">Tambah</a>
+                    <a href="{{ route('pindah_masuk.create') }}" data-modal="true" class="h-10 inline-flex items-center px-4 bg-indigo-600 text-white rounded-lg" role="button" aria-label="Tambah pencatatan">Tambah</a>
                 </div>
             </form>
         </div>
@@ -45,37 +39,76 @@
             <div class="mb-2 text-sm text-gray-700">Menampilkan <span class="font-semibold">{{ $items->total() }}</span> hasil untuk rentang tanggal: <span class="font-medium">{{ $from ?? '-' }}</span> — <span class="font-medium">{{ $to ?? '-' }}</span></div>
         @endif
 
-        <div class="grid grid-cols-1 gap-3">
-            @foreach($items as $it)
-                <article class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="text-sm text-gray-500">NIK: <span class="font-medium">@db($it->warga?->nik ?? '-')</span></div>
-                            <a href="{{ route('pindah_masuk.show', $it) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</a>
-                            <div class="text-xs text-gray-600 mt-2">Tanggal Masuk: <span class="font-medium">{{ optional($it->tanggal_masuk)->format('Y-m-d') ?? '-' }}</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($it->lingkungan ?? ($it->warga?->lingkungan ?? '-'))</span></div>
-                            <div class="text-xs text-gray-600 mt-1">Alamat: <span class="font-medium">@db($it->alamat ?? ($it->warga?->alamat ?? '-'))</span></div>
-                        </div>
-
-                        <div class="text-right">
-                            <div class="text-sm text-gray-600">Pencatat</div>
-                            <div class="text-sm font-medium">@db($it->creator?->name ?? '-')</div>
-                            <div class="mt-2 flex items-center gap-2">
-                                @if(Route::has('pindah_masuk.edit'))
-                                    <a href="{{ route('pindah_masuk.edit', $it) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
-                                @endif
-
-                                <form action="{{ route('pindah_masuk.destroy', $it) }}" method="POST" onsubmit="return confirm('Hapus pencatatan pindah masuk untuk @db($it->warga?->nama_lgkp ?? $it->warga?->nama)?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">Hapus</button>
-                                </form>
+        @if(isset($is_mobile) && $is_mobile)
+            <div class="grid grid-cols-1 gap-3">
+                @foreach($items as $it)
+                    <article class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <div class="text-sm text-gray-500">NIK: <span class="font-medium">@db($it->warga?->nik ?? '-')</span></div>
+                                <a href="{{ route('pindah_masuk.show', $it) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</a>
+                                <div class="text-xs text-gray-600 mt-2">Tanggal Masuk: <span class="font-medium">{{ optional($it->tanggal_masuk)->format('Y-m-d') ?? '-' }}</span></div>
+                                <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($it->lingkungan ?? ($it->warga?->lingkungan ?? '-'))</span></div>
+                                <div class="text-xs text-gray-600 mt-1">Alamat: <span class="font-medium">@db($it->alamat ?? ($it->warga?->alamat ?? '-'))</span></div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-600">Pencatat</div>
+                                <div class="text-sm font-medium">@db($it->creator?->name ?? '-')</div>
+                                <div class="mt-2 flex items-center gap-2">
+                                    @if(Route::has('pindah_masuk.edit'))
+                                        <a href="{{ route('pindah_masuk.edit', $it) }}" data-modal="true" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm hover:bg-yellow-600">Edit</a>
+                                    @endif
+                                    <form action="{{ route('pindah_masuk.destroy', $it) }}" method="POST" onsubmit="return confirm('Hapus pencatatan pindah masuk untuk @db($it->warga?->nama_lgkp ?? $it->warga?->nama)?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">Hapus</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </article>
-            @endforeach
-        </div>
+                    </article>
+                @endforeach
+            </div>
+        @else
+        <div class="table-responsive">
+            <table class="table table-modern table-hover col-date-3 col-address-5 col-actions-last center-data-4">
+                    <thead>
+                        <tr>
+                            <th>NIK</th>
+                            <th>Nama</th>
+                            <th>Tanggal Masuk</th>
+                            <th>Lingkungan</th>
+                            <th>Alamat</th>
+                            <th>Pencatat</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($items as $it)
+                            <tr>
+                                <td>@db($it->warga?->nik ?? '-')</td>
+                                <td>@db($it->warga?->nama_lgkp ?? $it->warga?->nama ?? '—')</td>
+                                <td>{{ optional($it->tanggal_masuk)->format('Y-m-d') ?? '-' }}</td>
+                                <td>@db($it->lingkungan ?? ($it->warga?->lingkungan ?? '-'))</td>
+                                <td>@db($it->alamat ?? ($it->warga?->alamat ?? '-'))</td>
+                                <td>@db($it->creator?->name ?? '-')</td>
+                                <td>
+                                    <a href="{{ route('pindah_masuk.show', $it) }}" data-modal="true" class="btn btn-sm btn-primary">Detail</a>
+                                    @if(Route::has('pindah_masuk.edit'))
+                                        <a href="{{ route('pindah_masuk.edit', $it) }}" data-modal="true" class="btn btn-sm btn-warning">Edit</a>
+                                    @endif
+                                    <form action="{{ route('pindah_masuk.destroy', $it) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus pencatatan pindah masuk untuk @db($it->warga?->nama_lgkp ?? $it->warga?->nama)?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
 
         <div class="mt-4">{{ $items->withQueryString()->links() }}</div>
     @else

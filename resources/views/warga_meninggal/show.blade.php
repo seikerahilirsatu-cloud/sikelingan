@@ -3,7 +3,9 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
   <div class="mb-4">
+    @if(isset($is_mobile) && $is_mobile)
     <a href="{{ route('warga_meninggal.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
+    @endif
     <h1 class="text-2xl font-semibold">Detail Warga Meninggal</h1>
   </div>
 
@@ -14,7 +16,7 @@
       <div><div class="text-gray-600">No. KK</div><div class="font-medium">@db($item->no_kk)</div></div>
       <div><div class="text-gray-600">Lingkungan</div><div class="font-medium">@db($item->lingkungan)</div></div>
       <div class="sm:col-span-2"><div class="text-gray-600">Alamat</div><div class="font-medium">@db($item->alamat)</div></div>
-      <div><div class="text-gray-600">Tanggal Meninggal</div><div class="font-medium">{{ optional($item->tanggal_meninggal)->format('Y-m-d') }}</div></div>
+      <div><div class="text-gray-600">Tgl Meninggal</div><div class="font-medium">{{ optional($item->tanggal_meninggal)->format('Y-m-d') }}</div></div>
       <div><div class="text-gray-600">Waktu Meninggal</div><div class="font-medium">@db($item->waktu_meninggal)</div></div>
       <div><div class="text-gray-600">Tempat Meninggal</div><div class="font-medium">@db($item->tempat_meninggal)</div></div>
       <div><div class="text-gray-600">Sebab Meninggal</div><div class="font-medium">@db($item->sebab_meninggal)</div></div>
@@ -24,8 +26,11 @@
       <div><div class="text-gray-600">Dibuat</div><div class="font-medium">{{ $item->created_at }}</div></div>
       <div><div class="text-gray-600">Diperbarui</div><div class="font-medium">{{ $item->updated_at }}</div></div>
     </div>
-    <div class="mt-4">
-      <a href="{{ route('warga_meninggal.edit', $item) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
+    <div class="mt-4 flex gap-2">
+      @if(isset($is_mobile) && $is_mobile)
+      <a href="{{ route('warga_meninggal.index') }}" class="px-3 py-2 border rounded">Kembali</a>
+      @endif
+      <a href="{{ route('warga_meninggal.edit', $item) }}" data-modal="true" class="px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
     </div>
   </div>
 </div>

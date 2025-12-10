@@ -7,7 +7,9 @@
         <div class="max-w-3xl mx-auto p-4">
             <div class="bg-white shadow sm:rounded-lg p-6">
                 <div class="mb-4">
-                    <a href="{{ route('warga_meninggal.index') }}" class="inline-flex items-center px-3 py-2 border rounded-lg text-sm text-gray-700 mb-4">Kembali</a>
+                    @if(!filter_var(request('modal'), FILTER_VALIDATE_BOOLEAN))
+                        <a href="{{ route('warga_meninggal.index') }}" class="inline-flex items-center px-3 py-2 border rounded-lg text-sm text-gray-700 mb-4">Kembali</a>
+                    @endif
                 </div>
 
                 <form method="POST" action="{{ route('warga_meninggal.update', $item) }}">

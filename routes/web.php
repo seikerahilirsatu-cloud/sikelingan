@@ -37,11 +37,22 @@ Route::get('/stats/mutasi/export-excel', [StatsController::class, 'exportMutasiE
 // Info Kelurahan (public)
 Route::view('/kelurahan/info', 'kelurahan.info')->name('kelurahan.info');
 
+// Prevent public show routes from catching "create" paths
+Route::pattern('rumah_ibadah', '\\d+');
+Route::pattern('umkm', '\\d+');
+Route::pattern('pendidikan_formal', '\\d+');
+Route::pattern('pendidikan_non_formal', '\\d+');
+
 // Pengaduan publik
 Route::get('/pengaduan', [PengaduanController::class, 'create'])->name('pengaduan.create');
 Route::post('/pengaduan', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/pengaduan/cek', [PengaduanController::class, 'cek'])->name('pengaduan.cek');
 Route::get('/pengaduan/baru', [PengaduanController::class, 'publicBaru'])->name('pengaduan.baru');
+
+Route::resource('rumah_ibadah', RumahIbadahController::class)->only(['show']);
+Route::resource('umkm', \App\Http\Controllers\UmkmController::class)->only(['show']);
+Route::resource('pendidikan_formal', PendidikanFormalController::class)->only(['show']);
+Route::resource('pendidikan_non_formal', PendidikanNonFormalController::class)->only(['show']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,10 +61,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('data_keluarga', DataKeluargaController::class);
     Route::resource('biodata_warga', BiodataWargaController::class);
-    Route::resource('rumah_ibadah', RumahIbadahController::class);
-    Route::resource('umkm', \App\Http\Controllers\UmkmController::class);
-    Route::resource('pendidikan_formal', PendidikanFormalController::class);
-    Route::resource('pendidikan_non_formal', PendidikanNonFormalController::class);
+    Route::resource('rumah_ibadah', RumahIbadahController::class)->except(['show']);
+    Route::resource('umkm', \App\Http\Controllers\UmkmController::class)->except(['show']);
+    Route::resource('pendidikan_formal', PendidikanFormalController::class)->except(['show']);
+    Route::resource('pendidikan_non_formal', PendidikanNonFormalController::class)->except(['show']);
 
     Route::middleware('check.role:admin,staff')->group(function () {
         Route::get('import/rumah_ibadah', [ImportRumahIbadahController::class,'form'])->name('import.rumah_ibadah.form');

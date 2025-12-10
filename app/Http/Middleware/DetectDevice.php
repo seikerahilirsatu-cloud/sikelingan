@@ -12,7 +12,14 @@ class DetectDevice
     public function handle(Request $request, Closure $next)
     {
         $agent = new Agent();
-        $isMobile = $agent->isMobile() || $agent->isTablet();
+        $override = $request->query('m');
+        if ($override === '1') {
+            $isMobile = true;
+        } elseif ($override === '0') {
+            $isMobile = false;
+        } else {
+            $isMobile = $agent->isMobile();
+        }
         View::share('is_mobile', $isMobile);
         $request->attributes->set('is_mobile', $isMobile);
         return $next($request);

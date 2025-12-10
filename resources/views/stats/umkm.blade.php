@@ -45,6 +45,62 @@
     </div>
   </section>
 
+  @php $list = \App\Models\Umkm::orderBy('nama_usaha')->limit(20)->get(); @endphp
+  <section class="bg-white rounded-2xl shadow p-4">
+    <div class="text-sm font-medium mb-2">Data UMKM</div>
+    @if($list->count() === 0)
+      <div class="text-sm text-gray-600">Data UMKM belum ada</div>
+    @else
+      @if(isset($is_mobile) && $is_mobile)
+        <div class="grid grid-cols-1 gap-3">
+          @foreach($list as $p)
+          <article class="bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex items-start justify-between">
+              <div>
+                @if(!empty($p->photo_path))
+                  <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-umkm.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+                @else
+                  <img src="{{ asset('images/placeholder-umkm.svg') }}" alt="{{ $p->nama_usaha }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" />
+                @endif
+                <div class="text-sm text-gray-500">Jenis: <span class="font-medium">@db($p->jenis)</span></div>
+                <a href="{{ route('umkm.show', $p, absolute: false) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama_usaha)</a>
+                <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-') </span></div>
+                <div class="text-xs text-gray-600 mt-1">Status: @db($p->status_operasional)</div>
+              </div>
+            </div>
+          </article>
+          @endforeach
+        </div>
+      @else
+        <div class="table-responsive">
+    <table class="table table-modern table-hover">
+            <thead>
+              <tr>
+                <th>Nama Usaha</th>
+                <th>Jenis</th>
+                <th>Alamat</th>
+                <th>Lingkungan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($list as $p)
+              <tr>
+                <td><a href="{{ route('umkm.show', $p, absolute: false) }}">@db($p->nama_usaha)</a></td>
+                <td>@db($p->jenis)</td>
+                <td>@db($p->alamat)</td>
+                <td>@db($p->lingkungan ?? '-') </td>
+                <td>@db($p->status_operasional)</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      @endif
+    @endif
+  </section>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
   (function(){

@@ -3,8 +3,10 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
   <div class="mb-4">
+    @if(isset($is_mobile) && $is_mobile)
     <a href="{{ route('pendidikan_formal.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-    <h1 class="text-2xl font-semibold">Detail Pendidikan Formal</h1>
+    @endif
+    <h1 class="text-2xl font-semibold">Detail data @db($item->nama_sekolah)</h1>
   </div>
 
   <div class="bg-white rounded-2xl shadow p-4">
@@ -81,8 +83,11 @@
         <div class="text-base font-semibold">@db($item->jumlah_siswa)</div>
       </div>
     </div>
-    <div class="mt-4">
-      <a href="{{ route('pendidikan_formal.edit', $item) }}" class="inline-flex items-center px-3 py-1 bg-yellow-500 text-white rounded-md text-sm">Edit</a>
+    <div class="mt-4 flex gap-2">
+      @if(isset($is_mobile) && $is_mobile)
+      <a href="{{ route('pendidikan_formal.index') }}" class="px-3 py-2 border rounded">Kembali</a>
+      @endif
+      <a href="{{ route('pendidikan_formal.edit', $item) }}" data-modal="true" class="px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
     </div>
   </div>
 </div>

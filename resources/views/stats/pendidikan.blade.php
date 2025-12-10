@@ -121,6 +121,117 @@
     </div>
   </section>
 
+  @php
+    $formalList = \App\Models\PendidikanFormal::orderBy('nama_sekolah')->limit(20)->get();
+    $nonFormalList = \App\Models\PendidikanNonFormal::orderBy('nama_lembaga')->limit(20)->get();
+  @endphp
+
+  <section class="bg-white rounded-2xl shadow p-4">
+    <div class="text-sm font-medium mb-2">Data Pendidikan Formal</div>
+    @if($formalList->count() === 0)
+      <div class="text-sm text-gray-600">Data pendidikan formal belum ada</div>
+    @else
+      @if(isset($is_mobile) && $is_mobile)
+        <div class="grid grid-cols-1 gap-3">
+          @foreach($formalList as $p)
+          <article class="bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex items-start justify-between">
+              <div>
+                @if(!empty($p->photo_path))
+                  <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_sekolah }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-ibadah.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+                @endif
+                <div class="text-sm text-gray-500">Jenjang: <span class="font-medium">@db($p->jenjang)</span></div>
+                <a href="{{ route('pendidikan_formal.show', $p, absolute: false) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama_sekolah)</a>
+                <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-') </span></div>
+                <div class="text-xs text-gray-600 mt-1">Status: @db($p->stts_sekolah)</div>
+              </div>
+            </div>
+          </article>
+          @endforeach
+        </div>
+      @else
+        <div class="table-responsive">
+    <table class="table table-modern table-hover">
+            <thead>
+              <tr>
+                <th>Jenjang</th>
+                <th>Nama Sekolah</th>
+                <th>Alamat</th>
+                <th>Lingkungan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($formalList as $p)
+              <tr>
+                <td>@db($p->jenjang)</td>
+                <td><a href="{{ route('pendidikan_formal.show', $p, absolute: false) }}">@db($p->nama_sekolah)</a></td>
+                <td>@db($p->alamat)</td>
+                <td>@db($p->lingkungan ?? '-') </td>
+                <td>@db($p->stts_sekolah)</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      @endif
+    @endif
+  </section>
+
+  <section class="bg-white rounded-2xl shadow p-4">
+    <div class="text-sm font-medium mb-2">Data Pendidikan Non-Formal</div>
+    @if($nonFormalList->count() === 0)
+      <div class="text-sm text-gray-600">Data pendidikan non-formal belum ada</div>
+    @else
+      @if(isset($is_mobile) && $is_mobile)
+        <div class="grid grid-cols-1 gap-3">
+          @foreach($nonFormalList as $p)
+          <article class="bg-white p-4 rounded-lg shadow-sm">
+            <div class="flex items-start justify-between">
+              <div>
+                @if(!empty($p->photo_path))
+                  <img src="{{ asset('storage/'.$p->photo_path) }}" alt="{{ $p->nama_lembaga }}" class="mb-3 w-full rounded-md" style="max-height: 90px; max-width: 50%; object-fit: cover;" data-placeholder="{{ asset('images/placeholder-ibadah.svg') }}" onerror="this.onerror=null;this.src=this.dataset.placeholder" />
+                @endif
+                <div class="text-sm text-gray-500">Bidang: <span class="font-medium">@db($p->bidang_pelatihan)</span></div>
+                <a href="{{ route('pendidikan_non_formal.show', $p, absolute: false) }}" class="block mt-1 text-lg font-semibold text-gray-800">@db($p->nama_lembaga)</a>
+                <div class="text-xs text-gray-600 mt-1">@db($p->alamat)</div>
+                <div class="text-xs text-gray-600 mt-1">Lingkungan: <span class="font-medium">@db($p->lingkungan ?? '-') </span></div>
+                <div class="text-xs text-gray-600 mt-1">Status: @db($p->stts_lembaga)</div>
+              </div>
+            </div>
+          </article>
+          @endforeach
+        </div>
+      @else
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Bidang</th>
+                <th>Nama Lembaga</th>
+                <th>Alamat</th>
+                <th>Lingkungan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($nonFormalList as $p)
+              <tr>
+                <td>@db($p->bidang_pelatihan)</td>
+                <td><a href="{{ route('pendidikan_non_formal.show', $p, absolute: false) }}">@db($p->nama_lembaga)</a></td>
+                <td>@db($p->alamat)</td>
+                <td>@db($p->lingkungan ?? '-') </td>
+                <td>@db($p->stts_lembaga)</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      @endif
+    @endif
+  </section>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
   (function(){
