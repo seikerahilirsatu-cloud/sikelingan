@@ -6,7 +6,7 @@
     @if(isset($is_mobile) && $is_mobile)
     <a href="{{ route('pindah_keluar.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
     @endif
-    <h1 class="text-2xl font-semibold">Detail Pindah Keluar</h1>
+    <h1 class="text-2xl font-semibold page-title">Detail Pindah Keluar</h1>
   </div>
 
   <div class="bg-white rounded-2xl shadow p-4">

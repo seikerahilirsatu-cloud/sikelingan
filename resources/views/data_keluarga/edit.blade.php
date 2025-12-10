@@ -9,7 +9,7 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Edit Data Kartu Keluarga (@db($family->no_kk) - @db($family->nama_kep))</h1>
+        <h1 class="text-2xl font-semibold page-title">Edit Data Kartu Keluarga (@db($family->no_kk) - @db($family->nama_kep))</h1>
     </div>
     <form method="post" action="{{ route('data_keluarga.update', $family) }}" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf

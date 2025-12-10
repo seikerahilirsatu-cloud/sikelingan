@@ -10,6 +10,11 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
+    <style>
+      @media (max-width: 640px) {
+        .page-title{font-size:.875rem!important;line-height:1.25rem!important}
+      }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-200 via-sky-200 to-cyan-200 text-gray-800">
     

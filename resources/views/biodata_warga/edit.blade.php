@@ -9,7 +9,7 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Edit Data Warga (@db($resident->nik) - @db($resident->nama_lgkp))</h1>
+        <h1 class="text-2xl font-semibold page-title">Edit Data Warga (@db($resident->nik) - @db($resident->nama_lgkp))</h1>
     </div>
     <form method="post" action="{{ route('biodata_warga.update', $resident) }}" class="bg-white shadow-md rounded-lg p-6 space-y-6">
         @csrf

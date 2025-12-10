@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto">
     <div class="mb-4">
         <a href="{{ route('rumah_ibadah.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-        <h1 class="text-2xl font-semibold">Tambah Rumah Ibadah</h1>
+        <h1 class="text-2xl font-semibold page-title">Tambah Rumah Ibadah</h1>
     </div>
     <form method="post" action="{{ route('rumah_ibadah.store', absolute: false) }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf

@@ -3,7 +3,7 @@
 @section('content')
 <div class="space-y-4">
   <header class="flex items-center gap-3">
-    <a href="{{ url()->previous() }}" class="p-2 rounded bg-gray-100" aria-label="Kembali">
+    <a href="{{ (isset($is_mobile) && $is_mobile && !auth()->check()) ? url('/') : url()->previous() }}" class="p-2 rounded bg-gray-100" aria-label="Kembali">
       <svg class="w-5 h-5 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
     </a>
     <div>

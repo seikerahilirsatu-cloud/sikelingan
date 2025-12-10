@@ -4,9 +4,9 @@
 <div class="max-w-3xl mx-auto">
   <div class="mb-4">
     @if(isset($is_mobile) && $is_mobile)
-    <a href="{{ route('pendidikan_non_formal.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
+    <a href="{{ auth()->check() ? route('pendidikan_non_formal.index', absolute: false) : (url()->previous() ?? url('/')) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
     @endif
-    <h1 class="text-2xl font-semibold">Detail data @db($item->nama_lembaga)</h1>
+    <h1 class="text-2xl font-semibold page-title">Detail data @db($item->nama_lembaga)</h1>
   </div>
 
   <div class="bg-white rounded-2xl shadow p-4">
@@ -56,8 +56,10 @@
       </div>
     </div>
     <div class="mt-4 flex gap-2">
-      <a href="{{ route('pendidikan_non_formal.index') }}" class="px-3 py-2 border rounded">Kembali</a>
+      <a href="{{ auth()->check() ? route('pendidikan_non_formal.index) : (url()->previous() ?? url('/')) }}" class="px-3 py-2 border rounded">Kembali</a>
+      @if(auth()->check())
       <a href="{{ route('pendidikan_non_formal.edit', $item) }}" data-modal="true" class="px-3 py-2 bg-yellow-500 text-white rounded">Edit</a>
+      @endif
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
 <div class="max-w-2xl mx-auto">
     <div class="mb-4">
         <a href="{{ route('umkm.index', absolute: false) }}" class="inline-flex items-center text-sm text-gray-600 hover:text-gray-800 mb-2">Kembali</a>
-        <h1 class="text-2xl font-semibold">Tambah UMKM</h1>
+        <h1 class="text-2xl font-semibold page-title">Tambah UMKM</h1>
     </div>
     <form method="post" action="{{ route('umkm.store', absolute: false) }}" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6 space-y-3">
         @csrf

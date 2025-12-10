@@ -3,7 +3,7 @@
 @section('content')
 <div class="max-w-3xl mx-auto">
   <div class="mb-4">
-    <h1 class="text-2xl font-semibold">Detail Data Kartu Keluarga (@db($family->no_kk) - @db($family->nama_kep))</h1>
+    <h1 class="text-2xl font-semibold page-title">Detail Data Kartu Keluarga (@db($family->no_kk) - @db($family->nama_kep))</h1>
   </div>
   <div class="rounded-2xl p-4 bg-gradient-to-b from-blue-100 to-cyan-100">
     <div class="space-y-4">

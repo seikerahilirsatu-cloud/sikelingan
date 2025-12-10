@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Pencatatan Warga Meninggal</h2>
+        <h2 class="font-semibold text-sm sm:text-xl text-gray-800 leading-tight page-title">Tambah Pencatatan Warga Meninggal</h2>
     </x-slot>
 
     <div class="py-6">

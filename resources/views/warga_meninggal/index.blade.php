@@ -4,7 +4,9 @@
 @section('content')
 <div class="{{ (isset($is_mobile) && $is_mobile) ? 'max-w-3xl mx-auto' : 'container-fluid px-0' }}">
     <div class="mb-4">
+        @if(!(isset($is_mobile) && $is_mobile))
         <h1 class="text-2xl font-semibold">Daftar Warga Meninggal</h1>
+        @endif
 
 
         <div class="mb-4 mt-2">

@@ -9,7 +9,7 @@
             </svg>
             Kembali
         </a>
-        <h1 class="text-2xl font-semibold">Tambah Data Warga</h1>
+        <h1 class="text-2xl font-semibold page-title">Tambah Data Warga</h1>
     </div>
     <form method="post" action="{{ route('biodata_warga.store') }}" class="bg-white shadow-md rounded-lg p-6 space-y-6">
         @csrf
