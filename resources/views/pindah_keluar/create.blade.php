@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
+        @if(!filter_var(request('modal'), FILTER_VALIDATE_BOOLEAN))
         <h2 class="font-semibold text-sm sm:text-xl text-gray-800 leading-tight page-title">Tambah Pencatatan Pindah Keluar</h2>
+        @endif
     </x-slot>
 
     <div class="py-6">

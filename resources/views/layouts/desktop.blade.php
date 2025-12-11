@@ -64,8 +64,8 @@
     .table.center-data-4 th:nth-child(4),.table.center-data-4 td:nth-child(4){text-align:center}
     .table.center-data-5 th:nth-child(5),.table.center-data-5 td:nth-child(5){text-align:center}
     .modal-iframe{width:100%;height:80vh;border:0}
-    /* hide modal title text in desktop */
-    .modal .modal-header .modal-title{display:none}
+    /* opt-in hide modal title text in desktop */
+    .modal.hide-title .modal-header .modal-title{display:none}
     /* hide chrome when inside modal */
     body.is-modal .main-header,
     body.is-modal .main-sidebar,
@@ -261,12 +261,12 @@
         function extractContent(html){
             var $tmp = $('<div>').html(html);
             var $sel = $tmp.find('section.content .container-fluid');
-            if(!$sel.length){
-                $sel = $tmp.find('section.content');
-            }
-            if(!$sel.length){
-                $sel = $tmp.find('body');
-            }
+            if(!$sel.length){ $sel = $tmp.find('section.content'); }
+            if(!$sel.length){ $sel = $tmp.find('main'); }
+            if(!$sel.length){ $sel = $tmp.find('.py-6'); }
+            if(!$sel.length){ $sel = $tmp.find('.min-h-screen'); }
+            if(!$sel.length){ $sel = $tmp.find('body'); }
+            $sel.find('header').first().remove();
             return $sel.html() || html;
         }
 
@@ -274,15 +274,47 @@
             e.preventDefault();
             var raw = $(this).attr('href');
             var t = $(this).data('title') || $(this).text().trim();
-            $title.text(t);
             try {
               var url = new URL(raw, window.location.origin);
               url.searchParams.set('modal','1');
               raw = url.toString();
             } catch (err) {}
+            try {
+              var openUrl = new URL(raw, window.location.origin);
+              var path = openUrl.pathname;
+              var modalType = null;
+              if(/\/pindah_keluar\/create/.test(path)) modalType = 'pk';
+              else if(/\/pindah_masuk\/create/.test(path)) modalType = 'pm';
+              else if(/\/warga_meninggal\/create/.test(path)) modalType = 'wm';
+              if(modalType){
+                  $modal.removeClass('hide-title');
+                  $title.text(modalType==='pk'?'Pencatatan Data Pindah Keluar':(modalType==='pm'?'Pencatatan Data Pindah Masuk':'Pencatatan Warga Meninggal'));
+              } else {
+                  $modal.addClass('hide-title');
+                  $title.text(t);
+              }
+            } catch(err){ $modal.addClass('hide-title'); $title.text(t); }
             $content.html('<div class="p-4 text-center text-gray-600">Memuat...</div>');
             $.ajax({url: raw, method: 'GET', dataType: 'html'}).done(function(res){
                 $content.html(extractContent(res));
+                try {
+                  var openUrl = new URL(raw, window.location.origin);
+                  var path = openUrl.pathname;
+                  var modalType = null;
+                  if(/\/pindah_keluar\/create/.test(path)) modalType = 'pk';
+                  else if(/\/pindah_masuk\/create/.test(path)) modalType = 'pm';
+                  else if(/\/warga_meninggal\/create/.test(path)) modalType = 'wm';
+                  if(modalType){
+                      var nik = $('#globalModalContent').find('div:contains("NIK:") span.font-medium').first().text().trim();
+                      var name = $('#globalModalContent').find('.text-lg').first().text().trim();
+                      var suffix = '';
+                      if(nik){ suffix = nik; }
+                      if(name){ suffix = suffix ? (suffix + ' - ' + name) : name; }
+                      $modal.removeClass('hide-title');
+                      var base = modalType==='pk'?'Pencatatan Data Pindah Keluar':(modalType==='pm'?'Pencatatan Data Pindah Masuk':'Pencatatan Warga Meninggal');
+                      $title.text(base + (suffix ? ' - ' + suffix : ''));
+                  }
+                } catch(err) {}
                 $modal.modal('show');
             }).fail(function(){
                 $content.html('<div class="p-4 text-center text-red-600">Gagal memuat konten</div>');
@@ -295,14 +327,15 @@
             var $form = $(this);
             var action = $form.attr('action');
             var method = ($form.attr('method') || 'POST').toUpperCase();
-            var data = new FormData(this);
+            var isGet = method === 'GET';
+            var data = isGet ? $form.serialize() : new FormData(this);
             $content.addClass('position-relative').append('<div class="position-absolute w-100 h-100" style="left:0;top:0;background:rgba(255,255,255,.6)"></div>');
             $.ajax({
                 url: action,
                 method: method,
                 data: data,
-                processData: false,
-                contentType: false,
+                processData: isGet,
+                contentType: isGet ? 'application/x-www-form-urlencoded; charset=UTF-8' : false,
                 dataType: 'html'
             }).done(function(res, status, xhr){
                 var finalUrl = (xhr && xhr.responseURL) ? xhr.responseURL : '';
@@ -319,6 +352,56 @@
                 var res = xhr.responseText || '<div class="p-4 text-center text-red-600">Gagal mengirim data</div>';
                 $content.html(extractContent(res));
             });
+        });
+
+        // internal navigation inside modal (keep content within modal)
+        $(document).on('click','#globalModalContent a', function(e){
+            var href = $(this).attr('href');
+            var target = $(this).attr('target');
+            if(!href || href === '#' || (target && target !== '')){ return; }
+            if(/^javascript:/i.test(href)){ return; }
+            if(this.hasAttribute('download')){ return; }
+            try {
+              var url = new URL(href, window.location.origin);
+              if(url.origin !== window.location.origin){ return; }
+              e.preventDefault();
+              url.searchParams.set('modal','1');
+              var path = url.pathname;
+              var modalType = null;
+              if(/\/pindah_keluar\/create/.test(path)) modalType = 'pk';
+              else if(/\/pindah_masuk\/create/.test(path)) modalType = 'pm';
+              else if(/\/warga_meninggal\/create/.test(path)) modalType = 'wm';
+              if(modalType){
+                  var nik = $(this).find('div:contains("NIK:") span.font-medium').first().text().trim();
+                  var name = $(this).find('.text-lg').first().text().trim();
+                  var suffix = '';
+                  if(nik){ suffix = nik; }
+                  if(name){ suffix = suffix ? (suffix + ' - ' + name) : name; }
+                  $modal.removeClass('hide-title');
+                  var base = modalType==='pk'?'Pencatatan Data Pindah Keluar':(modalType==='pm'?'Pencatatan Data Pindah Masuk':'Pencatatan Warga Meninggal');
+                  $title.text(base + (suffix ? ' - ' + suffix : ''));
+              } else {
+                  $modal.addClass('hide-title');
+              }
+              $content.html('<div class="p-4 text-center text-gray-600">Memuat...</div>');
+              $.ajax({url: url.toString(), method: 'GET', dataType: 'html'}).done(function(res){
+                  $content.html(extractContent(res));
+                  if(modalType){
+                      var nik = $('#globalModalContent').find('div:contains("NIK:") span.font-medium').first().text().trim();
+                      var name = $('#globalModalContent').find('.text-lg').first().text().trim();
+                      var suffix = '';
+                      if(nik){ suffix = nik; }
+                      if(name){ suffix = suffix ? (suffix + ' - ' + name) : name; }
+                      $modal.removeClass('hide-title');
+                      var base = modalType==='pk'?'Pencatatan Data Pindah Keluar':(modalType==='pm'?'Pencatatan Data Pindah Masuk':'Pencatatan Warga Meninggal');
+                      $title.text(base + (suffix ? ' - ' + suffix : ''));
+                  }
+              }).fail(function(){
+                  $content.html('<div class=\"p-4 text-center text-red-600\">Gagal memuat konten</div>');
+              });
+            } catch(err) {
+              // fall through to default navigation
+            }
         });
     });
     </script>
